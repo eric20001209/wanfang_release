@@ -1,0 +1,894 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{826D7A31-76D4-490F-81F3-C0803BF0672F}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>QPOS2008</RootNamespace>
+    <AssemblyName>QPOS2010</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <ApplicationIcon>e.ico</ApplicationIcon>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.1.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AxInterop.DPSEFTXLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>obj\Debug\AxInterop.DPSEFTXLib.dll</HintPath>
+    </Reference>
+    <Reference Include="AxInterop.OposScale_1_9_Lib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Darcy 10-2012\DARCY_MULTI_EFTPOS\bin\Release\AxInterop.OposScale_1_9_Lib.dll</HintPath>
+    </Reference>
+    <Reference Include="AxInterop.OposScanner_1_8_Lib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Darcy 10-2012\DARCY_MULTI_EFTPOS\bin\Release\AxInterop.OposScanner_1_8_Lib.dll</HintPath>
+    </Reference>
+    <Reference Include="FButton, Version=1.0.2554.32575, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.DPSEFTXLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>obj\Debug\Interop.DPSEFTXLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.OposScale_1_9_Lib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Darcy 10-2012\DARCY_MULTI_EFTPOS\bin\Release\Interop.OposScale_1_9_Lib.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.OposScanner_1_8_Lib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Darcy 10-2012\DARCY_MULTI_EFTPOS\bin\Release\Interop.OposScanner_1_8_Lib.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PCEFTIPInterfaceCompact, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\PCEFTIPInterfaceCompact.dll</HintPath>
+    </Reference>
+    <Reference Include="Sektor.Vault.DotNetAPI, Version=2.8.4547.35495, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Darcy 10-2012\RST\Sektor.Vault.DotNetAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="Smartpay.Eftpos.PaymentProvider">
+      <HintPath>.\Smartpay.Eftpos.PaymentProvider.dll</HintPath>
+    </Reference>
+    <Reference Include="SplitAndInput">
+      <HintPath>.\SplitAndInput.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Messaging" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AddUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddUser.designer.cs">
+      <DependentUpon>AddUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Admin Panel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Admin Panel.Designer.cs">
+      <DependentUpon>Admin Panel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="adminLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="adminLogin.designer.cs">
+      <DependentUpon>adminLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AlipayCore\AlipayConfig.cs" />
+    <Compile Include="AlipayCore\AlipayCore.cs" />
+    <Compile Include="AlipayCore\AlipayNotify.cs" />
+    <Compile Include="AlipayCore\AlipaySubmit.cs" />
+    <Compile Include="AlipayCore\MD5.cs" />
+    <Compile Include="CEzLog.cs" />
+    <Compile Include="clockinout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="clockinout.Designer.cs">
+      <DependentUpon>clockinout.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CNitro.cs" />
+    <Compile Include="CVault.cs" />
+    <Compile Include="eftpos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="eftpos.Designer.cs">
+      <DependentUpon>eftpos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="eftpos_ingenico.cs" />
+    <Compile Include="eftpos_smartpay.cs" />
+    <Compile Include="eftpos_vllink.cs" />
+    <Compile Include="eftpos_vxlink.cs" />
+    <Compile Include="export time sheet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="export time sheet.designer.cs">
+      <DependentUpon>export time sheet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="exportVip.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="exportVip.Designer.cs">
+      <DependentUpon>exportVip.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FDps.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FDps.Designer.cs">
+      <DependentUpon>FDps.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormAA.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAA.Designer.cs">
+      <DependentUpon>FormAA.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormAD.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAD.Designer.cs">
+      <DependentUpon>FormAD.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormAddNewItem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAddNewItem.Designer.cs">
+      <DependentUpon>FormAddNewItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormADS.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormADS.Designer.cs">
+      <DependentUpon>FormADS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormAliPay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAliPay.Designer.cs">
+      <DependentUpon>FormAliPay.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormAlipayDirect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAlipayDirect.Designer.cs">
+      <DependentUpon>FormAlipayDirect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormBarcode.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormBarcode.Designer.cs">
+      <DependentUpon>FormBarcode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormBOM.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormBOM.Designer.cs">
+      <DependentUpon>FormBOM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormBOMItem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormBOMItem.Designer.cs">
+      <DependentUpon>FormBOMItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormCasScale.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormCasScale.Designer.cs">
+      <DependentUpon>FormCasScale.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormConfig.Designer.cs">
+      <DependentUpon>FormConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormConfirm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormConfirm.Designer.cs">
+      <DependentUpon>FormConfirm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormCurrency.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormCurrency.Designer.cs">
+      <DependentUpon>FormCurrency.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormDebug.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDebug.Designer.cs">
+      <DependentUpon>FormDebug.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormDPSHIT.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDPSHIT.Designer.cs">
+      <DependentUpon>FormDPSHIT.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormEditCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormEditCard.Designer.cs">
+      <DependentUpon>FormEditCard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormFloat.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormFloat.Designer.cs">
+      <DependentUpon>FormFloat.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormIdCheck.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormIdCheck.Designer.cs">
+      <DependentUpon>FormIdCheck.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormKey.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormKey.Designer.cs">
+      <DependentUpon>FormKey.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormKeyboard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormKeyboard.Designer.cs">
+      <DependentUpon>FormKeyboard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormLatipay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormLatipay.designer.cs">
+      <DependentUpon>FormLatipay.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormLatipayGiftCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormLatipayGiftCard.designer.cs">
+      <DependentUpon>FormLatipayGiftCard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormLatipayGiftCardHistory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormLatipayGiftCardHistory.designer.cs">
+      <DependentUpon>FormLatipayGiftCardHistory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormLatipayQRCode.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormLatipayQRCode.designer.cs">
+      <DependentUpon>FormLatipayQRCode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormLevelPrice.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormLevelPrice.Designer.cs">
+      <DependentUpon>FormLevelPrice.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormLogin.Designer.cs">
+      <DependentUpon>FormLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormMSG.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormMSG.Designer.cs">
+      <DependentUpon>FormMSG.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormMyPosMate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormMyPosMate.designer.cs">
+      <DependentUpon>FormMyPosMate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormMyPosMatePosPay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormMyPosMatePosPay.designer.cs">
+      <DependentUpon>FormMyPosMatePosPay.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormNewItemWebService.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormNewItemWebService.Designer.cs">
+      <DependentUpon>FormNewItemWebService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormOtherPayment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormOtherPayment.Designer.cs">
+      <DependentUpon>FormOtherPayment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormPad.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPad.Designer.cs">
+      <DependentUpon>FormPad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormPhoneCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPhoneCard.Designer.cs">
+      <DependentUpon>FormPhoneCard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSearch.Designer.cs">
+      <DependentUpon>FormSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSearchVip.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSearchVip.Designer.cs">
+      <DependentUpon>FormSearchVip.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSQL.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSQL.Designer.cs">
+      <DependentUpon>FormSQL.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSync.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSync.Designer.cs">
+      <DependentUpon>FormSync.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormVIP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormVIP.Designer.cs">
+      <DependentUpon>FormVIP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormWeChat.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormWeChat.Designer.cs">
+      <DependentUpon>FormWeChat.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GSqlDataAdapter.cs" />
+    <Compile Include="HttpJsonParser.cs" />
+    <Compile Include="HttpRequest.cs" />
+    <Compile Include="invoicetrace.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="invoicetrace.Designer.cs">
+      <DependentUpon>invoicetrace.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Item_Import.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Item_Import.designer.cs">
+      <DependentUpon>Item_Import.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Key Register.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Key Register.Designer.cs">
+      <DependentUpon>Key Register.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modem.cs" />
+    <Compile Include="MyMessageBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyMessageBox.Designer.cs">
+      <DependentUpon>MyMessageBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MySerialPort.cs" />
+    <Compile Include="numbericpad.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="numbericpad.designer.cs">
+      <DependentUpon>numbericpad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="openftp.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="AddUser.resx">
+      <DependentUpon>AddUser.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Admin Panel.resx">
+      <DependentUpon>Admin Panel.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="adminLogin.resx">
+      <DependentUpon>adminLogin.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="clockinout.resx">
+      <DependentUpon>clockinout.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="eftpos.resx">
+      <DependentUpon>eftpos.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="export time sheet.resx">
+      <DependentUpon>export time sheet.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="exportVip.resx">
+      <DependentUpon>exportVip.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FDps.resx">
+      <DependentUpon>FDps.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form1.en-NZ.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormAA.resx">
+      <DependentUpon>FormAA.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormAD.resx">
+      <DependentUpon>FormAD.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormAddNewItem.resx">
+      <DependentUpon>FormAddNewItem.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormADS.resx">
+      <DependentUpon>FormADS.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormAliPay.resx">
+      <DependentUpon>FormAliPay.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormAlipayDirect.resx">
+      <DependentUpon>FormAlipayDirect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormBarcode.resx">
+      <DependentUpon>FormBarcode.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormBOM.resx">
+      <DependentUpon>FormBOM.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormBOMItem.resx">
+      <DependentUpon>FormBOMItem.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormCasScale.resx">
+      <DependentUpon>FormCasScale.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormConfig.resx">
+      <DependentUpon>FormConfig.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormConfirm.resx">
+      <DependentUpon>FormConfirm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormCurrency.resx">
+      <DependentUpon>FormCurrency.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormDebug.resx">
+      <DependentUpon>FormDebug.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormDPSHIT.resx">
+      <DependentUpon>FormDPSHIT.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormEditCard.resx">
+      <DependentUpon>FormEditCard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormFloat.resx">
+      <DependentUpon>FormFloat.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormIdCheck.resx">
+      <DependentUpon>FormIdCheck.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormKey.resx">
+      <DependentUpon>FormKey.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormKeyboard.resx">
+      <DependentUpon>FormKeyboard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormLatipay.resx">
+      <DependentUpon>FormLatipay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormLatipayGiftCard.resx">
+      <DependentUpon>FormLatipayGiftCard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormLatipayGiftCardHistory.resx">
+      <DependentUpon>FormLatipayGiftCardHistory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormLatipayQRCode.resx">
+      <DependentUpon>FormLatipayQRCode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormLevelPrice.resx">
+      <DependentUpon>FormLevelPrice.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormLogin.resx">
+      <DependentUpon>FormLogin.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormMSG.resx">
+      <DependentUpon>FormMSG.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormMyPosMate.resx">
+      <DependentUpon>FormMyPosMate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormMyPosMatePosPay.resx">
+      <DependentUpon>FormMyPosMatePosPay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormNewItemWebService.resx">
+      <DependentUpon>FormNewItemWebService.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormOtherPayment.resx">
+      <DependentUpon>FormOtherPayment.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormPad.resx">
+      <DependentUpon>FormPad.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormPhoneCard.resx">
+      <DependentUpon>FormPhoneCard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSearch.resx">
+      <DependentUpon>FormSearch.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSearchVip.resx">
+      <DependentUpon>FormSearchVip.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSQL.resx">
+      <DependentUpon>FormSQL.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSync.resx">
+      <DependentUpon>FormSync.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormVIP.resx">
+      <DependentUpon>FormVIP.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormWeChat.resx">
+      <DependentUpon>FormWeChat.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="invoicetrace.resx">
+      <DependentUpon>invoicetrace.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Item_Import.resx">
+      <DependentUpon>Item_Import.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Key Register.resx">
+      <DependentUpon>Key Register.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyMessageBox.resx">
+      <DependentUpon>MyMessageBox.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="numbericpad.resx">
+      <DependentUpon>numbericpad.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="search.resx">
+      <DependentUpon>search.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="search.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="search.Designer.cs">
+      <DependentUpon>search.cs</DependentUpon>
+    </Compile>
+    <Compile Include="voucher.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Web References\nz.co.gcloud.rst\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\blue.png" />
+    <Content Include="AxInterop.DPSEFTXLib.dll" />
+    <Content Include="AxInterop.OposScale_1_9_Lib.dll" />
+    <Content Include="AxInterop.OposScanner_1_8_Lib.dll" />
+    <Content Include="e.ico" />
+    <Content Include="FButton.dll" />
+    <Content Include="ICSharpCode.SharpZipLib.dll" />
+    <Content Include="Interop.DPSEFTXLib.dll" />
+    <Content Include="Interop.OposScale_1_9_Lib.dll" />
+    <Content Include="Interop.OposScanner_1_8_Lib.dll" />
+    <None Include="Resources\adminBTN.jpg" />
+    <None Include="Resources\132_39_red.jpg" />
+    <None Include="Resources\adminBTN_red.jpg" />
+    <None Include="Resources\btn.png" />
+    <None Include="Resources\btn_brown.png" />
+    <None Include="Resources\btn_cat.png" />
+    <None Include="Resources\btn_checkout.png" />
+    <None Include="Resources\btn_green.png" />
+    <None Include="Resources\btn_grey.png" />
+    <None Include="Resources\btn_item.png" />
+    <None Include="Resources\btn_purple.png" />
+    <None Include="Resources\btn_red.png" />
+    <None Include="Resources\btn_red_down.png" />
+    <None Include="Resources\btn_red_up.png" />
+    <None Include="Resources\btn_withe.png" />
+    <None Include="Resources\btn_yellow.png" />
+    <None Include="Resources\75_44.jpg" />
+    <None Include="Resources\76_57.jpg" />
+    <None Include="Resources\76_57_red.jpg" />
+    <None Include="Resources\85_70.jpg" />
+    <None Include="Resources\85_70_red.jpg" />
+    <None Include="Resources\96_33_red.jpg" />
+    <None Include="Resources\100_30.jpg" />
+    <None Include="Resources\101_72_red.jpg" />
+    <None Include="Resources\106_28.jpg" />
+    <None Include="Resources\106_33.jpg" />
+    <None Include="Resources\110_38.jpg" />
+    <None Include="Resources\110_38_red.jpg" />
+    <None Include="Resources\110_58.jpg" />
+    <None Include="Resources\110_58_red.jpg" />
+    <None Include="Resources\115_30.jpg" />
+    <None Include="Resources\115_44.jpg" />
+    <None Include="Resources\118_50.jpg" />
+    <None Include="Resources\120_22.jpg" />
+    <None Include="Resources\120_22_red.jpg" />
+    <None Include="Resources\120_39.jpg" />
+    <None Include="Resources\120_39_red.jpg" />
+    <None Include="Resources\125_23.jpg" />
+    <None Include="Resources\125_25.jpg" />
+    <None Include="Resources\125_92.jpg" />
+    <None Include="Resources\132_39.jpg" />
+    <None Include="Resources\132_52.jpg" />
+    <None Include="Resources\132_52_red.jpg" />
+    <None Include="Resources\136_55.jpg" />
+    <None Include="Resources\150_30.jpg" />
+    <None Include="Resources\150_32.jpg" />
+    <None Include="Resources\150_38.jpg" />
+    <None Include="Resources\150_58.jpg" />
+    <None Include="Resources\152_107.jpg" />
+    <None Include="Resources\155_55.jpg" />
+    <None Include="Resources\158_33.jpg" />
+    <None Include="Resources\158_38.jpg" />
+    <None Include="Resources\160_30.jpg" />
+    <None Include="Resources\195_36_red.jpg" />
+    <None Include="Resources\260_38.jpg" />
+    <None Include="Resources\260_58.jpg" />
+    <None Include="Resources\332_39.jpg" />
+    <None Include="Resources\839_58.jpg" />
+    <None Include="Resources\839_58_red.jpg" />
+    <None Include="Resources\keybg1.png" />
+    <None Include="Resources\keybg1blue.png" />
+    <None Include="Resources\keybg1green.png" />
+    <None Include="Resources\keybg1red.png" />
+    <None Include="Resources\keybg.png" />
+    <None Include="Resources\keyboardicon.png" />
+    <None Include="Resources\korder.png" />
+    <None Include="Resources\customer_information.png" />
+    <None Include="Resources\entbg.png" />
+    <None Include="Resources\return.png" />
+    <Content Include="PCEFTIPInterfaceCompact.dll" />
+    <None Include="Resources\loginform.jpg" />
+    <None Include="Resources\wechat.jpeg" />
+    <None Include="Resources\alipay.png" />
+    <None Include="Resources\h_cash.png" />
+    <None Include="Resources\h_cash_out.png" />
+    <None Include="Resources\h_charge.png" />
+    <None Include="Resources\h_cr_card.png" />
+    <None Include="Resources\h_eftpos.png" />
+    <None Include="Resources\h_others.png" />
+    <None Include="Resources\latipay.png" />
+    <None Include="Resources\b_cash.png" />
+    <None Include="Resources\b_cashout.png" />
+    <None Include="Resources\b_charge.png" />
+    <None Include="Resources\b_cr_card.png" />
+    <None Include="Resources\b_digital.png" />
+    <None Include="Resources\b_eftpos.png" />
+    <Content Include="Sektor.Vault.DotNetAPI.dll" />
+    <Content Include="Syncro3.PIPN.dll" />
+    <None Include="Web References\nz.co.gcloud.rst\item.disco" />
+    <None Include="Resources\red.png" />
+    <None Include="Resources\charge.png" />
+    <None Include="Resources\chequeb.png" />
+    <None Include="Resources\crcardb.png" />
+    <None Include="Resources\cashoutb.png" />
+    <None Include="Resources\eftposb.png" />
+    <None Include="Resources\CASHB.png" />
+    <None Include="Resources\del.png" />
+    <None Include="Resources\checkin.png" />
+    <None Include="Resources\eftpos-.png" />
+    <None Include="Resources\cr-card-.png" />
+    <None Include="Resources\cheque-.png" />
+    <None Include="Resources\cash-out-.png" />
+    <None Include="Resources\cash-.png" />
+    <None Include="Resources\green.png" />
+    <None Include="Resources\e.png" />
+    <None Include="Web References\nz.co.gcloud.rst\item.wsdl" />
+    <None Include="Web References\nz.co.gcloud.rst\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="stdole">
+      <Guid>{00020430-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://rst.gcloud.co.nz/service/item.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\nz.co.gcloud.rst\</RelPath>
+      <UpdateFromURL>http://rst.gcloud.co.nz/service/item.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>QPOS2010_nz_co_gcloud_rst_CGPOSService</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+</Project>
