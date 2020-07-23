@@ -409,6 +409,10 @@
 			this.label42 = new System.Windows.Forms.Label();
 			this.btnDeleteItemForSelfService = new System.Windows.Forms.Button();
 			this.timer5 = new System.Windows.Forms.Timer(this.components);
+			this.label43 = new System.Windows.Forms.Label();
+			this.txtAgent = new System.Windows.Forms.TextBox();
+			this.lblAgentName = new System.Windows.Forms.Label();
+			this.lblAgentId = new System.Windows.Forms.Label();
 			this.cart = new QPOS2008.MyDataGridView();
 			this.cc_code = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.cc_supplier_code = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -3403,6 +3407,31 @@
 			// 
 			this.timer5.Tick += new System.EventHandler(this.timer5_Tick);
 			// 
+			// label43
+			// 
+			resources.ApplyResources(this.label43, "label43");
+			this.label43.ForeColor = System.Drawing.Color.White;
+			this.label43.Name = "label43";
+			// 
+			// txtAgent
+			// 
+			resources.ApplyResources(this.txtAgent, "txtAgent");
+			this.txtAgent.Name = "txtAgent";
+			this.txtAgent.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtAgent_KeyDown);
+			this.txtAgent.Leave += new System.EventHandler(this.onControlLeave);
+			// 
+			// lblAgentName
+			// 
+			resources.ApplyResources(this.lblAgentName, "lblAgentName");
+			this.lblAgentName.BackColor = System.Drawing.Color.Transparent;
+			this.lblAgentName.ForeColor = System.Drawing.Color.White;
+			this.lblAgentName.Name = "lblAgentName";
+			// 
+			// lblAgentId
+			// 
+			resources.ApplyResources(this.lblAgentId, "lblAgentId");
+			this.lblAgentId.Name = "lblAgentId";
+			// 
 			// cart
 			// 
 			this.cart.AllowUserToAddRows = false;
@@ -3588,6 +3617,10 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.SteelBlue;
 			this.ControlBox = false;
+			this.Controls.Add(this.lblAgentId);
+			this.Controls.Add(this.lblAgentName);
+			this.Controls.Add(this.txtAgent);
+			this.Controls.Add(this.label43);
 			this.Controls.Add(this.btnDeleteItemForSelfService);
 			this.Controls.Add(this.panelCheckout);
 			this.Controls.Add(this.panelDiscount);
@@ -4076,6 +4109,10 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn has_scale;
 		private System.Windows.Forms.DataGridViewTextBoxColumn cc_promotion_group_id;
 		private System.Windows.Forms.Button btnFC;
+		private System.Windows.Forms.Label label43;
+		private System.Windows.Forms.TextBox txtAgent;
+		private System.Windows.Forms.Label lblAgentName;
+		private System.Windows.Forms.Label lblAgentId;
 	}
 }
 

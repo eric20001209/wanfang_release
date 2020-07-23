@@ -54,7 +54,7 @@ namespace QPOS2008
 		private double m_dCashout = 0;
 		private double m_dCredit = 0;
 		private double m_dCheque = 0;
-        private double m_dChange = 0;
+		private double m_dChange = 0;
 
 		private bool m_bSurcharge = false;
 		private double m_dSurchargeRate = 0;
@@ -79,7 +79,7 @@ namespace QPOS2008
 		private double m_dRoundingReceipt = 0;
 
 		private double dCustomerGst = 0.15;
-		
+
 		//		private int time = 0;
 		private int m_iVoucherControl = 0;
 		public static bool FormConfig_Show = false;
@@ -88,7 +88,7 @@ namespace QPOS2008
 		private string m_AddonQty = "0";
 
 
-		private string m_sCode = "";	//used for searching return
+		private string m_sCode = "";    //used for searching return
 		private string m_sCardId = ""; //vip card id
 		private string m_sCardName = "";
 		private string m_sCardBarcode = "";
@@ -121,6 +121,7 @@ namespace QPOS2008
 
 		private int m_iEftposLog = 0;
 		private int m_nCardId = 0;
+		private int m_nAgentId = 0;
 		private int m_nSalesId = 0;
 		private int m_nBranchId = 1;
 		private int m_nOrderId = 0;
@@ -160,11 +161,11 @@ namespace QPOS2008
 		private string m_sVoucherMsg = "";
 		private bool m_bVoucherEnabled = false;
 
-        private bool m_bVipVoucherEnabled = false;
-        private double m_dVipVoucherStartPoints = 500;
-        private double m_dVipVoucherValue = 10;
+		private bool m_bVipVoucherEnabled = false;
+		private double m_dVipVoucherStartPoints = 500;
+		private double m_dVipVoucherValue = 10;
 
-        private bool m_bNoVoucher = true;
+		private bool m_bNoVoucher = true;
 
 		private string m_sCompanyName = "GPOS SYSTEM";
 
@@ -189,14 +190,14 @@ namespace QPOS2008
 		private string m_sButton11 = "";
 		private string m_sButton12 = "";
 		private string m_sDeleteItemControl = "";
-        private string m_sDeleteItemBarcode = "";
+		private string m_sDeleteItemBarcode = "";
 		private string m_sPosRef = "";
 		private string m_sClearPaymentControl = "";
 		private string m_sVipPointRate = "";
 		private string m_sDiscountSpecialItem = "";
 		private bool m_bCheckGroupPromotion = false; //flag in timer
-        private bool m_bCheckComboPromotion = false;
-        private int m_iPromotionItemIndex = 0;
+		private bool m_bCheckComboPromotion = false;
+		private int m_iPromotionItemIndex = 0;
 		private string m_sPromotionServiceItemCode = "-1001"; //for group promotion service item
 		private string m_sCreditSurchargeItemCode = "1001"; //for credit surcharge service item
 		private Modem m_mod = null; //for serial device data send
@@ -302,13 +303,13 @@ namespace QPOS2008
 			msgboard2.Text = "";
 			txtpaymentinfo.Text = "";
 			showItems.Text = "";
-            lblQtys.Text = "";
+			lblQtys.Text = "";
 			lblprocess.Text = "";
 			if (Program.MyBooleanParse(GetSiteSettings("Allow_discount_roll_back")))
 				sAllowDiscountRollBack = true;
 			if (GetSiteSettings("margin_rate") != "")
 				m_sMarginRate = GetSiteSettings("margin_rate");
-				
+
 			m_sCashoutcontrol = GetSiteSettings("maxAllowCashout");
 			m_sCashOverChangeControl = GetSiteSettings("cash_overcharge_times");
 
@@ -333,11 +334,11 @@ namespace QPOS2008
 			m_dVoucherStart = Program.MyDoubleParse(GetSiteSettings("voucher_start_value"));
 			m_bVoucherEnabled = Program.MyBooleanParse(GetSiteSettings("voucher_enabled"));
 
-            m_bVipVoucherEnabled = Program.MyBooleanParse(GetSiteSettings("vip_voucher_enabled"));
-            m_dVipVoucherStartPoints = Program.MyDoubleParse(GetSiteSettings("vip_voucher_start_points"));
-            m_dVipVoucherValue = Program.MyDoubleParse(GetSiteSettings("vip_voucher_value"));
+			m_bVipVoucherEnabled = Program.MyBooleanParse(GetSiteSettings("vip_voucher_enabled"));
+			m_dVipVoucherStartPoints = Program.MyDoubleParse(GetSiteSettings("vip_voucher_start_points"));
+			m_dVipVoucherValue = Program.MyDoubleParse(GetSiteSettings("vip_voucher_value"));
 
-            m_bNoVoucher = Program.MyBooleanParse(GetSiteSettings("no_voucher"));
+			m_bNoVoucher = Program.MyBooleanParse(GetSiteSettings("no_voucher"));
 
 			if (Program.m_bEnableLatiPayGiftCard)
 				btnLatipayGiftCard.Visible = true;
@@ -445,10 +446,6 @@ namespace QPOS2008
 					MessageBox.Show("Open Scale failed, name=" + Program.m_sScaleName);
 				}
 			}
-			if(Program.m_bCasScale && Program.m_sCasScalePort != "")
-			{
-//				m_casScale = new FormCasScale();
-			}
 			/*
 			if (Program.m_sScannerName != "")
 			{
@@ -481,7 +478,7 @@ namespace QPOS2008
 			if (Program.m_bEnableFloating)
 				CheckFloat();
 			barcode.Focus();
-			if(Program.m_bEnableSelfService)
+			if (Program.m_bEnableSelfService)
 				SelfServiceModelMain();
 		}
 		public void TakeControl(Modem modcall) //modem call back
@@ -615,7 +612,7 @@ namespace QPOS2008
 			btnCheckoutClose.Location = new Point(10, 650);
 			btnCheckoutClose.Width = 330;
 			btnCheckoutClose.BackgroundImage = QPOS2008.Properties.Resources.keybg1red;
-			
+
 			btn_penter.Location = new Point(10, 570);
 			btn_penter.Width = 330;
 			btn_penter.BackgroundImage = QPOS2008.Properties.Resources.keybg1blue;
@@ -653,60 +650,60 @@ namespace QPOS2008
 				dsCart.Tables.Add(dtCart);
 			}
 		}
-        private bool PromotionActive(string promo_id, string weekday )
-        {
-            if (dst.Tables["PromotionActive"] != null)
-                dst.Tables["PromotionActive"].Clear();
+		private bool PromotionActive(string promo_id, string weekday)
+		{
+			if (dst.Tables["PromotionActive"] != null)
+				dst.Tables["PromotionActive"].Clear();
 
-            int rows = 0;
-            string sc = "SELECT * from promotion_list ";
-            sc += " WHERE 1=1 ";
-            sc += " AND promo_id = '"+promo_id+"'";
-            sc += " AND promo_day" + weekday + " = 1";
-            sc += " AND promo_start_date <= getdate()";
-            sc += " AND promo_end_date >= getdate() ";
-            try
-            {
-                myAdapter = new SqlDataAdapter(sc, myConnection);
-                rows = myAdapter.Fill(dst, "PromotionActive");
-                if (rows == 1)
-                    return true;
-            }
-            catch (Exception e1)
-            {
-                Program.ShowExp(sc, e1);
-                myConnection.Close();
-                return false;
-            }
-            return false;
-        }
+			int rows = 0;
+			string sc = "SELECT * from promotion_list ";
+			sc += " WHERE 1=1 ";
+			sc += " AND promo_id = '" + promo_id + "'";
+			sc += " AND promo_day" + weekday + " = 1";
+			sc += " AND promo_start_date <= getdate()";
+			sc += " AND promo_end_date >= getdate() ";
+			try
+			{
+				myAdapter = new SqlDataAdapter(sc, myConnection);
+				rows = myAdapter.Fill(dst, "PromotionActive");
+				if (rows == 1)
+					return true;
+			}
+			catch (Exception e1)
+			{
+				Program.ShowExp(sc, e1);
+				myConnection.Close();
+				return false;
+			}
+			return false;
+		}
 
-        private bool BarcodeInBarcodeTable(string barcode) //test if this barcode is in barcode table
-        {
-            string sc = "";
-            int rows = 0;
-            if (dst.Tables["BarcodeInBarcodeTable"] != null)
-                dst.Tables["BarcodeInBarcodeTable"].Clear();
-            sc = " SELECT c.barcode from code_relations c join barcode b on c.barcode = b.barcode where 1=1 and c.barcode = '"+barcode+"'";
-            try
-            {
-                myAdapter = new SqlDataAdapter(sc, myConnection);
-                rows = myAdapter.Fill(dst, "BarcodeInBarcodeTable");
-            }
-            catch(Exception ex)
-            {
-                Program.ShowExp(sc, ex);
-                myConnection.Close();
-                return false;
-            }
-            if (rows > 0)
-                return true;
-            else
-                return false;
-        }
-        
-        private bool isInt(string str)
-        {
+		private bool BarcodeInBarcodeTable(string barcode) //test if this barcode is in barcode table
+		{
+			string sc = "";
+			int rows = 0;
+			if (dst.Tables["BarcodeInBarcodeTable"] != null)
+				dst.Tables["BarcodeInBarcodeTable"].Clear();
+			sc = " SELECT c.barcode from code_relations c join barcode b on c.barcode = b.barcode where 1=1 and c.barcode = '" + barcode + "'";
+			try
+			{
+				myAdapter = new SqlDataAdapter(sc, myConnection);
+				rows = myAdapter.Fill(dst, "BarcodeInBarcodeTable");
+			}
+			catch (Exception ex)
+			{
+				Program.ShowExp(sc, ex);
+				myConnection.Close();
+				return false;
+			}
+			if (rows > 0)
+				return true;
+			else
+				return false;
+		}
+
+		private bool isInt(string str)
+		{
 			try
 			{
 				int.Parse(str);
@@ -717,8 +714,8 @@ namespace QPOS2008
 				return false;
 			}
 			return true;
-        }
-        
+		}
+
 
 		private void DoScanBarcode(bool bPressButton)
 		{
@@ -773,7 +770,7 @@ namespace QPOS2008
 			{
 				return;
 			}
-			if(Program.m_bVoucherUseWebService)
+			if (Program.m_bVoucherUseWebService)
 			{
 				if (sBarcode.Length > 8 && sBarcode.Substring(0, 8) == "96232176")
 				{
@@ -791,35 +788,35 @@ namespace QPOS2008
 			int nWeekDay = (int)DateTime.Now.DayOfWeek;
 			if (nWeekDay == 0)
 				nWeekDay = 7; //tee's design, Sunday is 7
-				
+
 			string sc = " SELECT ";
 			if (bPressButton)
 				sc += " top 1 ";
-            sc += " c.supplier_code, c.code, c.barcode AS barcodeOne, c.name, c.name_cn, c.price1, isnull(c.is_barcodeprice,0) as is_barcodeprice, isnull(c.is_id_check,0) as is_id_check ";
-            sc += ", ISNULL(c.special_price,0) AS special_price1, isnull(c.is_special,0) as is_special, ISNULL(c.special_price_end_date, '') AS special_price_end_date ";
-            sc += ", ISNULL(c.special_price_start_date, '') AS special_price_start_date, c.cat ";
+			sc += " c.supplier_code, c.code, c.barcode AS barcodeOne, c.name, c.name_cn, c.price1, isnull(c.is_barcodeprice,0) as is_barcodeprice, isnull(c.is_id_check,0) as is_id_check ";
+			sc += ", ISNULL(c.special_price,0) AS special_price1, isnull(c.is_special,0) as is_special, ISNULL(c.special_price_end_date, '') AS special_price_end_date ";
+			sc += ", ISNULL(c.special_price_start_date, '') AS special_price_start_date, c.cat ";
 			sc += ", b.item_qty, ISNULL(b.package_price, 0) AS package_price, b.barcode";
 			sc += ", p.promo_type, p.special_price, p.discount_percentage,p.limit, ISNULL(c.has_scale, 0) AS has_scale ";
-            sc += ", isnull(p.promo_day1,0) as promo_day1, isnull(p.promo_day2,0) as promo_day2, isnull(p.promo_day3,0) as promo_day3, isnull(p.promo_day4,0) as promo_day4, isnull(p.promo_day5,0) as promo_day5, isnull(p.promo_day6,0) as promo_day6, isnull(p.promo_day7,0) as promo_day7 ";
+			sc += ", isnull(p.promo_day1,0) as promo_day1, isnull(p.promo_day2,0) as promo_day2, isnull(p.promo_day3,0) as promo_day3, isnull(p.promo_day4,0) as promo_day4, isnull(p.promo_day5,0) as promo_day5, isnull(p.promo_day6,0) as promo_day6, isnull(p.promo_day7,0) as promo_day7 ";
 			sc += ", p.free_item_required_item_code, ISNULL(p.promo_member_only, 'false') AS promo_member_only , ISNULL(c.price4, '0') AS price4 ";
 			sc += ", sp.*, ISNULL(c.is_member_only , '0') AS member_only , ISNULL(c.date_range, '0') AS date_range, ISNULL(c.pick_date,'0') AS pick_date ";
 			sc += ", ISNULL(c.avoid_point, '0') AS avoid_point";
-            sc += ", p.promo_start_date";
-            sc += ", p.promo_end_date ";
-            sc += ", pr.promo_id ";
+			sc += ", p.promo_start_date";
+			sc += ", p.promo_end_date ";
+			sc += ", pr.promo_id ";
 			sc += " FROM code_relations c ";
 			sc += " LEFT OUTER JOIN barcode b ON b.item_code = c.code ";
 			sc += " LEFT OUTER JOIN specials sp ON sp.code = c.code ";
-            sc += " LEFT OUTER JOIN promo pr on pr.code = c.code ";
-            sc += " LEFT OUTER JOIN promotion_list p ON p.promo_id = pr.promo_id AND p.promo_active = 1 ";
-            sc += " AND p.promo_start_date <= GETDATE() AND p.promo_end_date >= GETDATE() ";
+			sc += " LEFT OUTER JOIN promo pr on pr.code = c.code ";
+			sc += " LEFT OUTER JOIN promotion_list p ON p.promo_id = pr.promo_id AND p.promo_active = 1 ";
+			sc += " AND p.promo_start_date <= GETDATE() AND p.promo_end_date >= GETDATE() ";
 			//*** ARGUMENT FOR PICK THE THE RIGHT DAY FOR QTY PROMOTION CH 13/11/08***//
 			if (CheckQtyPromotionValue("", nWeekDay, sBarcode))
 			{
 				sc += " AND p.promo_day" + nWeekDay.ToString() + " = 1 "; //today is in the DayOfWeek list
 			}
 			sc += " WHERE 1 = 1 ";
-			
+
 			string sc1 = "";
 			string sFilter = "";
 			if (sBarcode != "")
@@ -827,15 +824,15 @@ namespace QPOS2008
 				if (bPressButton && isInt(sBarcode) && (sBarcode.Substring(sBarcode.Length - 1, 1).IndexOf('B') == -1 && sBarcode.Substring(sBarcode.Length - 1, 1).IndexOf('b') == -1))
 					sFilter = " AND c.code = '" + Program.EncodeQuote(sBarcode) + "' ";
 				else
-				{	
+				{
 					sFilter = " AND (b.barcode = '" + Program.EncodeQuote(sBarcode) + "' "; //" AND c.barcode = '" + Program.EncodeQuote(sBarcode) + "' ";
 					if (!BarcodeInBarcodeTable(sBarcode))
 						sFilter += " OR c.barcode = '" + Program.EncodeQuote(sBarcode) + "' ";
-					if(Program.m_bScanInSupplierCode)	
+					if (Program.m_bScanInSupplierCode)
 						sFilter += " OR c.supplier_code = '" + Program.EncodeQuote(sBarcode) + "'";
 					if (Program.IsInt(sBarcode) && Program.m_bScanInCode)
 						sFilter += " OR c.code = '" + Program.EncodeQuote(sBarcode) + "' ";
-					sFilter += " ) "; 
+					sFilter += " ) ";
 				}
 			}
 			int nRows = 0;
@@ -852,99 +849,99 @@ namespace QPOS2008
 				myConnection.Close();
 				return;
 			}
-            //if(nRows == 0)
-            //{
-            //    sFilter = " AND b.barcode = '" + Program.EncodeQuote(sBarcode) + "' ";
-            //    sc1 = sc + sFilter;
-            //    sc1 += " ORDER BY c.code DESC ";
-            //    try
-            //    {
-            //        myAdapter = new SqlDataAdapter(sc1, myConnection);
-            //        nRows = myAdapter.Fill(dst, "additem");
-            //    }
-            //    catch (Exception e1)
-            //    {
-            //        Program.ShowExp(sc1, e1);
-            //        myConnection.Close();
-            //        return;
-            //    }
-            //}
-            //if (nRows == 0 && Program.IsInt(sBarcode))
-            //{
-            //    sFilter = " AND c.code = '" + Program.EncodeQuote(sBarcode) + "' ";
-            //    sc1 = sc + sFilter;
-            //    sc1 += " ORDER BY c.code DESC ";
-            //    try
-            //    {
-            //        myAdapter = new SqlDataAdapter(sc1, myConnection);
-            //        nRows = myAdapter.Fill(dst, "additem");
-            //    }
-            //    catch (Exception e1)
-            //    {
-            //        Program.ShowExp(sc1, e1);
-            //        myConnection.Close();
-            //        return;
-            //    }
-            //}
-            if (nRows > 1)
-            {
-                search s = new search();
-                s.m_kw = sBarcode;
-                s.ShowDialog();
-                if (s.bIs_close)
-                {
-                    this.barcode.Text = "";
-                    return;
-                }
-                string barcode = s.m_sBarcode;
-                string code = s.m_sCode;
-                if (dst.Tables["additem"] != null)
-                    dst.Tables["additem"].Clear();
-                sc = " SELECT ";
-                sc += " top 1 ";
-                sc += " c.supplier_code, c.code, c.barcode AS barcodeOne, c.name, c.name_cn, c.price1, isnull(c.is_barcodeprice,0) as is_barcodeprice, isnull(c.is_id_check,0) as is_id_check ";
-                sc += ", ISNULL(c.special_price,0) AS special_price1, isnull(c.is_special,0) as is_special, ISNULL(c.special_price_end_date, '') AS special_price_end_date ";
-                sc += ", ISNULL(c.special_price_start_date, '') AS special_price_start_date, c.cat ";
-                sc += ", b.item_qty, ISNULL(b.package_price, 0) AS package_price, b.barcode";
-                sc += ", p.promo_type, p.special_price, p.discount_percentage,p.limit, ISNULL(c.has_scale, 0) AS has_scale ";
-                sc += ", isnull(p.promo_day1,0) as promo_day1,  isnull(p.promo_day2,0) as promo_day2,isnull(p.promo_day3,0) as promo_day3,isnull(p.promo_day4,0) as promo_day4,isnull(p.promo_day5,0) as promo_day5,isnull(p.promo_day6,0) as promo_day6,isnull(p.promo_day7,0) as promo_day7 ";
-                sc += ", p.free_item_required_item_code, ISNULL(p.promo_member_only, 'false') AS promo_member_only , ISNULL(c.price4, '0') AS price4 ";
-                sc += ", sp.*, ISNULL(c.is_member_only , '0') AS member_only , ISNULL(c.date_range, '0') AS date_range, ISNULL(c.pick_date,'0') AS pick_date ";
-                sc += ", ISNULL(c.avoid_point, '0') AS avoid_point";
-                sc += ", p.promo_start_date";
-                sc += ", p.promo_end_date ";
-                sc += ", pr.promo_id ";
-                sc += " FROM code_relations c ";
-                sc += " LEFT OUTER JOIN barcode b ON b.item_code = c.code ";
-                sc += " LEFT OUTER JOIN specials sp ON sp.code = c.code ";
-                sc += " LEFT OUTER JOIN promo pr on pr.code = c.code ";
-                sc += " LEFT OUTER JOIN promotion_list p ON p.promo_id = pr.promo_id AND p.promo_active = 1 ";
-                sc += " AND p.promo_start_date <= GETDATE() AND p.promo_end_date >= GETDATE() ";
-                if (CheckQtyPromotionValue("", nWeekDay, sBarcode))
-                {
-                    sc += " AND p.promo_day" + nWeekDay.ToString() + " = 1 "; //today is in the DayOfWeek list
-                }
-                sc += " WHERE 1 = 1 ";
-                sc += " AND b.barcode = '" + barcode + "'";
-                sc += " AND c.code = '"+code+"'";
-                try
-                {
-                    myAdapter = new SqlDataAdapter(sc, myConnection);
-                    nRows = myAdapter.Fill(dst, "additem");
-                }
-                catch (Exception e1)
-                {
-                    Program.ShowExp(sc, e1);
-                    myConnection.Close();
-                    return;
-                }
-            }
+			//if(nRows == 0)
+			//{
+			//    sFilter = " AND b.barcode = '" + Program.EncodeQuote(sBarcode) + "' ";
+			//    sc1 = sc + sFilter;
+			//    sc1 += " ORDER BY c.code DESC ";
+			//    try
+			//    {
+			//        myAdapter = new SqlDataAdapter(sc1, myConnection);
+			//        nRows = myAdapter.Fill(dst, "additem");
+			//    }
+			//    catch (Exception e1)
+			//    {
+			//        Program.ShowExp(sc1, e1);
+			//        myConnection.Close();
+			//        return;
+			//    }
+			//}
+			//if (nRows == 0 && Program.IsInt(sBarcode))
+			//{
+			//    sFilter = " AND c.code = '" + Program.EncodeQuote(sBarcode) + "' ";
+			//    sc1 = sc + sFilter;
+			//    sc1 += " ORDER BY c.code DESC ";
+			//    try
+			//    {
+			//        myAdapter = new SqlDataAdapter(sc1, myConnection);
+			//        nRows = myAdapter.Fill(dst, "additem");
+			//    }
+			//    catch (Exception e1)
+			//    {
+			//        Program.ShowExp(sc1, e1);
+			//        myConnection.Close();
+			//        return;
+			//    }
+			//}
+			if (nRows > 1)
+			{
+				search s = new search();
+				s.m_kw = sBarcode;
+				s.ShowDialog();
+				if (s.bIs_close)
+				{
+					this.barcode.Text = "";
+					return;
+				}
+				string barcode = s.m_sBarcode;
+				string code = s.m_sCode;
+				if (dst.Tables["additem"] != null)
+					dst.Tables["additem"].Clear();
+				sc = " SELECT ";
+				sc += " top 1 ";
+				sc += " c.supplier_code, c.code, c.barcode AS barcodeOne, c.name, c.name_cn, c.price1, isnull(c.is_barcodeprice,0) as is_barcodeprice, isnull(c.is_id_check,0) as is_id_check ";
+				sc += ", ISNULL(c.special_price,0) AS special_price1, isnull(c.is_special,0) as is_special, ISNULL(c.special_price_end_date, '') AS special_price_end_date ";
+				sc += ", ISNULL(c.special_price_start_date, '') AS special_price_start_date, c.cat ";
+				sc += ", b.item_qty, ISNULL(b.package_price, 0) AS package_price, b.barcode";
+				sc += ", p.promo_type, p.special_price, p.discount_percentage,p.limit, ISNULL(c.has_scale, 0) AS has_scale ";
+				sc += ", isnull(p.promo_day1,0) as promo_day1,  isnull(p.promo_day2,0) as promo_day2,isnull(p.promo_day3,0) as promo_day3,isnull(p.promo_day4,0) as promo_day4,isnull(p.promo_day5,0) as promo_day5,isnull(p.promo_day6,0) as promo_day6,isnull(p.promo_day7,0) as promo_day7 ";
+				sc += ", p.free_item_required_item_code, ISNULL(p.promo_member_only, 'false') AS promo_member_only , ISNULL(c.price4, '0') AS price4 ";
+				sc += ", sp.*, ISNULL(c.is_member_only , '0') AS member_only , ISNULL(c.date_range, '0') AS date_range, ISNULL(c.pick_date,'0') AS pick_date ";
+				sc += ", ISNULL(c.avoid_point, '0') AS avoid_point";
+				sc += ", p.promo_start_date";
+				sc += ", p.promo_end_date ";
+				sc += ", pr.promo_id ";
+				sc += " FROM code_relations c ";
+				sc += " LEFT OUTER JOIN barcode b ON b.item_code = c.code ";
+				sc += " LEFT OUTER JOIN specials sp ON sp.code = c.code ";
+				sc += " LEFT OUTER JOIN promo pr on pr.code = c.code ";
+				sc += " LEFT OUTER JOIN promotion_list p ON p.promo_id = pr.promo_id AND p.promo_active = 1 ";
+				sc += " AND p.promo_start_date <= GETDATE() AND p.promo_end_date >= GETDATE() ";
+				if (CheckQtyPromotionValue("", nWeekDay, sBarcode))
+				{
+					sc += " AND p.promo_day" + nWeekDay.ToString() + " = 1 "; //today is in the DayOfWeek list
+				}
+				sc += " WHERE 1 = 1 ";
+				sc += " AND b.barcode = '" + barcode + "'";
+				sc += " AND c.code = '" + code + "'";
+				try
+				{
+					myAdapter = new SqlDataAdapter(sc, myConnection);
+					nRows = myAdapter.Fill(dst, "additem");
+				}
+				catch (Exception e1)
+				{
+					Program.ShowExp(sc, e1);
+					myConnection.Close();
+					return;
+				}
+			}
 			if (nRows == 1)
 			{
 				#region barcode_found
 				DataRow dr = dst.Tables["additem"].Rows[0];
 				string code = dr["code"].ToString();
-                string cat = dr["cat"].ToString().ToLower();
+				string cat = dr["cat"].ToString().ToLower();
 				string barcodeOne = dr["barcodeOne"].ToString();
 				string sGetSupplier_code = dr["supplier_code"].ToString();
 
@@ -955,12 +952,12 @@ namespace QPOS2008
 				bool bMSDateRange = bool.Parse(dr["date_range"].ToString());
 				bool bMSPickDate = bool.Parse(dr["pick_date"].ToString());
 				bool bAvoidPoint = bool.Parse(dr["avoid_point"].ToString());
-                string promo_id = dr["promo_id"].ToString();
+				string promo_id = dr["promo_id"].ToString();
 
-                if (Program.m_sNoVipDiscountCatalog.IndexOf(cat) >= 0 && cat != "" && cat != null)
-                    bAvoidPoint = true;
-                else
-                    bAvoidPoint = false;
+				if (Program.m_sNoVipDiscountCatalog.IndexOf(cat) >= 0 && cat != "" && cat != null)
+					bAvoidPoint = true;
+				else
+					bAvoidPoint = false;
 
 				bool bIsBarcodePrice = bool.Parse(dr["is_barcodeprice"].ToString());
 				bool bIsIDCheck = bool.Parse(dr["is_id_check"].ToString());
@@ -976,28 +973,28 @@ namespace QPOS2008
 				double dSpecialPrice = Program.MyDoubleParse(dr["special_price1"].ToString());
 				double dGetPackPrice = Program.MyDoubleParse(dr["package_price"].ToString());
 				double dQtyBarcode = Program.MyDoubleParse(dr["item_qty"].ToString());
-                Dictionary<string, bool> promo_day = new Dictionary<string,bool>();
-                promo_day.Clear();
-                promo_day.Add("monday", bool.Parse(dr["promo_day1"].ToString()));
-                promo_day.Add("tuesday", bool.Parse(dr["promo_day2"].ToString()));
-                promo_day.Add("wednesday", bool.Parse(dr["promo_day3"].ToString()));
-                promo_day.Add("thursday", bool.Parse(dr["promo_day4"].ToString()));
-                promo_day.Add("friday", bool.Parse(dr["promo_day5"].ToString()));
-                promo_day.Add("saturday", bool.Parse(dr["promo_day6"].ToString()));
-                promo_day.Add("sunday", bool.Parse(dr["promo_day7"].ToString()));
-                
-//				if (barcodeOne == sBarcode)
-//					dQtyBarcode = 1;
-                DateTime special_price_start_date = DateTime.Parse(dr["special_price_start_date"].ToString());	
+				Dictionary<string, bool> promo_day = new Dictionary<string, bool>();
+				promo_day.Clear();
+				promo_day.Add("monday", bool.Parse(dr["promo_day1"].ToString()));
+				promo_day.Add("tuesday", bool.Parse(dr["promo_day2"].ToString()));
+				promo_day.Add("wednesday", bool.Parse(dr["promo_day3"].ToString()));
+				promo_day.Add("thursday", bool.Parse(dr["promo_day4"].ToString()));
+				promo_day.Add("friday", bool.Parse(dr["promo_day5"].ToString()));
+				promo_day.Add("saturday", bool.Parse(dr["promo_day6"].ToString()));
+				promo_day.Add("sunday", bool.Parse(dr["promo_day7"].ToString()));
+
+				//				if (barcodeOne == sBarcode)
+				//					dQtyBarcode = 1;
+				DateTime special_price_start_date = DateTime.Parse(dr["special_price_start_date"].ToString());
 				DateTime special_price_end_date = DateTime.Parse(dr["special_price_end_date"].ToString());
 				DateTime today = DateTime.Now;
-                var dayofweek = today.DayOfWeek.ToString().ToLower();
-                bool bDayActive = false;
-                foreach (var p in promo_day)
-                {
-                    if (p.Key == dayofweek && p.Value)
-                        bDayActive = true;
-                }
+				var dayofweek = today.DayOfWeek.ToString().ToLower();
+				bool bDayActive = false;
+				foreach (var p in promo_day)
+				{
+					if (p.Key == dayofweek && p.Value)
+						bDayActive = true;
+				}
 				if (bIsIDCheck && !m_bIdCheckDone)
 				{
 					FormIdCheck fmMSG = new FormIdCheck();  // ADMIN CONTROL AREA, PASSWORD REQUIRED CH 14/11/08
@@ -1006,7 +1003,7 @@ namespace QPOS2008
 					fmMSG.ShowDialog();
 					if (fmMSG.m_sConfirm == "1")
 					{
-						if(Program.m_bIdCheckPasswordControl)
+						if (Program.m_bIdCheckPasswordControl)
 						{
 							if (!AdminOK("id_check"))
 							{
@@ -1129,7 +1126,7 @@ namespace QPOS2008
 						dQty *= dQtyBarcode;
 
 					int nIndex = -1;
-                    double dQtyInCart = GetQtyInCart(sItemBarcode, code, ref nIndex, dGetPrice, bIsSpecial);
+					double dQtyInCart = GetQtyInCart(sItemBarcode, code, ref nIndex, dGetPrice, bIsSpecial);
 					string sRFreeItemCode = dr["free_item_required_item_code"].ToString();
 
 					if (doWarningItem(dGetPrice, nPromotionType))
@@ -1181,7 +1178,7 @@ namespace QPOS2008
 								timer3.Interval = 500;
 								timer3.Start();
 								if (this.m_AddonQty == "1")
-	//							if (Program.m_sgroceryitem.IndexOf(this.barcode.Text).ToString() != "-1" || dGetPrice == 0)
+								//							if (Program.m_sgroceryitem.IndexOf(this.barcode.Text).ToString() != "-1" || dGetPrice == 0)
 								{
 									dQtyInCart = Program.MyDoubleParse(this.txtQty.Text);
 									dQty += dQtyInCart;
@@ -1217,7 +1214,7 @@ namespace QPOS2008
 									UpdateDtCart(m_nCurrentCart);
 									CheckQtyPromotion(code, dQty, nIndex, barcode.Text).ToString(); //promotion type 3,4,5
 									CheckGroupPromotion();
-                                    CheckComboPromotion();
+									CheckComboPromotion();
 									barcode.Text = "";
 									qty.Text = "";
 									price.Text = "";
@@ -1238,14 +1235,14 @@ namespace QPOS2008
 					}
 					else
 					{
-                        if (dQtyInCart > 0 && dQtyBarcode <= 1 && (dr["limit"].ToString() == "" || dr["limit"].ToString() == null || dr["limit"].ToString() == "0")) //this item already in cart, increase qty
-    //                    if (dQtyInCart > 0 && dr["promo_type"].ToString() != "6" && dQtyBarcode <= 1 && (dr["limit"].ToString() == "" || dr["limit"].ToString() == null || dr["limit"].ToString() == "0")) //this item already in cart, increase qty
+						if (dQtyInCart > 0 && dQtyBarcode <= 1 && (dr["limit"].ToString() == "" || dr["limit"].ToString() == null || dr["limit"].ToString() == "0")) //this item already in cart, increase qty
+																																									 //                    if (dQtyInCart > 0 && dr["promo_type"].ToString() != "6" && dQtyBarcode <= 1 && (dr["limit"].ToString() == "" || dr["limit"].ToString() == null || dr["limit"].ToString() == "0")) //this item already in cart, increase qty
 						{
 							dQty += dQtyInCart;
 							double dPriceCurrent = Program.MyDoubleParse(cart.Rows[nIndex].Cells["cc_price"].Value.ToString());
 							double dSub = Math.Round(dPriceCurrent * dQty, 2);
 							cart.Rows[nIndex].Cells["cc_qty"].Value = dQty;
-                            cart.Rows[nIndex].Cells["cc_total"].Value = dSub.ToString("N2");
+							cart.Rows[nIndex].Cells["cc_total"].Value = dSub.ToString("N2");
 							m_fmad.cart.Rows[nIndex].Cells["cc_qty"].Value = dQty;
 							m_fmad.cart.Rows[nIndex].Cells["cc_total"].Value = dSub;
 							m_fmads.cart.Rows[nIndex].Cells["cc_qty"].Value = dQty;
@@ -1267,7 +1264,7 @@ namespace QPOS2008
 							UpdateDtCart(m_nCurrentCart);
 							CheckQtyPromotion(code, dQty, nIndex, barcode.Text).ToString(); //promotion type 3,4,5
 							CheckGroupPromotion();
-                            CheckComboPromotion();
+							CheckComboPromotion();
 							UpdateDtCart(m_nCurrentCart);
 							barcode.Text = "";
 							qty.Text = "";
@@ -1279,13 +1276,13 @@ namespace QPOS2008
 							return; //no more action
 						}
 					}
-                    m_irow = "";
+					m_irow = "";
 					if (dPrice == 0)  // avoid do weight qty ch 04-12-08
 						dPrice = dGetPrice;
 					if (dGetPackPrice.ToString() != "" && dGetPackPrice.ToString() != null && dGetPackPrice.ToString() != "0" && dQtyBarcode > 1)
 					{
 						dPrice = dGetPackPrice;
-					}	
+					}
 					else if (bIsSpecial)
 					{
 						if (dGetPackPrice.ToString() != "" && dGetPackPrice.ToString() != null && dGetPackPrice.ToString() != "0")
@@ -1332,7 +1329,7 @@ namespace QPOS2008
 						}
 
 					}
-                    else if (nPromotionType == 1 && bDayActive) //special price discount
+					else if (nPromotionType == 1 && bDayActive) //special price discount
 					{
 						double dDiscount = Program.MyDoubleParse(dr["special_price"].ToString());
 						int limit = Program.MyIntParse(dr["limit"].ToString());
@@ -1356,7 +1353,7 @@ namespace QPOS2008
 							if (ScanMembership())
 								dPrice = Math.Round(dGetPrice * (1 - dRate), 2);
 						}
-                        else if (PromotionActive(promo_id,nWeekDay.ToString()))
+						else if (PromotionActive(promo_id, nWeekDay.ToString()))
 							dPrice = Math.Round(dGetPrice * (1 - dRate), 2);
 					}
 
@@ -1366,7 +1363,7 @@ namespace QPOS2008
 					string sCCode = dr["code"].ToString();
 					string packagepromotype = "0";
 
-                    if (dQtyBarcode > 1 && !bIsBarcodePrice)
+					if (dQtyBarcode > 1 && !bIsBarcodePrice)
 					{
 						packagepromotype = nPromotionType.ToString();
 						m_bPackageDue = true;
@@ -1377,8 +1374,8 @@ namespace QPOS2008
 					}
 					if (Program.MyDoubleParse(qty.Text) >= 2 && nPromotionType != 0)
 						packagepromotype = nPromotionType.ToString();
-					
-					if(nPromotionType == -1) //on special
+
+					if (nPromotionType == -1) //on special
 						packagepromotype = "1"; //no category discount
 
 					if (!CheckQtyPromotion(sCCode, dQty, 0, barcode.Text))
@@ -1389,15 +1386,15 @@ namespace QPOS2008
 							AddToCart(barcode.Text, dr["code"].ToString(), dr["name"].ToString(), dr["name_cn"].ToString(), dPrice, dQty, packagepromotype, m_bPackageDue, dr["supplier_code"].ToString(), 0, bAvoidPoint, bReadWeight);
 						if (MemberShipID.Text != "" && !bManuallyEnteredPrice)
 							DoApplyLevelPriceForCart(0);
-                        if (nPromotionType == 1 && dQty > nLimit && nLimit > 0)
-                        {
-                            doChangeQty(dQty, m_irow);
-                            m_irow = "";
-                        }
+						if (nPromotionType == 1 && dQty > nLimit && nLimit > 0)
+						{
+							doChangeQty(dQty, m_irow);
+							m_irow = "";
+						}
 					}
 					string s_dPrice1 = cart.Rows[0].Cells["cc_price"].Value.ToString();
-					if(bIsSpecial)
-						cart.Rows[0].Cells["cc_is_promotion"].Value = "1";					
+					if (bIsSpecial)
+						cart.Rows[0].Cells["cc_is_promotion"].Value = "1";
 					string s_dQty1 = cart.Rows[0].Cells["cc_qty"].Value.ToString();
 					string s_dItemName1 = cart.Rows[0].Cells["cc_name"].Value.ToString();
 					int i_dItemName1 = s_dItemName1.Length;
@@ -1431,17 +1428,17 @@ namespace QPOS2008
 					fmMSG.btnNo.Visible = false;
 					fmMSG.btnYes.Visible = false;
 					fmMSG.ShowDialog();
-                    
+
 					// MessageBox.Show("Item Not Found ");
 					this.barcode.Focus();
 					if (this.barcode.Text.Length >= 10)
 						p = "";
 					this.msgboard2.Text = p;
-                    return;
+					return;
 				}
-                CheckCategoryDiscount(0, cat);
+				CheckCategoryDiscount(0, cat);
 				CheckGroupPromotion();
-                CheckComboPromotion();
+				CheckComboPromotion();
 
 				if (cart.Rows.Count == 1)
 					Change.Text = "";
@@ -1489,61 +1486,61 @@ namespace QPOS2008
 						//if (sBarcode.IndexOf("*").ToString() == "-1" && sBarcode != "" && Program.m_sbarcodewithprice1.IndexOf(sBarcode.Substring(0, int.Parse(Program.m_sbarcodelength1))).ToString() != "-1")
 						if (sBarcode.IndexOf("*").ToString() == "-1" && sBarcode != "")
 						{
-                            if (sBarcode.Length >= (PriceLength + PriceStartDigit-1))
-                            {
-                                sNewPrice = GetLabelBarcodePrice(sBarcode, DecimalPoint, PriceLength, PriceStartDigit); // Get Price from function
-                                sNewBarcode = GetLabelBarcodeBarcode(sBarcode, BarcodeLength, BarcodeStartDigit);
-                                sBarcode = sNewBarcode;
-                                if (!Program.m_bEnableCalQty)
-                                    this.price.Text = sNewPrice;
-                            }
-                            else
-                            {
-                                if (GetItemFromServer(barcode.Text))
-                                    return;
-                                if (File.Exists(m_sSoundDonePath))
-                                {
-                                    SoundPlayer error = new SoundPlayer(m_sSoundDonePath);
-                                    error.Play();
-                                }
-                                string p = "Sorry, Product Not Found !!";
-                                //FormMSG fmMSG = new FormMSG();  // ADMIN CONTROL AREA, PASSWORD REQUIRED CH 14/11/08
-                                //if (this.barcode.Text.Length >= 14)
-                                //    p = DoUseVoucher(this.barcode.Text);
-                                //string pNew = p + "\r\n Would you like to Create a new Item??";
-                                //fmMSG.m_sYesNo = "1";
-                                //fmMSG.m_sMsg = pNew;
-                                //if (this.barcode.Text == m_sButton11 || this.barcode.Text == m_sButton12)
-                                //{
-                                //    fmMSG.m_sYesNo = "0";
-                                //    fmMSG.m_sMsg = " Please Enter Price First!!";
-                                //    fmMSG.btnNo.Visible = false;
-                                //    fmMSG.btnYes.Visible = false;
-                                //    fmMSG.ShowDialog();
-                                //}
-                                //if (this.barcode.Text != m_sButton11 && this.barcode.Text != m_sButton12)
-                                //    fmMSG.ShowDialog();
-                                //if (fmMSG.m_sCreateNewItem == "1")
-                                //{
-  
-                                //    this.CreateNewItemPanel.Visible = true;
-                                //    doBuideBrands();
-                                //    doBuideCat();
-                                //    doBuideTax();
+							if (sBarcode.Length >= (PriceLength + PriceStartDigit - 1))
+							{
+								sNewPrice = GetLabelBarcodePrice(sBarcode, DecimalPoint, PriceLength, PriceStartDigit); // Get Price from function
+								sNewBarcode = GetLabelBarcodeBarcode(sBarcode, BarcodeLength, BarcodeStartDigit);
+								sBarcode = sNewBarcode;
+								if (!Program.m_bEnableCalQty)
+									this.price.Text = sNewPrice;
+							}
+							else
+							{
+								if (GetItemFromServer(barcode.Text))
+									return;
+								if (File.Exists(m_sSoundDonePath))
+								{
+									SoundPlayer error = new SoundPlayer(m_sSoundDonePath);
+									error.Play();
+								}
+								string p = "Sorry, Product Not Found !!";
+								//FormMSG fmMSG = new FormMSG();  // ADMIN CONTROL AREA, PASSWORD REQUIRED CH 14/11/08
+								//if (this.barcode.Text.Length >= 14)
+								//    p = DoUseVoucher(this.barcode.Text);
+								//string pNew = p + "\r\n Would you like to Create a new Item??";
+								//fmMSG.m_sYesNo = "1";
+								//fmMSG.m_sMsg = pNew;
+								//if (this.barcode.Text == m_sButton11 || this.barcode.Text == m_sButton12)
+								//{
+								//    fmMSG.m_sYesNo = "0";
+								//    fmMSG.m_sMsg = " Please Enter Price First!!";
+								//    fmMSG.btnNo.Visible = false;
+								//    fmMSG.btnYes.Visible = false;
+								//    fmMSG.ShowDialog();
+								//}
+								//if (this.barcode.Text != m_sButton11 && this.barcode.Text != m_sButton12)
+								//    fmMSG.ShowDialog();
+								//if (fmMSG.m_sCreateNewItem == "1")
+								//{
 
-                                //    this.CreateNewBarcodeTB.Text = this.barcode.Text;
-                                //    fmMSG.m_sCreateNewItem = "0";
+								//    this.CreateNewItemPanel.Visible = true;
+								//    doBuideBrands();
+								//    doBuideCat();
+								//    doBuideTax();
 
-                                //}
-                                //else
-                                //{
-                                //    this.barcode.Focus();
-                                //    if (this.barcode.Text.Length >= 10)
-                                //        p = "";
-                                //    this.msgboard2.Text = p;
-                                //}
-                                
-                            }
+								//    this.CreateNewBarcodeTB.Text = this.barcode.Text;
+								//    fmMSG.m_sCreateNewItem = "0";
+
+								//}
+								//else
+								//{
+								//    this.barcode.Focus();
+								//    if (this.barcode.Text.Length >= 10)
+								//        p = "";
+								//    this.msgboard2.Text = p;
+								//}
+
+							}
 						}
 						/********************copy from above*****************/
 						dQty = Program.MyDoubleParse(this.qty.Text);
@@ -1557,7 +1554,7 @@ namespace QPOS2008
 						if (nWeekDay == 0)
 							nWeekDay = 7; //tee's design, Sunday is 7
 						sc = " SELECT top 1 c.supplier_code, c.code, c.name, c.name_cn, c.price1,  c.is_barcodeprice, c.is_id_check, ISNULL(c.special_price,0) AS special_price1, c.is_special, ISNULL(c.special_price_end_date, '') AS special_price_end_date,  b.item_qty, ISNULL(b.package_price, 0) AS package_price, b.barcode";
-                        sc += ", ISNULL(c.special_price_start_date, '') AS special_price_start_date ";
+						sc += ", ISNULL(c.special_price_start_date, '') AS special_price_start_date ";
 						sc += ", p.promo_type, p.special_price, p.discount_percentage, ISNULL(c.has_scale, 0) AS has_scale ,p.free_item_required_item_code, ISNULL(p.promo_member_only, 'false') AS promo_member_only , ISNULL(c.price4, '0') AS price4, c.cat ";
 						sc += ", sp.*, ISNULL(c.is_member_only , '0') AS member_only , ISNULL(c.date_range, '0') AS date_range, ISNULL(c.pick_date,'0') AS pick_date, ISNULL(c.avoid_point, '0') AS avoid_point";
 						//			sc += ", p.volumn_discount_qty, p.volumn_discount_price_total, free_item_required_qty, free_item_required_item_code, free_item_reward_qty ";
@@ -1574,7 +1571,7 @@ namespace QPOS2008
 						sc += " WHERE 1 = 1 ";
 						if (sBarcode != "")
 						{
-                            sc += " AND (c.barcode = '" + Program.EncodeQuote(sBarcode) + "' OR c.supplier_code = '" + Program.EncodeQuote(sBarcode) + "' or b.barcode = '" + Program.EncodeQuote(sBarcode) + "') ";
+							sc += " AND (c.barcode = '" + Program.EncodeQuote(sBarcode) + "' OR c.supplier_code = '" + Program.EncodeQuote(sBarcode) + "' or b.barcode = '" + Program.EncodeQuote(sBarcode) + "') ";
 						}
 						else if (m_sCode != "")
 						{
@@ -1601,7 +1598,7 @@ namespace QPOS2008
 						{
 							dr = dst.Tables["additem"].Rows[0];
 							string code = dr["code"].ToString();
-                            string cat = dr["cat"].ToString().ToLower();
+							string cat = dr["cat"].ToString().ToLower();
 							string sGetSupplier_code = dr["supplier_code"].ToString();
 
 							bool bReadWeight = bool.Parse(dr["has_scale"].ToString());
@@ -1612,10 +1609,10 @@ namespace QPOS2008
 							bool bMSPickDate = bool.Parse(dr["pick_date"].ToString());
 							bool bAvoidPoint = bool.Parse(dr["avoid_point"].ToString());
 
-                            if (Program.m_sNoVipDiscountCatalog.IndexOf(cat) >= 0 && cat != "" && cat != null)
-                                bAvoidPoint = true;
-                            else
-                                bAvoidPoint = false;
+							if (Program.m_sNoVipDiscountCatalog.IndexOf(cat) >= 0 && cat != "" && cat != null)
+								bAvoidPoint = true;
+							else
+								bAvoidPoint = false;
 
 							bool bIsBarcodePrice = bool.Parse(dr["is_barcodeprice"].ToString());
 							bool bIsIDCheck = bool.Parse(dr["is_id_check"].ToString());
@@ -1631,9 +1628,9 @@ namespace QPOS2008
 							double dGetPackPrice = Program.MyDoubleParse(dr["package_price"].ToString());
 							double dQtyBarcode = Program.MyDoubleParse(dr["item_qty"].ToString());
 							// special_price_end_date = DateTime.Parse(dr["special_price_end_date"].ToString());
-                            DateTime special_price_start_date = DateTime.Parse(dr["special_price_start_date"].ToString());
-                            DateTime special_price_end_date = DateTime.Parse(dr["special_price_end_date"].ToString());
-                            DateTime today = DateTime.Now;
+							DateTime special_price_start_date = DateTime.Parse(dr["special_price_start_date"].ToString());
+							DateTime special_price_end_date = DateTime.Parse(dr["special_price_end_date"].ToString());
+							DateTime today = DateTime.Now;
 							if (bIsIDCheck && !m_bIdCheckDone)
 							{
 								FormIdCheck fmMSG = new FormIdCheck();  // ADMIN CONTROL AREA, PASSWORD REQUIRED CH 14/11/08
@@ -1656,18 +1653,18 @@ namespace QPOS2008
 								if (sBarcode.IndexOf("*").ToString() == "-1" && sBarcode != "")
 								{
 									this.price.Text = sNewPrice;
-                                    if (Program.m_bEnableCalQty)
-                                    {
+									if (Program.m_bEnableCalQty)
+									{
 
-                                        if (bIsSpecial && System.DateTime.Compare(today, special_price_end_date) < 0 && System.DateTime.Compare(today, special_price_start_date) >= 0)
-                                            dPrice = dSpecialPrice;
-                                        else
-                                            dPrice = dGetPrice;
-                                        //dQtyBarcode = GetLabelBarcodeWeight(dPrice, Program.MyDoubleParse(sNewPrice));
-                                        dQtyBarcode = GetLabelBarcodeWeight(dPrice, Program.MyDoubleParse(sNewPrice));
-                                    }
-                                    else
-                                        dPrice = Program.MyMoneyParse(sNewPrice);
+										if (bIsSpecial && System.DateTime.Compare(today, special_price_end_date) < 0 && System.DateTime.Compare(today, special_price_start_date) >= 0)
+											dPrice = dSpecialPrice;
+										else
+											dPrice = dGetPrice;
+										//dQtyBarcode = GetLabelBarcodeWeight(dPrice, Program.MyDoubleParse(sNewPrice));
+										dQtyBarcode = GetLabelBarcodeWeight(dPrice, Program.MyDoubleParse(sNewPrice));
+									}
+									else
+										dPrice = Program.MyMoneyParse(sNewPrice);
 								}
 								if (bMemberPrice)
 									m_bMemberPrice = true;
@@ -1694,7 +1691,7 @@ namespace QPOS2008
 									dQty *= dQtyBarcode;
 
 								int nIndex = -1;
-                                double dQtyInCart = GetQtyInCart(sBarcode, code, ref nIndex, dGetPrice, bIsSpecial);
+								double dQtyInCart = GetQtyInCart(sBarcode, code, ref nIndex, dGetPrice, bIsSpecial);
 								string sRFreeItemCode = dr["free_item_required_item_code"].ToString();
 								if (nPromotionType == 0)
 								{
@@ -1706,7 +1703,7 @@ namespace QPOS2008
 									}
 									else
 									{
-                                        if (dQtyInCart > 0 && dQtyBarcode <= 1 && !bIsBarcodePrice) //this item already in cart, increase qty
+										if (dQtyInCart > 0 && dQtyBarcode <= 1 && !bIsBarcodePrice) //this item already in cart, increase qty
 										{
 											dQty += dQtyInCart;
 											double dPriceCurrent = Program.MyDoubleParse(cart.Rows[nIndex].Cells["cc_price"].Value.ToString());
@@ -1752,7 +1749,7 @@ namespace QPOS2008
 								}
 								else
 								{
-                                    if (dQtyInCart > 0 && dQtyBarcode <= 1 && !bIsBarcodePrice) //this item already in cart, increase qty
+									if (dQtyInCart > 0 && dQtyBarcode <= 1 && !bIsBarcodePrice) //this item already in cart, increase qty
 									{
 										dQty += dQtyInCart;
 										double dPriceCurrent = Program.MyDoubleParse(cart.Rows[nIndex].Cells["cc_price"].Value.ToString());
@@ -1819,7 +1816,7 @@ namespace QPOS2008
 								string sCCode = dr["code"].ToString();
 								string packagepromotype = "0";
 
-                                if (dQtyBarcode > 1 && !bIsBarcodePrice)
+								if (dQtyBarcode > 1 && !bIsBarcodePrice)
 								{
 									packagepromotype = nPromotionType.ToString();
 									m_bPackageDue = true;
@@ -1925,7 +1922,7 @@ namespace QPOS2008
 							string p = "Sorry, product is not found !!";
 							FormMSG fmMSG = new FormMSG();  // ADMIN CONTROL AREA, PASSWORD REQUIRED CH 14/11/08
 
-							string pNew = ""; 
+							string pNew = "";
 							if (this.barcode.Text.Length >= 14)
 							{
 								p = DoUseVoucher(this.barcode.Text);
@@ -2077,39 +2074,39 @@ namespace QPOS2008
 			}
 		}
 
-        string getPromoTypeByPromoId(int id)
-        {
-            int rows = 0;
-            string sc = "";
-            if (dst.Tables["getPromoTypeByPromoId"] != null)
-                dst.Tables["getPromoTypeByPromoId"].Clear();
-            if (id != null)
-            {
-                sc = "select promo_type from promotion_list WHERE 1=1 ";
-                sc += " AND promo_id = '" + id + "'";
-                try
-                {
-                    myAdapter = new SqlDataAdapter(sc, myConnection);
-                    rows = myAdapter.Fill(dst, "getPromoTypeByPromoId");
-                }
-                catch (Exception e1)
-                {
-                    myConnection.Close();
-                    Program.ShowExp(sc, e1);
-                    return "0";
-                }
-                if (rows == 1)
-                {
-                    DataRow dr = dst.Tables["getPromoTypeByPromoId"].Rows[0];
-                    string promoType = dr["promo_type"].ToString();
-                    return promoType;
-                }
-                else
-                    return "0";
-            }
-            else
-                return "0";
-        }
+		string getPromoTypeByPromoId(int id)
+		{
+			int rows = 0;
+			string sc = "";
+			if (dst.Tables["getPromoTypeByPromoId"] != null)
+				dst.Tables["getPromoTypeByPromoId"].Clear();
+			if (id != null)
+			{
+				sc = "select promo_type from promotion_list WHERE 1=1 ";
+				sc += " AND promo_id = '" + id + "'";
+				try
+				{
+					myAdapter = new SqlDataAdapter(sc, myConnection);
+					rows = myAdapter.Fill(dst, "getPromoTypeByPromoId");
+				}
+				catch (Exception e1)
+				{
+					myConnection.Close();
+					Program.ShowExp(sc, e1);
+					return "0";
+				}
+				if (rows == 1)
+				{
+					DataRow dr = dst.Tables["getPromoTypeByPromoId"].Rows[0];
+					string promoType = dr["promo_type"].ToString();
+					return promoType;
+				}
+				else
+					return "0";
+			}
+			else
+				return "0";
+		}
 
 		private bool overLimit(int code, int limit)
 		{
@@ -2200,12 +2197,12 @@ namespace QPOS2008
 			string sc = " SELECT c.supplier_code, c.price1,c.name,ISNULL(c.avoid_point, '0') AS avoid_point, c.name_cn, c.special_price AS special_price1, c.is_special, p.promo_type, p.volumn_discount_qty, p.volumn_discount_price_total ";
 			sc += ", p.free_qty_required_qty, p.free_qty_reward_qty, ISNULL(p.promo_member_only,'false') AS promo_member_only, c.avoid_point ";
 			sc += ", p.free_item_required_qty, p.free_item_required_item_code, free_item_reward_qty ";
-            sc += ", isnull(p.promo_day1,0) as promo_day1, isnull(p.promo_day2,0) as promo_day2, isnull(p.promo_day3,0) as promo_day3, isnull(p.promo_day4,0) as promo_day4, isnull(p.promo_day5,0) as promo_day5, isnull(p.promo_day6,0) as promo_day6, isnull(p.promo_day7,0) as promo_day7 ";
+			sc += ", isnull(p.promo_day1,0) as promo_day1, isnull(p.promo_day2,0) as promo_day2, isnull(p.promo_day3,0) as promo_day3, isnull(p.promo_day4,0) as promo_day4, isnull(p.promo_day5,0) as promo_day5, isnull(p.promo_day6,0) as promo_day6, isnull(p.promo_day7,0) as promo_day7 ";
 			sc += " FROM code_relations c ";
-            sc += " JOIN promo pr on pr.code = c.code ";
+			sc += " JOIN promo pr on pr.code = c.code ";
 			sc += " JOIN promotion_list p ON p.promo_id = pr.promo_id AND p.promo_active = 1 ";
 			sc += " AND p.promo_start_date <= GETDATE() AND p.promo_end_date >= GETDATE() "; //started, but not yet expired
-			//*** ARGUMENT FOR PICK THE THE RIGHT DAY FOR QTY PROMOTION CH 13/11/08***//
+																							 //*** ARGUMENT FOR PICK THE THE RIGHT DAY FOR QTY PROMOTION CH 13/11/08***//
 			if (CheckQtyPromotionValue(code, nWeekDay, ""))
 			{
 				sc += " AND p.promo_day" + nWeekDay.ToString() + " = 1 "; //today is in the DayOfWeek list 
@@ -2239,25 +2236,25 @@ namespace QPOS2008
 			bool s_bMemberPrice = bool.Parse(dr["promo_member_only"].ToString());
 			bool bIsAvoid_point = bool.Parse(dr["avoid_point"].ToString());
 
-            bool bDayActive = false; 
-            Dictionary<string, bool> promo_day = new Dictionary<string, bool>();
-            promo_day.Clear();
-            for (int i = 1; i < 8; i++)
-            {
-                promo_day.Add(i.ToString(), bool.Parse(dr["promo_day"+i].ToString()));
-            }
-            //promo_day.Add("monday", bool.Parse(dr["promo_day1"].ToString()));
-            //promo_day.Add("tuesday", bool.Parse(dr["promo_day2"].ToString()));
-            //promo_day.Add("wednesday", bool.Parse(dr["promo_day3"].ToString()));
-            //promo_day.Add("thursday", bool.Parse(dr["promo_day4"].ToString()));
-            //promo_day.Add("friday", bool.Parse(dr["promo_day5"].ToString()));
-            //promo_day.Add("saturday", bool.Parse(dr["promo_day6"].ToString()));
-            //promo_day.Add("sunday", bool.Parse(dr["promo_day7"].ToString()));
-            foreach (var day in promo_day)
-            {
-                if (day.Key == nWeekDay.ToString() && day.Value)
-                    bDayActive = true;
-            }
+			bool bDayActive = false;
+			Dictionary<string, bool> promo_day = new Dictionary<string, bool>();
+			promo_day.Clear();
+			for (int i = 1; i < 8; i++)
+			{
+				promo_day.Add(i.ToString(), bool.Parse(dr["promo_day" + i].ToString()));
+			}
+			//promo_day.Add("monday", bool.Parse(dr["promo_day1"].ToString()));
+			//promo_day.Add("tuesday", bool.Parse(dr["promo_day2"].ToString()));
+			//promo_day.Add("wednesday", bool.Parse(dr["promo_day3"].ToString()));
+			//promo_day.Add("thursday", bool.Parse(dr["promo_day4"].ToString()));
+			//promo_day.Add("friday", bool.Parse(dr["promo_day5"].ToString()));
+			//promo_day.Add("saturday", bool.Parse(dr["promo_day6"].ToString()));
+			//promo_day.Add("sunday", bool.Parse(dr["promo_day7"].ToString()));
+			foreach (var day in promo_day)
+			{
+				if (day.Key == nWeekDay.ToString() && day.Value)
+					bDayActive = true;
+			}
 
 
 			string sCartRows = cart.Rows.Count.ToString();
@@ -2298,7 +2295,7 @@ namespace QPOS2008
 				}
 			}
 
-            if (nPromotionType == 3 && bDayActive) //free qty
+			if (nPromotionType == 3 && bDayActive) //free qty
 			{
 				double dTotalQtyForPromo3 = 0;
 				for (int i = 0; i < cart.Rows.Count; i++)
@@ -2519,14 +2516,14 @@ namespace QPOS2008
 				string code = cart.Rows[i].Cells["cc_code"].Value.ToString();
 				string sName = cart.Rows[i].Cells["cc_name"].Value.ToString();
 				string s_cc_supplier_code = cart.Rows[i].Cells["cc_supplier_code"].Value.ToString();
-                string barcode = cart.Rows[i].Cells["cc_barcode"].Value.ToString();
+				string barcode = cart.Rows[i].Cells["cc_barcode"].Value.ToString();
 				//MessageBox.Show(s_sGroceryItemCode.IndexOf(s_cc_supplier_code).ToString() + "  " + s_cc_supplier_code + " " + s_sGroceryItemCode);
-                if (code == m_sVoucherItem && barcode != sBarcode)
-                    continue;
+				if (code == m_sVoucherItem && barcode != sBarcode)
+					continue;
 				if (code != sCodeIn)
 					continue;
 				int nPromotion = Program.MyIntParse(cart.Rows[i].Cells["cc_is_promotion"].Value.ToString());
-                if (nPromotion != 0 && nPromotion != 6 && getPromoTypeByPromoId(nPromotion) != "4") //it's a promotion added item
+				if (nPromotion != 0 && nPromotion != 6 && getPromoTypeByPromoId(nPromotion) != "4") //it's a promotion added item
 					continue;
 				double iPrice = Math.Round(Program.MyDoubleParse(cart.Rows[i].Cells["cc_price"].Value.ToString()), 2);
 				if (!is_special && !Program.m_bEnableLevelPrice)
@@ -2678,40 +2675,40 @@ namespace QPOS2008
 			}
 		}
 
-        string getPromoidByCode(string code)
-        {
-            if (dst.Tables["getPromoidByCode"] != null)
-                dst.Tables["getPromoidByCode"].Clear();
-            string sc = "";
-            int row = 0;
-            string promo_id = "";
-            sc  = " set dateformat dmy ";
-            sc += " select top 1 p.* from promo p join promotion_list pl ";
-            sc += " on p.promo_id = pl.promo_id where 1=1 ";
-            sc += " and promo_start_date <=getdate() and promo_end_date >=getdate() ";
-            sc += " ANd p.code = '"+code+"'";
-            try
-            {
-                myAdapter = new SqlDataAdapter(sc, myConnection);
-                row = myAdapter.Fill(dst, "getPromoidByCode");
-            }
-            catch (Exception e1)
-            {
-                myConnection.Close();
-                Program.ShowExp(sc, e1);
-                return "";
-            }
-            if(row ==1)
-                 promo_id = dst.Tables["getPromoidByCode"].Rows[0]["promo_id"].ToString();
-            return promo_id;
-        }
+		string getPromoidByCode(string code)
+		{
+			if (dst.Tables["getPromoidByCode"] != null)
+				dst.Tables["getPromoidByCode"].Clear();
+			string sc = "";
+			int row = 0;
+			string promo_id = "";
+			sc = " set dateformat dmy ";
+			sc += " select top 1 p.* from promo p join promotion_list pl ";
+			sc += " on p.promo_id = pl.promo_id where 1=1 ";
+			sc += " and promo_start_date <=getdate() and promo_end_date >=getdate() ";
+			sc += " ANd p.code = '" + code + "'";
+			try
+			{
+				myAdapter = new SqlDataAdapter(sc, myConnection);
+				row = myAdapter.Fill(dst, "getPromoidByCode");
+			}
+			catch (Exception e1)
+			{
+				myConnection.Close();
+				Program.ShowExp(sc, e1);
+				return "";
+			}
+			if (row == 1)
+				promo_id = dst.Tables["getPromoidByCode"].Rows[0]["promo_id"].ToString();
+			return promo_id;
+		}
 
 		private void AddToCart(string sBarcode, string sCode, string sName, string sNameCN, double dPrice, double dQty
 		, string is_promotion, bool b_packageDUE, string sSupplierCode, double dPromotionTotal, bool avoid_point, bool has_scale)
 		{
 			string sdName = sName;
 			double dNormalPrice = GetNormalPrice(sCode);
-            string promo_id = getPromoidByCode(sCode);
+			string promo_id = getPromoidByCode(sCode);
 			double dDiscount = 0;
 			double m_dRowTotal = 0;
 			if (dNormalPrice == 0)
@@ -2733,12 +2730,12 @@ namespace QPOS2008
 			if (is_promotion == "4" && !b_packageDUE)
 			{
 				m_dRowTotal = dPromotionTotal;
-                //dPrice = m_dRowTotal / dQty;
+				//dPrice = m_dRowTotal / dQty;
 			}
 			if (b_packageDUE)
 			{
 				double dUnitPrice = dPrice / dQty;
-                string[] row = { sCode, sCode, sdName, Math.Round(dUnitPrice, 4).ToString(), " ", avoid_point.ToString()
+				string[] row = { sCode, sCode, sdName, Math.Round(dUnitPrice, 4).ToString(), " ", avoid_point.ToString()
 				, dQty.ToString(), Math.Round(dUnitPrice * dQty, 2).ToString("N2"), "X", sName, sNameCN, is_promotion, dNormalPrice.ToString()
 				, "", sBarcode, has_scale.ToString(),promo_id };
 				cart.Rows.Insert(0, row);
@@ -2752,23 +2749,23 @@ namespace QPOS2008
 			}
 			else
 			{
-                string[] row = { sCode, sCode, sdName, Math.Round(dPrice, 3).ToString("N2"), dDiscount.ToString(), avoid_point.ToString()
+				string[] row = { sCode, sCode, sdName, Math.Round(dPrice, 3).ToString("N2"), dDiscount.ToString(), avoid_point.ToString()
 				, dQty.ToString(), m_dRowTotal.ToString("N2"), "x", sName, sNameCN, is_promotion, dNormalPrice.ToString(), ""
 //				, sBarcode, has_scale.ToString(), sBarcode};
 				, sBarcode, has_scale.ToString(), promo_id};
-                int insert_row_number = 0;
-                if (m_iPromotionItemIndex != 0)
-                    insert_row_number = m_iPromotionItemIndex;
-                cart.Rows.Insert(insert_row_number, row);
+				int insert_row_number = 0;
+				if (m_iPromotionItemIndex != 0)
+					insert_row_number = m_iPromotionItemIndex;
+				cart.Rows.Insert(insert_row_number, row);
 				if (is_promotion.ToString() == "true")
 					cart.CurrentCell = cart.Rows[0].Cells[1];
 				//string[] rowad = { sdName, Math.Round(dPrice, 2).ToString("N2"), "", dQty.ToString(), m_dRowTotal.ToString("N2") };
 				string[] rowad = { sdName, Math.Round(dPrice, 2).ToString("N2"), dDiscount.ToString(), dQty.ToString(), m_dRowTotal.ToString("N2") };
-                m_fmad.cart.Rows.Insert(insert_row_number, rowad);
+				m_fmad.cart.Rows.Insert(insert_row_number, rowad);
 				m_fmad.cart.Rows[0].Selected = true;
-                m_fmads.cart.Rows.Insert(insert_row_number, rowad);
+				m_fmads.cart.Rows.Insert(insert_row_number, rowad);
 				m_fmads.cart.Rows[0].Selected = true;
-                m_iPromotionItemIndex = 0;
+				m_iPromotionItemIndex = 0;
 			}
 			cart.CurrentCell = cart.Rows[0].Cells[1];
 			cart.Update();
@@ -2843,7 +2840,7 @@ namespace QPOS2008
 			CalcCartTotal();
 			UpdateDtCart(m_nCurrentCart, false);
 			CheckGroupPromotion();
-            CheckComboPromotion();
+			CheckComboPromotion();
 			barcode.Focus();
 			if (cart.Rows.Count >= 1)
 				cart.CurrentCell = cart.Rows[0].Cells[1];
@@ -2884,7 +2881,7 @@ namespace QPOS2008
 				name_cn = cart.Rows[nIndex].Cells["cc_name_cn"].Value.ToString();
 				qty = cart.Rows[nIndex].Cells["cc_qty"].Value.ToString();
 				dAmount = cart.Rows[nIndex].Cells["cc_total"].Value.ToString();
-                m_sDeleteItemBarcode = cart.Rows[nIndex].Cells["cc_barcode"].Value.ToString();
+				m_sDeleteItemBarcode = cart.Rows[nIndex].Cells["cc_barcode"].Value.ToString();
 				cart.Rows.RemoveAt(nIndex);
 				m_fmad.cart.Rows.RemoveAt(nIndex);
 				m_fmads.cart.Rows.RemoveAt(nIndex);
@@ -2897,9 +2894,9 @@ namespace QPOS2008
 			CalcCartTotal();
 			UpdateDtCart(m_nCurrentCart);
 			CheckGroupPromotion();
-            CheckComboPromotion();
+			CheckComboPromotion();
 			barcode.Focus();
-            m_sDeleteItemBarcode = "";
+			m_sDeleteItemBarcode = "";
 			if (cart.Rows.Count >= 1)
 				cart.CurrentCell = cart.Rows[0].Cells[1];
 		}
@@ -2933,20 +2930,20 @@ namespace QPOS2008
 		private double CalcCartTotal()
 		{
 			double dItems = 0;
-            double dQtys = 0;
+			double dQtys = 0;
 			m_dTotal = 0;
 			for (int i = 0; i < cart.Rows.Count; i++)
 			{
 				//				double dPrice = Program.MyMoneyParse(cart.Rows[i].Cells["cc_price"].Value.ToString());
 				double dQty = Program.MyDoubleParse(cart.Rows[i].Cells["cc_qty"].Value.ToString());
 				double dRowTotal = Program.MyDoubleParse(cart.Rows[i].Cells["cc_total"].Value.ToString());
-                string sCode = cart.Rows[i].Cells["cc_code"].Value.ToString();
+				string sCode = cart.Rows[i].Cells["cc_code"].Value.ToString();
 				m_dTotal += dRowTotal;
 
-                if (sCode == "-1001")
-                    continue;
-                dItems = dItems +1;
-                dQtys += dQty;
+				if (sCode == "-1001")
+					continue;
+				dItems = dItems + 1;
+				dQtys += dQty;
 			}
 			if (m_dVolumnSumPrice > 0)
 				m_dTotal -= m_dVolumnSumPrice;
@@ -2954,7 +2951,7 @@ namespace QPOS2008
 			UpdateTotalPriceDiscplay();
 			m_dTotal = Math.Round(m_dTotal, 2);
 			showItems.Text = dItems.ToString();
-            lblQtys.Text = dQtys.ToString();
+			lblQtys.Text = dQtys.ToString();
 
 			return m_dTotal;
 		}
@@ -2964,13 +2961,13 @@ namespace QPOS2008
 		}
 		private void UpdateDtCart(int nIndex, bool bResetCart)
 		{
-            m_iPromotionItemIndex = 0;
+			m_iPromotionItemIndex = 0;
 			DataTable dt = dsCart.Tables[nIndex];
 			dt.Rows.Clear();
 			for (int i = 0; i < cart.Rows.Count; i++)
 			{
 				DataRow dr = dt.NewRow();
-			    //dr["barcode"] = cart.Rows[i].Cells["cc_barcode"].Value.ToString();
+				//dr["barcode"] = cart.Rows[i].Cells["cc_barcode"].Value.ToString();
 				dr["code"] = cart.Rows[i].Cells["cc_code"].Value.ToString();
 				dr["supplier_code"] = cart.Rows[i].Cells["cc_supplier_code"].Value.ToString();
 				dr["name"] = cart.Rows[i].Cells["cc_name_en"].Value.ToString();
@@ -2981,9 +2978,9 @@ namespace QPOS2008
 				dr["avoid_point"] = cart.Rows[i].Cells["cc_avoid_point"].Value.ToString();
 				dr["qty"] = cart.Rows[i].Cells["cc_qty"].Value.ToString();
 				//dr["total"] = cart.Rows[i].Cells["cc_total"].Value.ToString();
-                dr["total"] = Math.Round(Program.MyDoubleParse(cart.Rows[i].Cells["cc_total"].Value.ToString()), 2).ToString("N2");
+				dr["total"] = Math.Round(Program.MyDoubleParse(cart.Rows[i].Cells["cc_total"].Value.ToString()), 2).ToString("N2");
 				//dr["subTotal"] = m_dTotal.ToString();
-                dr["subTotal"] = Math.Round(Program.MyDoubleParse(m_dTotal.ToString()), 2).ToString("N2");
+				dr["subTotal"] = Math.Round(Program.MyDoubleParse(m_dTotal.ToString()), 2).ToString("N2");
 				dr["cardId"] = m_nCardId.ToString();
 				dr["cardName"] = m_sCardName;
 				dr["cardBarcode"] = m_sCardBarcode;
@@ -3016,8 +3013,8 @@ namespace QPOS2008
 				string IsAvoidPointItem = dr["avoid_point"].ToString();
 				bool bIsAvoidPointItem = bool.Parse(IsAvoidPointItem);
 
-                string sBarcode = dr["promotion_group_id"].ToString();
-                string is_promotion = dr["is_promotion"].ToString();
+				string sBarcode = dr["promotion_group_id"].ToString();
+				string is_promotion = dr["is_promotion"].ToString();
 
 				bool bhas_scale = Program.MyBooleanParse(dr["has_scale"].ToString());
 
@@ -3085,7 +3082,7 @@ namespace QPOS2008
 			timer4.Start();
 
 			m_bCheckGroupPromotion = true; //set flag to check in timer
-            m_bCheckComboPromotion = true;
+			m_bCheckComboPromotion = true;
 		}
 		private string ShowHoldedTables()
 		{
@@ -3170,14 +3167,14 @@ namespace QPOS2008
 		}
 		private void Cash_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			if(Cash.Text == "")
+			if (Cash.Text == "")
 				return;
-			if(Cash.SelectionLength == Cash.Text.Length)
+			if (Cash.SelectionLength == Cash.Text.Length)
 				return;
 			int p = Cash.Text.IndexOf(".");
-			if(p >= 0)
+			if (p >= 0)
 			{
-				if(Cash.Text.Length - p >= 2)
+				if (Cash.Text.Length - p >= 2)
 					e.Handled = true; //disable 2nd digits
 			}
 		}
@@ -3192,11 +3189,11 @@ namespace QPOS2008
 			{
 				e.Handled = true;
 			}
-			else if(e.KeyChar != '\b') //backspace
+			else if (e.KeyChar != '\b') //backspace
 			{
 				string s = Cashout.Text;
 				int p = s.IndexOf('.');
-				if(p > 0 && p <= s.Length - 2)
+				if (p > 0 && p <= s.Length - 2)
 				{
 					e.Handled = true;
 					return;
@@ -3235,12 +3232,12 @@ namespace QPOS2008
 						DoScanBarcode(false);
 					return;
 				case Keys.F5:
-					if(!Cash.Focused)
+					if (!Cash.Focused)
 						return;
 					FormCurrency fmc = new FormCurrency();
 					fmc.m_dOrderTotal = m_dOrderTotal;
 					fmc.ShowDialog();
-					if(fmc.m_dPaymentTotal != 0)
+					if (fmc.m_dPaymentTotal != 0)
 					{
 						Cash.Text = fmc.m_dPaymentTotal.ToString();
 						m_lastFocused = Cash;
@@ -3258,7 +3255,7 @@ namespace QPOS2008
 						FormConfig fm = new FormConfig();
 						fm.ShowDialog();
 						FormConfig_Show = true;
-//						myConnection = new SqlConnection("Initial Catalog=" + Program.m_sCompanyName + Program.m_sDataSource + Program.m_sSecurityString);
+						//						myConnection = new SqlConnection("Initial Catalog=" + Program.m_sCompanyName + Program.m_sDataSource + Program.m_sSecurityString);
 						return;
 					}
 					break;
@@ -3332,7 +3329,7 @@ namespace QPOS2008
 					if (m_dDiscRate == 0)
 						this.msgboard.Text = "";
 					ResetPayment();  // RESET PAYMENT WHEN SCANNING ITEM CH 12/11/08
-					//GoPayment();
+									 //GoPayment();
 					break;
 				case "search":
 					DoSearchItem();
@@ -3677,6 +3674,54 @@ namespace QPOS2008
 
 			this.charge.Text = "";
 		}
+		private bool GetAgent()
+		{
+			if (dst.Tables["GetAgent"] != null)
+				dst.Tables["GetAgent"].Clear();
+			string input = this.txtAgent.Text;
+			if (input == "")
+				return false;
+			string sc = " Select * from card where 1=1 ";
+			sc += " ANd barcode = '"+ input + "' or id = '"+ input + "'";
+			try
+			{
+				myAdapter = new SqlDataAdapter(sc, myConnection);
+				myAdapter.Fill(dst, "GetAgent");
+			}
+			catch (Exception e1)
+			{
+				myConnection.Close();
+				Program.ShowExp(sc, e1);
+				return false;
+			}
+
+			if (dst.Tables["GetAgent"].Rows.Count != 1)
+			{
+				FormMSG MembershipNotFound = new FormMSG();
+				MembershipNotFound.btnYes.Visible = false;
+				MembershipNotFound.btnNo.Visible = false;
+				MembershipNotFound.m_sMsg = "This Agent Is Not\r\n Existing!!";
+				MembershipNotFound.ShowDialog();
+				this.lblAgentId.Text = "";
+				this.lblAgentName.Text = "";
+				this.txtAgent.Focus();
+				return false;
+			}
+			DataRow dr = dst.Tables["GetAgent"].Rows[0];
+			string id = dr["id"].ToString();
+			string barcode = dr["barcode"].ToString();
+			string name = dr["name"].ToString();
+			string trading_name = dr["trading_name"].ToString();
+			string output = "";
+			if (name.Trim() != "")
+				output = name;
+			else
+				output = trading_name;
+			this.lblAgentId.Text = id;
+			this.lblAgentName.Text = output;
+			m_nAgentId = int.Parse(id);
+			return true;
+		}
 		private bool ScanMembership()
 		{
 			lblsearchvip.Visible = false;
@@ -3687,9 +3732,9 @@ namespace QPOS2008
 			if (dst.Tables["sales"] != null)
 				dst.Tables["sales"].Clear();
 			string sc = " SELECT id, name ";
-            if(m_bVipVoucherEnabled)
-                sc += ", points";
-            sc += ", has_expired, ISNULL(expired_date,GETDATE()) AS expired_date, m_type ";
+			if (m_bVipVoucherEnabled)
+				sc += ", points";
+			sc += ", has_expired, ISNULL(expired_date,GETDATE()) AS expired_date, m_type ";
 			sc += ", m_discount_rate, trading_name, gst_rate, price_level ";
 			sc += " FROM card WHERE type in (1,6) AND (barcode ='" + id + "')";
 			try
@@ -3709,11 +3754,11 @@ namespace QPOS2008
 				m_bExistingMember = true;
 				DataRow dr = dst.Tables["sales"].Rows[0];
 				MemberShipName.Text = dr["name"].ToString();
-                if (m_bVipVoucherEnabled)
-				    labelPoints.Text = dr["points"].ToString();
+				if (m_bVipVoucherEnabled)
+					labelPoints.Text = dr["points"].ToString();
 				double dDiscRate = Program.MyDoubleParse(dr["m_discount_rate"].ToString());
 				if (dDiscRate > 1)
-					dDiscRate = dDiscRate /100;
+					dDiscRate = dDiscRate / 100;
 				m_sMemberDiscountRate = dDiscRate.ToString();
 				m_sMemberPriceLevel = dr["price_level"].ToString();
 				m_bHasMemberExpired = Program.MyBooleanParse(dr["has_expired"].ToString());
@@ -3763,7 +3808,7 @@ namespace QPOS2008
 
 				m_bExistingMember = true;
 				m_bMemberDiscount = false;
-				if(Program.m_bVoucherUseWebService)
+				if (Program.m_bVoucherUseWebService)
 				{
 					DoCreateVoucherService(id);
 				}
@@ -3870,19 +3915,19 @@ namespace QPOS2008
 		}
 		private void DoEftpos(double dPurchase, double dCashOut)
 		{
-//			EFTPOS eftPanel = new EFTPOS()
+			//			EFTPOS eftPanel = new EFTPOS()
 			eftPanel.m_bAccepted = false;
 			eftPanel.m_sReceipt = "";
 			eftPanel.m_sReceiptCust = "";
 			eftPanel.m_dAmount = dPurchase;
 			eftPanel.m_dCashOut = dCashOut;
 			eftPanel.m_dChequeAmount = m_dCheque;
-//			eftPanel.m_sRefNum = Program.MyIntParse(Program.m_sStationID).ToString("D3");
+			//			eftPanel.m_sRefNum = Program.MyIntParse(Program.m_sStationID).ToString("D3");
 			string sRef = DateTime.Now.ToOADate().ToString().Replace(".", "");
-//			if (sRef.Length > 8)
-//				sRef = sRef.Substring(sRef.Length - 8, 8);
+			//			if (sRef.Length > 8)
+			//				sRef = sRef.Substring(sRef.Length - 8, 8);
 			eftPanel.m_sRefNum = sRef;
-//			eftPanel.m_sRefNum = Program.MyIntParse(Program.m_sStationID).ToString("D3");
+			//			eftPanel.m_sRefNum = Program.MyIntParse(Program.m_sStationID).ToString("D3");
 			Program.g_log.Info("eftpos start, type=" + Program.m_eftposType + ", purchase=" + dPurchase.ToString("c"));
 			eftPanel.ShowDialog();
 			m_bEftposLog(eftPanel.m_sMonitorData, eftPanel.m_bAccepted);// Eftpos Log
@@ -3903,11 +3948,11 @@ namespace QPOS2008
 					ConfirmOnePayment();
 					doShowPaymentInfo();
 				}
-//				MessageBox.Show("accepted");
+				//				MessageBox.Show("accepted");
 			}
 			else
 			{
-//				MessageBox.Show("not accepted, data=" + eftPanel.m_sMonitorData);
+				//				MessageBox.Show("not accepted, data=" + eftPanel.m_sMonitorData);
 			}
 			if (Program.m_eftposType == "ingenico")
 			{
@@ -4035,14 +4080,14 @@ namespace QPOS2008
 		}
 		private void Cashout_KeyDown(object sender, KeyEventArgs e)
 		{
-/*			string s = Cashout.Text;
-			int p = s.IndexOf('.');
-			if(p > 0 && p <= s.Length - 2)
-			{
-				e.Handled = true;
-				return;
-			}
-*/			
+			/*			string s = Cashout.Text;
+						int p = s.IndexOf('.');
+						if(p > 0 && p <= s.Length - 2)
+						{
+							e.Handled = true;
+							return;
+						}
+			*/
 			double m_dGetCashOut = Program.MyDoubleParse(m_sCashoutcontrol);
 			m_dCashout = Program.RoundCents(Program.MyDoubleParse(Cashout.Text), m_sRoundingNum);// Math.Round(Program.MyMoneyParse(Cashout.Text), 2);
 			if (!doWariningPayment("cashout", m_dCashout, ""))
@@ -4050,16 +4095,16 @@ namespace QPOS2008
 			switch (e.KeyValue)
 			{
 				case 17:
-                    if (this.Cashout.Text == "" && this.Eftpos.Text != "")
-                    {
-                        FormMSG fmsg = new FormMSG();
-                        fmsg.btnNo.Visible = false;
-                        fmsg.btnYes.Visible = false;
-                        fmsg.m_sMsg = "Please key in cashout amount!";
-                        fmsg.ShowDialog();
-                        this.Eftpos.Focus();
-                        return;
-                    }
+					if (this.Cashout.Text == "" && this.Eftpos.Text != "")
+					{
+						FormMSG fmsg = new FormMSG();
+						fmsg.btnNo.Visible = false;
+						fmsg.btnYes.Visible = false;
+						fmsg.m_sMsg = "Please key in cashout amount!";
+						fmsg.ShowDialog();
+						this.Eftpos.Focus();
+						return;
+					}
 					//					if (!doWariningPayment("cashout", m_dCashout, ""))
 					//						return;
 					if (m_dGetCashOut == 0)
@@ -4274,18 +4319,18 @@ namespace QPOS2008
 			switch (e.KeyValue)
 			{
 				case 17:
-                    m_dEftpos = Program.MyMoneyParse(Eftpos.Text);
-                    if (m_dEftpos != 0)
-                    {
+					m_dEftpos = Program.MyMoneyParse(Eftpos.Text);
+					if (m_dEftpos != 0)
+					{
 
-                        FormMSG fmsg = new FormMSG();
-                        fmsg.btnNo.Visible = false;
-                        fmsg.btnYes.Visible = false;
-                        fmsg.m_sMsg = "Eftpos Payment is selected! \r\n   Please double check";
-                        fmsg.ShowDialog();
-                        this.Eftpos.Focus();
-                        return;
-                    }
+						FormMSG fmsg = new FormMSG();
+						fmsg.btnNo.Visible = false;
+						fmsg.btnYes.Visible = false;
+						fmsg.m_sMsg = "Eftpos Payment is selected! \r\n   Please double check";
+						fmsg.ShowDialog();
+						this.Eftpos.Focus();
+						return;
+					}
 					m_dCredit = Program.MyMoneyParse(Credit.Text);
 					if (m_dCredit != 0)
 					{
@@ -4396,30 +4441,30 @@ namespace QPOS2008
 			switch (e.KeyValue)
 			{
 				case 17:
-                    m_dEftpos = Program.MyMoneyParse(Eftpos.Text);
-                    m_dCredit = Program.MyMoneyParse(Credit.Text);
-                    if (m_dEftpos != 0)
-                    {
+					m_dEftpos = Program.MyMoneyParse(Eftpos.Text);
+					m_dCredit = Program.MyMoneyParse(Credit.Text);
+					if (m_dEftpos != 0)
+					{
 
-                        FormMSG fmsg = new FormMSG();
-                        fmsg.btnNo.Visible = false;
-                        fmsg.btnYes.Visible = false;
-                        fmsg.m_sMsg = "Eftpos Payment is selected! \r\n   Please double check";
-                        fmsg.ShowDialog();
-                        this.Eftpos.Focus();
-                        return;
-                    }
-                    else if (m_dCredit != 0)
-                    {
+						FormMSG fmsg = new FormMSG();
+						fmsg.btnNo.Visible = false;
+						fmsg.btnYes.Visible = false;
+						fmsg.m_sMsg = "Eftpos Payment is selected! \r\n   Please double check";
+						fmsg.ShowDialog();
+						this.Eftpos.Focus();
+						return;
+					}
+					else if (m_dCredit != 0)
+					{
 
-                        FormMSG fmsg = new FormMSG();
-                        fmsg.btnNo.Visible = false;
-                        fmsg.btnYes.Visible = false;
-                        fmsg.m_sMsg = "Credit Payment is selected! \r\n   Please double check";
-                        fmsg.ShowDialog();
-                        this.Credit.Focus();
-                        return;
-                    }
+						FormMSG fmsg = new FormMSG();
+						fmsg.btnNo.Visible = false;
+						fmsg.btnYes.Visible = false;
+						fmsg.m_sMsg = "Credit Payment is selected! \r\n   Please double check";
+						fmsg.ShowDialog();
+						this.Credit.Focus();
+						return;
+					}
 					bool bSuccess = false;
 					double dGetBanlance = Program.MyDoubleParse(GetBalance());
 					if (Program.m_bEnableMyPosMate)
@@ -4502,51 +4547,51 @@ namespace QPOS2008
 							return;
 						}
 					}
-/*					m_dCheque = Program.MyMoneyParse(Cheque.Text);
-					if (!doWariningPayment("cheque", m_dCheque, this.labelBalance.Text))
-						return;
-//					if (m_dCheque != 0)
-					if (m_dCheque != 0 && m_dCashout == 0 && m_dEftpos == 0 && m_dCredit == 0)
-					{
-						if (Program.m_eftposType == "verifone")
-						{
-//							EFTPOS eftPanel = new EFTPOS();
-							eftPanel.m_dChequeAmount = m_dCheque;
-							eftPanel.m_sRefNum = Program.MyIntParse(Program.m_sStationID).ToString("D3");
-							eftPanel.ShowDialog();
-//							m_bEftposLog(eftPanel.m_sMonitorData, eftPanel.m_bAccepted);// Eftpos Log
-							if (!eftPanel.m_bAccepted)
-							{
-								return;
-							}
-						}
-						SetChequeTotal();
-						if (TotalPaymentOK())
-						{
-							doShowPaymentInfo();
-							Cheque.Text = "";
-							labelBalance.Text = "";
-							DoCheckout();
-						}
-						else
-						{
-							ConfirmOnePayment();
-							doShowPaymentInfo();
-						}
-					}
-					else
-					{
-						FormMSG fm = new FormMSG();
-						fm.btnYes.Visible = false;
-						fm.btnNo.Visible = false;
-						fm.m_sMsg = "Sorry, no other payment method in \r\n cheque payment!";
-						fm.ShowDialog();
-						return;
-						//Change.Text = "";
-						//Cheque.Text = GetBalance();
-						//Cash.Select();
-						//Cash.Focus();
-					}*/
+					/*					m_dCheque = Program.MyMoneyParse(Cheque.Text);
+										if (!doWariningPayment("cheque", m_dCheque, this.labelBalance.Text))
+											return;
+					//					if (m_dCheque != 0)
+										if (m_dCheque != 0 && m_dCashout == 0 && m_dEftpos == 0 && m_dCredit == 0)
+										{
+											if (Program.m_eftposType == "verifone")
+											{
+					//							EFTPOS eftPanel = new EFTPOS();
+												eftPanel.m_dChequeAmount = m_dCheque;
+												eftPanel.m_sRefNum = Program.MyIntParse(Program.m_sStationID).ToString("D3");
+												eftPanel.ShowDialog();
+					//							m_bEftposLog(eftPanel.m_sMonitorData, eftPanel.m_bAccepted);// Eftpos Log
+												if (!eftPanel.m_bAccepted)
+												{
+													return;
+												}
+											}
+											SetChequeTotal();
+											if (TotalPaymentOK())
+											{
+												doShowPaymentInfo();
+												Cheque.Text = "";
+												labelBalance.Text = "";
+												DoCheckout();
+											}
+											else
+											{
+												ConfirmOnePayment();
+												doShowPaymentInfo();
+											}
+										}
+										else
+										{
+											FormMSG fm = new FormMSG();
+											fm.btnYes.Visible = false;
+											fm.btnNo.Visible = false;
+											fm.m_sMsg = "Sorry, no other payment method in \r\n cheque payment!";
+											fm.ShowDialog();
+											return;
+											//Change.Text = "";
+											//Cheque.Text = GetBalance();
+											//Cash.Select();
+											//Cash.Focus();
+										}*/
 					break;
 				case 40:
 					//buttonCheckout.Focus();
@@ -4584,30 +4629,30 @@ namespace QPOS2008
 			switch (e.KeyValue)
 			{
 				case 17:
-                    m_dEftpos = Program.MyMoneyParse(Eftpos.Text);
-                    m_dCredit = Program.MyMoneyParse(Credit.Text);
-                    if (m_dEftpos != 0)
-                    {
+					m_dEftpos = Program.MyMoneyParse(Eftpos.Text);
+					m_dCredit = Program.MyMoneyParse(Credit.Text);
+					if (m_dEftpos != 0)
+					{
 
-                        FormMSG fmsg = new FormMSG();
-                        fmsg.btnNo.Visible = false;
-                        fmsg.btnYes.Visible = false;
-                        fmsg.m_sMsg = "Eftpos Payment is selected! \r\n   Please double check";
-                        fmsg.ShowDialog();
-                        this.Eftpos.Focus();
-                        return;
-                    }
-                    else if (m_dCredit != 0)
-                    {
+						FormMSG fmsg = new FormMSG();
+						fmsg.btnNo.Visible = false;
+						fmsg.btnYes.Visible = false;
+						fmsg.m_sMsg = "Eftpos Payment is selected! \r\n   Please double check";
+						fmsg.ShowDialog();
+						this.Eftpos.Focus();
+						return;
+					}
+					else if (m_dCredit != 0)
+					{
 
-                        FormMSG fmsg = new FormMSG();
-                        fmsg.btnNo.Visible = false;
-                        fmsg.btnYes.Visible = false;
-                        fmsg.m_sMsg = "Credit Payment is selected! \r\n   Please double check";
-                        fmsg.ShowDialog();
-                        this.Credit.Focus();
-                        return;
-                    }
+						FormMSG fmsg = new FormMSG();
+						fmsg.btnNo.Visible = false;
+						fmsg.btnYes.Visible = false;
+						fmsg.m_sMsg = "Credit Payment is selected! \r\n   Please double check";
+						fmsg.ShowDialog();
+						this.Credit.Focus();
+						return;
+					}
 					m_dChargeTotal = Program.MyMoneyParse(charge.Text);
 					if (!doWariningPayment("charge", m_dChargeTotal, this.labelBalance.Text))
 						return;
@@ -4660,8 +4705,8 @@ namespace QPOS2008
 			//			if(m_bSurcharge)
 			//				dBalance = dBalance + m_dSurcharge;
 			double dGetTotalRounding = Math.Round(m_dRoundingTotal, 2);
-//			if (m_dCash == 0)
-//				dGetTotalRounding = 0;
+			//			if (m_dCash == 0)
+			//				dGetTotalRounding = 0;
 			dBalance = Math.Round(dBalance, 2);
 			dBalance = dBalance + dGetTotalRounding;
 			return dBalance.ToString();
@@ -4673,7 +4718,7 @@ namespace QPOS2008
 			if (this.Cashout.Text != "" && m_dCashout == 0)
 				m_dCashout = Program.MyDoubleParse(this.Cashout.Text);
 			double dEftposTotal = m_dEftpos + m_dCashout;
-            if (m_dEftpos > m_dTotal && m_dEftpos > 0 && m_dTotal > 0)
+			if (m_dEftpos > m_dTotal && m_dEftpos > 0 && m_dTotal > 0)
 			{
 				m_dCashout = m_dEftpos - m_dTotal;
 				dEftposTotal = m_dEftpos;
@@ -4711,7 +4756,7 @@ namespace QPOS2008
 			double dChangeRound = 0;
 			double m_dManualChange = 0;
 			string s_keyInValue = this.Cash.Text;
-            if (s_keyInValue != "" && s_keyInValue != null)
+			if (s_keyInValue != "" && s_keyInValue != null)
 			{
 				if (m_dTotal > 0)
 					d_sTotal = Program.RoundCents(m_dTotal, m_sRoundingNum);
@@ -4723,14 +4768,14 @@ namespace QPOS2008
 			// double dRemain = Math.Round((m_dTotal - m_dTotalPaid - dPaymentTotal), 2);
 			double dRemain = Math.Round((d_sTotal - m_dTotalPaid - dPaymentTotal), 2);
 
-//			if (m_bSurcharge)
-//				dRemain = Math.Round((d_sTotal - m_dTotalPaid - dPaymentTotal + m_dSurcharge), 2);
+			//			if (m_bSurcharge)
+			//				dRemain = Math.Round((d_sTotal - m_dTotalPaid - dPaymentTotal + m_dSurcharge), 2);
 
 			double m_dEftposIn = dPaymentTotal - m_dTotal;
 			m_dEftposIn = Math.Round(m_dEftposIn, 2);
 
 			//Get Rounding Cents, Focus On Cash In Only, Key In Value Minus Order Total
-            if (s_keyInValue != "" && s_keyInValue != null)
+			if (s_keyInValue != "" && s_keyInValue != null)
 				dChangeRound = d_sTotal - m_dTotal;
 			m_dRoundingTotal = dChangeRound;
 			m_dRoundingTotal = Math.Round(m_dRoundingTotal, 2);
@@ -4769,11 +4814,11 @@ namespace QPOS2008
 						}
 					}
 					this.Change.Text = dChange.ToString("c");//Math.Round(dChange, 1).ToString("c");
-                    m_dChange = dChange;
+					m_dChange = dChange;
 				}
 				if (Program.m_bEnableAA)
 					DoAAService(m_dOrderTotal, m_invoiceNumber, true);
-				if(m_dChange >= 0 && Program.MyDoubleParse(GetBalance()) >=0 )
+				if (m_dChange >= 0 && Program.MyDoubleParse(GetBalance()) >= 0)
 					bRet = true;
 			}
 			if (bRet)
@@ -4834,6 +4879,7 @@ namespace QPOS2008
 			m_nOrderId = 0;
 			m_sNote = "";
 			m_nCardId = 0;
+			m_nAgentId = 0;
 			m_invoiceNumber = "";
 
 			cart.Rows.Clear();
@@ -4863,7 +4909,7 @@ namespace QPOS2008
 			bIs_Refund = false;
 			this.msgboard.Text = "";
 			this.showItems.Text = "";
-            this.lblQtys.Text = "";
+			this.lblQtys.Text = "";
 			this.lblprocess.Text = "";
 			m_membernumber[m_nCurrentCart] = "";
 			m_sVoucherBarcode = "";
@@ -4899,6 +4945,7 @@ namespace QPOS2008
 
 			m_dTotalPaid = 0;
 			m_nOrderId = 0;
+			m_nAgentId = 0;
 			m_sNote = "";
 			m_nCardId = 0;
 			m_invoiceNumber = "";
@@ -4912,6 +4959,9 @@ namespace QPOS2008
 			charge.Text = "";
 			TotalPaid.Text = "";
 			MemberShipID.Text = "";
+			lblAgentId.Text = "";
+			txtAgent.Text = "";
+			lblAgentName.Text = "";
 			MemberShipName.Text = "";
 			m_bExistingMember = false;
 			labelChange.Text = "CHANGE";
@@ -4979,7 +5029,7 @@ namespace QPOS2008
 			double dCheque = m_dChequeTotal;
 			double dCredit = m_dCreditTotal;
 
-            m_sCardId = MemberShipID.Text;
+			m_sCardId = MemberShipID.Text;
 
 			string sc = "";
 			double dPaidTotal = 0;
@@ -5192,8 +5242,8 @@ namespace QPOS2008
 				else
 				{
 					return false; //continue payment
-					//					FormMSG fm = new FormMSG();
-					//					fm.m_sMsg = "";
+								  //					FormMSG fm = new FormMSG();
+								  //					fm.m_sMsg = "";
 				}
 			}
 			if (m_bSurcharge)
@@ -5219,7 +5269,7 @@ namespace QPOS2008
 			if (!CreateOrder())
 				return false;
 			Program.RecordTillData("total_orders", "1");
-            if (!RecordAllPayment())
+			if (!RecordAllPayment())
 				return false;
 			string sc = " UPDATE invoice SET uploaded = 0, uploaded_activata = 0 WHERE id = '" + m_invoiceNumber + "' ";
 			try
@@ -5242,7 +5292,7 @@ namespace QPOS2008
 				fSync.ShowDialog();
 				fSync.DoUploadInvoiceActivata();
 			}
-			if(!Program.m_bVoucherUseWebService)
+			if (!Program.m_bVoucherUseWebService)
 			{
 				if (m_bVipVoucherEnabled)
 				{
@@ -5276,18 +5326,18 @@ namespace QPOS2008
 				}
 			}
 
-            int print_number = m_iNumReceiptPrintOut;
-            //if there is a voucher, the receipt must be printed
-            if (m_sVoucherText != "" && print_number == 0)
-                print_number = 1;
+			int print_number = m_iNumReceiptPrintOut;
+			//if there is a voucher, the receipt must be printed
+			if (m_sVoucherText != "" && print_number == 0)
+				print_number = 1;
 
-            if (print_number == 0)
+			if (print_number == 0)
 				KickCashdraw();
 
 			KickCashdraw();
-            if (print_number > 0)
+			if (print_number > 0)
 			{
-                for (int i = 0; i < print_number; i++)
+				for (int i = 0; i < print_number; i++)
 				{
 					PrintReceipt();
 					m_iVoucherControl++;
@@ -5300,15 +5350,15 @@ namespace QPOS2008
 				DoAAService(m_dOrderTotal, m_invoiceNumber, true);
 			m_bIdCheckDone = false;
 			barcode.Focus();
-            m_dChange = 0;
-			if(Program.m_bEnableSelfService)
+			m_dChange = 0;
+			if (Program.m_bEnableSelfService)
 			{
 				timer5.Interval = 10000;
 				timer5.Start();
 			}
 			return true;
 		}
-		private bool RecordLastPoints() 
+		private bool RecordLastPoints()
 		{
 			int last_total_points = 0;
 			if (!Program.m_bVoucherUseWebService)
@@ -5375,13 +5425,13 @@ namespace QPOS2008
 				{
 					MessageBox.Show("Printer error, print second receipt failed." + e.ToString());
 				}
-			}	
+			}
 		}
 		private void SetDefaultPrinterSettings()
 		{
 			printDoc.PrinterSettings.PrinterName = Program.m_sPrinterName;
 		}
-		private void SetSecondPrinterSettings() 
+		private void SetSecondPrinterSettings()
 		{
 			printDoc.PrinterSettings.PrinterName = Program.m_sSecondPrinterName;
 		}
@@ -5441,8 +5491,8 @@ namespace QPOS2008
 				}
 			}
 
-//m_sVoucherBarcode = "962321765222";
-//m_sVoucherAmount = "$100.00";
+			//m_sVoucherBarcode = "962321765222";
+			//m_sVoucherAmount = "$100.00";
 			if (m_sVoucherBarcode != "" && m_dTotal > 0 && m_iVoucherControl < 1)
 			{
 				e.Graphics.DrawString(m_sVoucherAmount, m_PrintFont, Brushes.Black, 10, y);
@@ -5454,15 +5504,15 @@ namespace QPOS2008
 				e.Graphics.DrawString("*" + m_sVoucherBarcode + "*", m_BarcodeFont, Brushes.Black, 0, y);
 				y += 20;
 				e.Graphics.DrawString("\r\n\r\n ", printFont, Brushes.Black, 0, y);
-			
-//				y += receiptEnd * 6;
-/*
-				e.Graphics.DrawString(m_sVoucherAmount, m_PrintFont, Brushes.Black, 30, y - 180);
-				e.Graphics.DrawString("*" + m_sVoucherBarcode + "*", m_BarcodeFont, Brushes.Black, 0, y - 60);
-				e.Graphics.DrawString("*" + m_sVoucherBarcode + "*", m_BarcodeFont, Brushes.Black, 0, y - 80);
-				e.Graphics.DrawString("*" + m_sVoucherBarcode + "*", m_BarcodeFont, Brushes.Black, 0, y - 100);
-				e.Graphics.DrawString("\r\n\r\n ", printFont, Brushes.Black, 0, 20);
-*/ 
+
+				//				y += receiptEnd * 6;
+				/*
+								e.Graphics.DrawString(m_sVoucherAmount, m_PrintFont, Brushes.Black, 30, y - 180);
+								e.Graphics.DrawString("*" + m_sVoucherBarcode + "*", m_BarcodeFont, Brushes.Black, 0, y - 60);
+								e.Graphics.DrawString("*" + m_sVoucherBarcode + "*", m_BarcodeFont, Brushes.Black, 0, y - 80);
+								e.Graphics.DrawString("*" + m_sVoucherBarcode + "*", m_BarcodeFont, Brushes.Black, 0, y - 100);
+								e.Graphics.DrawString("\r\n\r\n ", printFont, Brushes.Black, 0, 20);
+				*/
 			}
 			SetForegroundWindow(this.Handle);
 			barcode.Focus();
@@ -5588,12 +5638,12 @@ namespace QPOS2008
 		private void BuildReceipt(string printer)
 		{
 			string sCallofOrderNumber = Program.GetCallOfOrderNumber(m_nOrderId.ToString());
-				
+
 			string sHeader = "";
 			sHeader = ReadSitePage("pos_receipt_header");
 			if (Program.m_bCallOfOrderNumber)
-			{	
-				if(printer == "default printer")
+			{
+				if (printer == "default printer")
 				{
 					sHeader = "[j]       " + sCallofOrderNumber + "[/j]\r\n" + sHeader;
 					m_sLastSecondReceiptOrderNumber = sCallofOrderNumber;
@@ -5656,7 +5706,7 @@ namespace QPOS2008
 			//            double dTax = 0;
 			//            string tax= "";
 			string s = "";
-//			s += sHeader;
+			//			s += sHeader;
 			s += Program.PrintPadding("", "", "=") + "\r\n";
 			for (int i = 0; i < cart.Rows.Count; i++)
 			{
@@ -5670,7 +5720,7 @@ namespace QPOS2008
 				supplier_code = cart.Rows[i].Cells["cc_supplier_code"].Value.ToString();
 				name = cart.Rows[i].Cells["cc_name"].Value.ToString();
 				cn_name = cart.Rows[i].Cells["cc_name_cn"].Value.ToString();
-//				en_name = cart.Rows[i].Cells["cc_name_en"].Value.ToString();
+				//				en_name = cart.Rows[i].Cells["cc_name_en"].Value.ToString();
 				en_name = cart.Rows[i].Cells["cc_name"].Value.ToString();
 				price = Program.MyMoneyParse(cart.Rows[i].Cells["cc_price"].Value.ToString()).ToString("c");
 				qty = cart.Rows[i].Cells["cc_qty"].Value.ToString();
@@ -5717,7 +5767,7 @@ namespace QPOS2008
 					en_name = "";
 					for (int m = 0; m < new_en_name.Count; m++)
 					{
-						if(m < new_en_name.Count - 1)
+						if (m < new_en_name.Count - 1)
 							en_name += new_en_name[m] + "\r\n";
 						else if (m == new_en_name.Count - 1)
 							en_name += new_en_name[m];
@@ -5899,7 +5949,7 @@ namespace QPOS2008
 			string sNVR = sNVRHeader + s;
 			if (Program.m_bEnableNVR)
 				DoSendTextToNVR(sNVR);
-			
+
 			s = sHeader + s;
 
 			string sFooter = ReadSitePage("pos_receipt_footer");
@@ -5920,7 +5970,7 @@ namespace QPOS2008
 				m_sLastReceipt = s;
 			else if (printer == "second printer")
 				m_sLastSecondReceipt = s;
-			
+
 			if (m_sCurrentCartID == 0)
 				m_sLastCart1 = s;
 			else if (m_sCurrentCartID == 1)
@@ -6033,11 +6083,11 @@ namespace QPOS2008
 			//			BuildReceipt();
 			DataSet dsco = new DataSet();
 			string sc = "BEGIN TRANSACTION ";
-			sc += " INSERT INTO orders (number, branch, card_id, sales, unchecked, station_id, order_total, total_special, total_discount, sales_note) ";
+			sc += " INSERT INTO orders (number, branch, card_id, sales, unchecked, station_id, order_total, total_special, total_discount, sales_note, agent) ";
 			sc += " VALUES(0, '" + m_nBranchId + "', '" + m_nCardId + "', '" + m_nSalesId.ToString() + "', 0 ";
-			sc += ", " + Program.m_sStationID + ", " + m_dOrderTotal + ", " + m_dSpecialTotal + ", " + m_dDiscountTotal + ", N'" + Program.EncodeQuote(note) + "') ";
-//			sc += " SELECT IDENT_CURRENT('orders') AS id";
-            sc += " SELECT TOP 1 id FROM orders WHERE station_id = " + Program.m_sStationID + " ORDER BY id DESC ";
+			sc += ", " + Program.m_sStationID + ", " + m_dOrderTotal + ", " + m_dSpecialTotal + ", " + m_dDiscountTotal + ", N'" + Program.EncodeQuote(note) + "', '"+m_nAgentId+"') ";
+			//			sc += " SELECT IDENT_CURRENT('orders') AS id";
+			sc += " SELECT TOP 1 id FROM orders WHERE station_id = " + Program.m_sStationID + " ORDER BY id DESC ";
 			sc += " COMMIT ";
 
 			if (bIs_Refund)
@@ -6075,7 +6125,7 @@ namespace QPOS2008
 				string price = cart.Rows[i].Cells["cc_price"].Value.ToString();
 				string qty = cart.Rows[i].Cells["cc_qty"].Value.ToString();
 				string itemSubTotal = cart.Rows[i].Cells["cc_total"].Value.ToString();
-//				price = Math.Round(Program.MyDoubleParse(price) / (1 + GetItemTaxRate(code)), 4).ToString(); //Record Price without GST CH 24/11/08
+				//				price = Math.Round(Program.MyDoubleParse(price) / (1 + GetItemTaxRate(code)), 4).ToString(); //Record Price without GST CH 24/11/08
 				double dTaxRate = 0;//GetItemTaxRate(code);
 				string sTaxCode = "";//GetItemTaxCode(code);
 				if (m_sVoucherList.IndexOf(supplier_code) >= 0)
@@ -6091,9 +6141,9 @@ namespace QPOS2008
 				if (dsco.Tables["sup"] != null)
 					dsco.Tables["sup"].Clear();
 				sc = " SELECT TOP 1 supplier, supplier_code, supplier_price, cat, s_cat, ss_cat ";
-                sc += ", tax_rate, tax_code, average_cost "; // ISNULL(manual_cost_frd, '0') AS average_cost ";
-                //sc += " FROM code_relations WHERE supplier_code = '" + supplier_code + "' ";
-                sc += " FROM code_relations WHERE code = '" + code + "' ";
+				sc += ", tax_rate, tax_code, average_cost "; // ISNULL(manual_cost_frd, '0') AS average_cost ";
+															 //sc += " FROM code_relations WHERE supplier_code = '" + supplier_code + "' ";
+				sc += " FROM code_relations WHERE code = '" + code + "' ";
 				try
 				{
 					SqlDataAdapter myCommand1 = new SqlDataAdapter(sc, myConnection);
@@ -6111,7 +6161,7 @@ namespace QPOS2008
 					}
 					else
 					{
-						if(Program.MyIntParse(code) < 1020) //service item
+						if (Program.MyIntParse(code) < 1020) //service item
 						{
 							supplier = "GPOS";
 							avg_cost = "0";
@@ -6307,8 +6357,8 @@ namespace QPOS2008
 			sc += ", GETDATE(), " + special_shipto + ", N'" + Program.EncodeQuote(dr["shipto"].ToString()) + "', " + dFreight + ", '" + po_number + "' ";
 			sc += ", '" + shippingMethod + "', N'" + Program.EncodeQuote(pickupTime) + "', '" + Program.EncodeQuote(sales) + "' ";
 			sc += ", N'" + Program.EncodeQuote(dr["sales_note"].ToString()) + "', '" + agent + "', " + station_id + ", 1) ";
-//  		sc += " SELECT IDENT_CURRENT('invoice') AS id";
-            sc += " SELECT TOP 1 id FROM invoice WHERE station_id = " + station_id + " AND invoice_number = 0 ORDER BY id DESC ";
+			//  		sc += " SELECT IDENT_CURRENT('invoice') AS id";
+			sc += " SELECT TOP 1 id FROM invoice WHERE station_id = " + station_id + " AND invoice_number = 0 ORDER BY id DESC ";
 			sc += " COMMIT ";
 
 			try
@@ -6412,8 +6462,8 @@ namespace QPOS2008
 					return false;
 				}
 			}
-//			sc = " UPDATE invoice SET invoice_number = id, uploaded = 0, uploaded_activata = 0, barcode = '" + MemberShipID.Text + "' WHERE id = '" + m_invoiceNumber + "' ";
-//			sc = " UPDATE invoice SET invoice_number = id, uploaded = 0, uploaded_activata = 0 WHERE id = '" + m_invoiceNumber + "' ";
+			//			sc = " UPDATE invoice SET invoice_number = id, uploaded = 0, uploaded_activata = 0, barcode = '" + MemberShipID.Text + "' WHERE id = '" + m_invoiceNumber + "' ";
+			//			sc = " UPDATE invoice SET invoice_number = id, uploaded = 0, uploaded_activata = 0 WHERE id = '" + m_invoiceNumber + "' ";
 			sc = " UPDATE invoice SET invoice_number = id WHERE id = '" + m_invoiceNumber + "' ";
 			sc += " UPDATE orders SET invoice_number = '" + m_invoiceNumber + "', status = 3 WHERE id = " + id;
 			if (bIs_Refund)
@@ -6476,7 +6526,7 @@ namespace QPOS2008
 				return false;
 			}
 			dr = dst.Tables["invoice"].Rows[0];
-            string station_id = dr["station_id"].ToString();
+			string station_id = dr["station_id"].ToString();
 			string card_id = dr["card_id"].ToString();
 			string po_number = dr["po_number"].ToString();
 			string m_shippingMethod = dr["shipping_method"].ToString();
@@ -6534,23 +6584,23 @@ namespace QPOS2008
 				double dp = Program.MyDoubleParse(dr["commit_price"].ToString());
 				double dTaxRate = Program.MyDoubleParse(dr["tax_rate"].ToString());
 				double dDiscountPercent = Program.MyDoubleParse(dr["discount_percent"].ToString());
-                double order_total = Program.MyDoubleParse(dr["order_total"].ToString());
+				double order_total = Program.MyDoubleParse(dr["order_total"].ToString());
 				dDiscountPercent /= 100;
 				dp = Math.Round(dp, 4);
 				double qty = Program.MyDoubleParse(dr["quantity"].ToString());
-                //dPrice += (dp * (1 - dDiscountPercent)) * qty;
-                dPrice += order_total;
+				//dPrice += (dp * (1 - dDiscountPercent)) * qty;
+				dPrice += order_total;
 				dPrice = Math.Round(dPrice, 4);
 				//				dTax += dp / (1 + dTaxRate);
-                //dTax += Math.Round(dp * dTaxRate * qty, 4);
-                dTax += Math.Round(order_total - order_total / (1 + dTaxRate));
+				//dTax += Math.Round(dp * dTaxRate * qty, 4);
+				dTax += Math.Round(order_total - order_total / (1 + dTaxRate));
 			}
 			if (dQuoteTotal != 0)
 				dPrice = dQuoteTotal; //keep quotation discount
 
 			dTax = Math.Round(dTax, 4);
-//          dTotal = dPrice + dFreight + dTax;
-            dTotal = dPrice;
+			//          dTotal = dPrice + dFreight + dTax;
+			dTotal = dPrice;
 			dr = dst.Tables["invoice"].Rows[0];
 			string special_shipto = "0";
 			if (bool.Parse(dr["special_shipto"].ToString()))
@@ -6595,9 +6645,9 @@ namespace QPOS2008
 			sc += ", " + sbSystem + ", " + dr["payment_type"].ToString();
 			sc += ", " + nip;
 			sc += ", " + gst_inclusive;
-			sc += ", 0, 1,"+station_id+")";
-//			sc += " SELECT IDENT_CURRENT('invoice') AS id";
-            sc += " SELECT TOP 1 id FROM invoice WHERE station_id = " + station_id + " AND invoice_number = 0 ORDER BY id DESC ";
+			sc += ", 0, 1," + station_id + ")";
+			//			sc += " SELECT IDENT_CURRENT('invoice') AS id";
+			sc += " SELECT TOP 1 id FROM invoice WHERE station_id = " + station_id + " AND invoice_number = 0 ORDER BY id DESC ";
 			sc += " COMMIT ";
 			try
 			{
@@ -6638,7 +6688,7 @@ namespace QPOS2008
 				string sS_cat = dr["s_cat"].ToString();
 				string sSS_cat = dr["ss_cat"].ToString();
 				string order_total = dr["order_total"].ToString();
-//				string station_id = dr["station_id"].ToString();
+				//				string station_id = dr["station_id"].ToString();
 
 				string sTaxCode = dr["tax_code"].ToString();
 				double dTaxRate = Program.MyDoubleParse(dr["tax_rate"].ToString());
@@ -6689,9 +6739,9 @@ namespace QPOS2008
 			//update order to record invoice number
 			sc = "";
 			sc += " UPDATE orders SET invoice_number = " + m_invoiceNumber + " WHERE id = " + id;
-//			sc += " UPDATE sales_serial SET invoice_number = " + m_invoiceNumber + " WHERE order_id = " + m_nOrderId.ToString();
-//			sc += " UPDATE serial_trace SET invoice_number = " + m_invoiceNumber + " WHERE order_id = " + m_nOrderId.ToString();
-//			sc += " UPDATE invoice SET invoice_number = id, uploaded = 0, barcode = '" + MemberShipID.Text + "' WHERE id = " + m_invoiceNumber; //this for qpos
+			//			sc += " UPDATE sales_serial SET invoice_number = " + m_invoiceNumber + " WHERE order_id = " + m_nOrderId.ToString();
+			//			sc += " UPDATE serial_trace SET invoice_number = " + m_invoiceNumber + " WHERE order_id = " + m_nOrderId.ToString();
+			//			sc += " UPDATE invoice SET invoice_number = id, uploaded = 0, barcode = '" + MemberShipID.Text + "' WHERE id = " + m_invoiceNumber; //this for qpos
 			sc += " UPDATE invoice SET invoice_number = id WHERE id = " + m_invoiceNumber; //this for qpos
 			sc += " UPDATE settings SET value = '" + (int.Parse(m_invoiceNumber) + 1).ToString() + "' WHERE name = 'qpos_next_invoice_number' ";
 			try
@@ -6708,7 +6758,7 @@ namespace QPOS2008
 				Program.ShowExp(sc, e);
 				return false;
 			}
-			if(Program.m_bEnableLatiPayGiftCard)
+			if (Program.m_bEnableLatiPayGiftCard)
 				DoUpdateLatipayGiftCard(m_invoiceNumber);
 
 			if (bHasKit)
@@ -6954,10 +7004,10 @@ namespace QPOS2008
 				DataRow dr = dst.Tables["bom"].Rows[i];
 				string code = dr["code"].ToString();
 				string qty = dr["qty"].ToString();
-                double dqty = dQty * Program.MyDoubleParse(qty);
+				double dqty = dQty * Program.MyDoubleParse(qty);
 				sc += " IF NOT EXISTS (SELECT code FROM stock_qty WHERE code = " + code + " AND branch_id = " + branch_id + ") ";
-                sc += " INSERT INTO stock_qty (code, branch_id, qty) VALUES (" + code + ", " + branch_id + ", " + (0 - dqty).ToString() + ") ";
-                sc += " ELSE UPDATE stock_qty SET qty = qty - " + dqty + " WHERE code = " + code + " AND branch_id = " + branch_id;
+				sc += " INSERT INTO stock_qty (code, branch_id, qty) VALUES (" + code + ", " + branch_id + ", " + (0 - dqty).ToString() + ") ";
+				sc += " ELSE UPDATE stock_qty SET qty = qty - " + dqty + " WHERE code = " + code + " AND branch_id = " + branch_id;
 			}
 			if (sc == "")
 				return true;
@@ -7142,7 +7192,7 @@ namespace QPOS2008
 				return true;
 			string payment_method = GetEnumID("payment_method", pm);
 			string sAmount = dAmount.ToString();
-            string sChange = m_dChange.ToString();
+			string sChange = m_dChange.ToString();
 			string eftposPayment = m_dEftposTotal.ToString();
 			string ccPayment = m_dCreditTotal.ToString();
 			string didPayment = m_nSalesId.ToString();
@@ -7153,7 +7203,7 @@ namespace QPOS2008
 
 			myCommand.Parameters.Add("@shop_branch", SqlDbType.Int).Value = m_nBranchId.ToString();
 			myCommand.Parameters.Add("@Amount", SqlDbType.Money).Value = sAmount;
-            //myCommand.Parameters.Add("@Change", SqlDbType.Money).Value = sChange;
+			//myCommand.Parameters.Add("@Change", SqlDbType.Money).Value = sChange;
 			myCommand.Parameters.Add("@paid_by", SqlDbType.VarChar).Value = "";
 			myCommand.Parameters.Add("@bank", SqlDbType.VarChar).Value = "";
 			myCommand.Parameters.Add("@branch", SqlDbType.VarChar).Value = "";
@@ -7170,7 +7220,7 @@ namespace QPOS2008
 			myCommand.Parameters.Add("@bRefund", SqlDbType.Bit).Value = 0;
 			myCommand.Parameters.Add("@amountList", SqlDbType.VarChar).Value = sAmount;
 			myCommand.Parameters.Add("@return_tran_id", SqlDbType.Int).Direction = ParameterDirection.Output;
-            myCommand.Parameters.Add("@station_id", SqlDbType.Int).Value = Program.m_sStationID;
+			myCommand.Parameters.Add("@station_id", SqlDbType.Int).Value = Program.m_sStationID;
 
 			try
 			{
@@ -7182,7 +7232,7 @@ namespace QPOS2008
 			{
 				myConnection.Close();
 				Program.ShowExp("Record payment failed", e);
-//				MessageBox.Show("Payemnt Error, Please stop using this till for checkout. Report to Administrator or Duty Manager. Error Code : 10001");
+				//				MessageBox.Show("Payemnt Error, Please stop using this till for checkout. Report to Administrator or Duty Manager. Error Code : 10001");
 				return true;
 			}
 
@@ -7265,7 +7315,7 @@ namespace QPOS2008
 			{
 				Program.ShowExp(sc, e1);
 				myConnection.Close();
-				return ""; ;
+				return "";
 			}
 			if (dst.Tables["rsp"].Rows.Count > 0)
 			{
@@ -7277,11 +7327,11 @@ namespace QPOS2008
 		}
 		private bool DoWeight()
 		{
-			if(Program.m_bCasScale)
+			if (Program.m_bCasScale)
 			{
 				FormCasScale fm = new FormCasScale();
 				fm.ShowDialog();
-				if(fm.m_sErr != "")
+				if (fm.m_sErr != "")
 				{
 					Program.MsgBox(fm.m_sErr);
 					return false;
@@ -7289,7 +7339,7 @@ namespace QPOS2008
 				this.qty.Text = fm.m_dQty.ToString();
 				return true;
 			}
-		
+
 			this.barcode.Text = "";
 			bool bReady = false;
 			try
@@ -8342,7 +8392,7 @@ namespace QPOS2008
 						continue;
 					if (Program.m_svoiddis.IndexOf(s_sSupplier_code).ToString() != "-1")
 						continue;
-                    if ((s_sDiscount.Trim() != "0" && s_sDiscount.Trim() != "") || m_dDiscRate == 0)
+					if ((s_sDiscount.Trim() != "0" && s_sDiscount.Trim() != "") || m_dDiscRate == 0)
 						continue;
 					if (bIsNoDiscount)
 						continue;
@@ -8427,9 +8477,9 @@ namespace QPOS2008
 		}
 		private bool CachePromotion()
 		{
-            int nWeekDay = (int)DateTime.Now.DayOfWeek;
-            if (nWeekDay == 0)
-                nWeekDay = 7; //tee's design, Sunday is 7
+			int nWeekDay = (int)DateTime.Now.DayOfWeek;
+			if (nWeekDay == 0)
+				nWeekDay = 7; //tee's design, Sunday is 7
 
 			if (dst.Tables["promo_cache"] != null)
 				dst.Tables["promo_cache"].Clear();
@@ -8445,7 +8495,7 @@ namespace QPOS2008
 			sc += " WHERE p.promo_active = 1 ";
 			sc += " AND p.promo_start_date <= GETDATE() ";
 			sc += " AND p.promo_end_date >= GETDATE() ";
-			sc += " AND promo_day" + nWeekDay + "=1 "; 
+			sc += " AND promo_day" + nWeekDay + "=1 ";
 			sc += " ORDER BY p.promo_id, c.barcode, pg.barcode ";
 			try
 			{
@@ -8457,7 +8507,7 @@ namespace QPOS2008
 				MessageBox.Show(e.ToString());
 				return false; ;
 			}
-			if(!GetPromotion())
+			if (!GetPromotion())
 				return false;
 			return true;
 		}
@@ -8466,14 +8516,14 @@ namespace QPOS2008
 			if (dst.Tables["get_promo"] != null)
 				dst.Tables["get_promo"].Clear();
 			string sc = " SELECT p.promo_id, p.barcode as group_barcode, pl.promo_desc,pl.promo_type, pl.volumn_discount_price_total ";
-//			sc += " , pl.volumn_discount_qty, pl.free_item_required_item_code, isnull(c.price1,0) as price1 ";
+			//			sc += " , pl.volumn_discount_qty, pl.free_item_required_item_code, isnull(c.price1,0) as price1 ";
 			sc += " , pl.volumn_discount_qty, pl.free_item_required_item_code ";
 			sc += ", ISNULL((SELECT TOP 1 price1 FROM code_relations WHERE barcode = p.barcode), 0) AS price1 ";
 			sc += ", ISNULL((SELECT TOP 1 c.price1 FROM barcode b JOIN code_relations c ON c.code = b.item_code WHERE b.barcode = p.barcode), 0) AS barcode_price1 ";
 			sc += " FROM promotion_group p ";
 			sc += " JOIN promotion_list pl ON p.promo_id = pl.promo_id ";
-//			sc += " JOIN barcode b ON b.barcode = p.barcode ";
-//			sc += " join code_relations c on b.item_code = c.code ";
+			//			sc += " JOIN barcode b ON b.barcode = p.barcode ";
+			//			sc += " join code_relations c on b.item_code = c.code ";
 			sc += " WHERE 1 = 1 ";
 			sc += " AND pl.promo_start_date <= GETDATE() AND pl.promo_end_date >= GETDATE() "; //started, but not yet expired
 			try
@@ -8494,14 +8544,14 @@ namespace QPOS2008
 				dst.Tables["GetComboPromoItemByPromoIDAndBarcode"].Clear();
 			string sc = "";
 			int rows = 0;
-            sc = "SELECT distinct p.code from promo p  ";
-            sc += " join barcode b on p.code = b.item_code ";
-            sc += " join promotion_group pg  on b.barcode = pg.barcode ";
+			sc = "SELECT distinct p.code from promo p  ";
+			sc += " join barcode b on p.code = b.item_code ";
+			sc += " join promotion_group pg  on b.barcode = pg.barcode ";
 			sc += " JOIN promotion_list pl on pl.promo_id = pg.promo_id ";
 			sc += " WHERE 1=1 AND pl.promo_type = 7 ";
 			sc += " AND pl.promo_id = '" + promo_id + "'";
 			sc += " AND pg.barcode in (" + barcode + ")";
-            sc += " order by p.code ";
+			sc += " order by p.code ";
 			try
 			{
 				myAdapter = new SqlDataAdapter(sc, myConnection);
@@ -8517,11 +8567,11 @@ namespace QPOS2008
 				dst.Tables["GetComboPromoItemByPromoID"].Clear();
 			string sc1 = "";
 			int rows1 = 0;
-            sc1 = "  select distinct code from promo where promo_id = '" + promo_id + "' order by code ";
-            //sc1 = "SELECT pg.*, pl.* from promotion_group pg ";
-            //sc1 += " JOIN promotion_list pl on pl.promo_id = pg.promo_id ";
-            //sc1 += " WHERE 1=1 AND pl.promo_type = 7 ";
-            //sc1 += " AND pl.promo_id = '" + promo_id + "'";
+			sc1 = "  select distinct code from promo where promo_id = '" + promo_id + "' order by code ";
+			//sc1 = "SELECT pg.*, pl.* from promotion_group pg ";
+			//sc1 += " JOIN promotion_list pl on pl.promo_id = pg.promo_id ";
+			//sc1 += " WHERE 1=1 AND pl.promo_type = 7 ";
+			//sc1 += " AND pl.promo_id = '" + promo_id + "'";
 			try
 			{
 				myAdapter = new SqlDataAdapter(sc1, myConnection);
@@ -8530,290 +8580,321 @@ namespace QPOS2008
 			catch (Exception e)
 			{
 				MessageBox.Show(e.ToString());
-				return false; 
+				return false;
 			}
-            DataTable dt1 = dst.Tables["GetComboPromoItemByPromoIDAndBarcode"];
-            DataTable dt2 = dst.Tables["GetComboPromoItemByPromoID"];
+			DataTable dt1 = dst.Tables["GetComboPromoItemByPromoIDAndBarcode"];
+			DataTable dt2 = dst.Tables["GetComboPromoItemByPromoID"];
 
-            if (dt1.Rows.Count == dt2.Rows.Count)
-            {
-                for(int i=0; i<dt1.Rows.Count; i++)
-                {
-                    if (!dt1.Rows[i]["code"].Equals(dt2.Rows[i]["code"]))
-                        return false;
-                    else
-                        continue;
-                }
-                return true;
-            }
+			if (dt1.Rows.Count == dt2.Rows.Count)
+			{
+				for (int i = 0; i < dt1.Rows.Count; i++)
+				{
+					if (!dt1.Rows[i]["code"].Equals(dt2.Rows[i]["code"]))
+						return false;
+					else
+						continue;
+				}
+				return true;
+			}
 			else
 				return false;
 		}
-        private void CheckGroupPromotion()
-        {
-            string barcodes = "";
-            if (m_sDeleteItemBarcode != "")
-                barcodes = "'" + m_sDeleteItemBarcode + "'";
-            for (int i = 0; i < dsCart.Tables[m_nCurrentCart].Rows.Count; i++)
-            {
-                string bc = cart.Rows[i].Cells["cc_barcode"].Value.ToString();
-                if (barcodes != "")
-                    barcodes += ",";
-                barcodes += "'" + bc + "'";
-            }
-            if (barcodes == "")
-                return;
-            //get used group promotion
-            DataRow[] dra = dst.Tables["promo_cache"].Select("group_barcode IN(" + barcodes + ") and promo_type = 6 ");
-            if (dra.Length <= 0)
-                return;
-            int nMaxGroups = 256;
-            string[] apid = new string[nMaxGroups];
-            int nPromoCount = 0;
-            string pid_old = "";
+		private void CheckGroupPromotion()
+		{
+			string barcodes = "";
+			if (m_sDeleteItemBarcode != "")
+				barcodes = "'" + m_sDeleteItemBarcode + "'";
+			for (int i = 0; i < dsCart.Tables[m_nCurrentCart].Rows.Count; i++)
+			{
+				string bc = cart.Rows[i].Cells["cc_barcode"].Value.ToString();
+				if (barcodes != "")
+					barcodes += ",";
+				barcodes += "'" + bc + "'";
+			}
+			if (barcodes == "")
+				return;
+			//get used group promotion
+			DataRow[] dra = dst.Tables["promo_cache"].Select("group_barcode IN(" + barcodes + ") and promo_type = 6 ");
+			if (dra.Length <= 0)
+				return;
+			int nMaxGroups = 256;
+			string[] apid = new string[nMaxGroups];
+			int nPromoCount = 0;
+			string pid_old = "";
 
-            //double dPromotionDiscountTotal = 0; // Record how much Discount given 
-            //double dRemainTotal = 0;
+			//double dPromotionDiscountTotal = 0; // Record how much Discount given 
+			//double dRemainTotal = 0;
 
-            for (int i = 0; i < dra.Length; i++)
-            {
-                string pid = dra[i]["promo_id"].ToString();
-                if (pid != pid_old)
-                {
-                    apid[nPromoCount++] = pid;
-                    if (nPromoCount >= nMaxGroups)
-                    {
-                        MessageBox.Show("too many group promotions, program cannot handle, max " + nMaxGroups + " groups.");
-                        return;
-                    }
-                    pid_old = pid;
-                }
-            }
-            for (int i = 0; i < nPromoCount; i++) //loop all promotion groups
-            {
-                int nPromotionCount = 0; //Record how many set items are on promotion 
-                string promo_id = apid[i];
-                string query = "";
-                double dPromotionDiscountTotal = 0; // Record how much Discount given 
-                double dRemainTotal = 0;
-                query = "group_barcode IN(" + barcodes + ") AND promo_id = " + promo_id;
+			for (int i = 0; i < dra.Length; i++)
+			{
+				string pid = dra[i]["promo_id"].ToString();
+				if (pid != pid_old)
+				{
+					apid[nPromoCount++] = pid;
+					if (nPromoCount >= nMaxGroups)
+					{
+						MessageBox.Show("too many group promotions, program cannot handle, max " + nMaxGroups + " groups.");
+						return;
+					}
+					pid_old = pid;
+				}
+			}
+			for (int i = 0; i < nPromoCount; i++) //loop all promotion groups
+			{
+				int nPromotionCount = 0; //Record how many set items are on promotion 
+				string promo_id = apid[i];
+				string query = "";
+				double dPromotionDiscountTotal = 0; // Record how much Discount given 
+				double dRemainTotal = 0;
+				query = "group_barcode IN(" + barcodes + ") AND promo_id = " + promo_id;
 
-                DataRow[] da = dst.Tables["get_promo"].Select("group_barcode IN(" + barcodes + ") AND promo_id = " + promo_id);
-                if (da.Length <= 0)
-                    break;
+				DataRow[] da = dst.Tables["get_promo"].Select("group_barcode IN(" + barcodes + ") AND promo_id = " + promo_id);
+				if (da.Length <= 0)
+					break;
 
-                //for (int p = 0; p < da.Length; p++)
-                //{
+				//for (int p = 0; p < da.Length; p++)
+				//{
 
-                double dItemPrice = 0;
-                string sItemCode = "";
-                string sPromoDesc = da[0]["promo_desc"].ToString();
-                double dPromoAmount = Program.MyDoubleParse(da[0]["volumn_discount_price_total"].ToString()); //group promotion set price e.g any 2 for $3, dPromoAmount = 3
-                double dQtyR = Program.MyDoubleParse(da[0]["volumn_discount_qty"].ToString());
-                double dPrice = Program.MyDoubleParse(da[0]["price1"].ToString());
-                if (dPrice == 0)
-                    dPrice = Program.MyDoubleParse(da[0]["barcode_price1"].ToString());
-                double dQtyW = 1;
-                string reward_item_code = da[0]["free_item_required_item_code"].ToString();
+				double dItemPrice = 0;
+				string sItemCode = "";
+				string sPromoDesc = da[0]["promo_desc"].ToString();
+				double dPromoAmount = Program.MyDoubleParse(da[0]["volumn_discount_price_total"].ToString()); //group promotion set price e.g any 2 for $3, dPromoAmount = 3
+				double dQtyR = Program.MyDoubleParse(da[0]["volumn_discount_qty"].ToString());
+				double dPrice = Program.MyDoubleParse(da[0]["price1"].ToString());
+				if (dPrice == 0)
+					dPrice = Program.MyDoubleParse(da[0]["barcode_price1"].ToString());
+				double dQtyW = 1;
+				string reward_item_code = da[0]["free_item_required_item_code"].ToString();
 
-                double dQty = 0;
-                double dAmountTotalInCart = 0;
-                double dGroupAmount = 0;
+				double dQty = 0;
+				double dAmountTotalInCart = 0;
+				double dGroupAmount = 0;
 
 
-                double dPromotionDiscountForThisItem = 0;
-                double dRemain = 0;
-                int nSet = 0;
+				double dPromotionDiscountForThisItem = 0;
+				double dRemain = 0;
+				int nSet = 0;
 
-                for (int j = 0; j < dsCart.Tables[m_nCurrentCart].Rows.Count; j++) //loop cart for this promotion grup
-                {
-                    string bc = cart.Rows[j].Cells["cc_barcode"].Value.ToString();
-                    double dItemQty = Program.MyDoubleParse(dsCart.Tables[m_nCurrentCart].Rows[j]["qty"].ToString());
-                    double dItemPriceCart = Program.MyDoubleParse(dsCart.Tables[m_nCurrentCart].Rows[j]["normal_price"].ToString());
+				for (int j = 0; j < dsCart.Tables[m_nCurrentCart].Rows.Count; j++) //loop cart for this promotion grup
+				{
+					string bc = cart.Rows[j].Cells["cc_barcode"].Value.ToString();
+					double dItemQty = Program.MyDoubleParse(dsCart.Tables[m_nCurrentCart].Rows[j]["qty"].ToString());
+					double dItemPriceCart = Program.MyDoubleParse(dsCart.Tables[m_nCurrentCart].Rows[j]["normal_price"].ToString());
 
-                    for (int m = 0; m < da.Length; m++) //loop barcode in this promotion group
-                    {
-                        if (da[m]["group_barcode"].ToString() == bc) //found one item suitable
-                        {
-                            //                             dItemPrice = Program.MyDoubleParse(cart.Rows[j].Cells["cc_price"].Value.ToString()); // dPrice;
-                            dItemPrice = Program.MyDoubleParse(cart.Rows[j].Cells["cc_normalprice"].Value.ToString());
-                            sItemCode = cart.Rows[j].Cells["cc_code"].Value.ToString();
-                            dAmountTotalInCart += dItemPriceCart * dItemQty;
-                            cart.Rows[j].Cells["cc_promotion_group_id"].Value = promo_id;
-                            dsCart.Tables[m_nCurrentCart].Rows[j]["promotion_group_id"] = promo_id;
-                            dQty += dItemQty;
+					for (int m = 0; m < da.Length; m++) //loop barcode in this promotion group
+					{
+						if (da[m]["group_barcode"].ToString() == bc) //found one item suitable
+						{
+							//                             dItemPrice = Program.MyDoubleParse(cart.Rows[j].Cells["cc_price"].Value.ToString()); // dPrice;
+							dItemPrice = Program.MyDoubleParse(cart.Rows[j].Cells["cc_normalprice"].Value.ToString());
+							sItemCode = cart.Rows[j].Cells["cc_code"].Value.ToString();
+							dAmountTotalInCart += dItemPriceCart * dItemQty;
+							cart.Rows[j].Cells["cc_promotion_group_id"].Value = promo_id;
+							dsCart.Tables[m_nCurrentCart].Rows[j]["promotion_group_id"] = promo_id;
+							dQty += dItemQty;
 
-                            nSet = (int)(dQty / dQtyR);
-                            if (nSet > 0) //数量达到grouppromotion要求 产生了promotion Discount
-                            {
-                                //                       dPromotionDiscountTotal += dRemainTotal + dItemPrice * (dQtyR - dRemain) * nSet - dPromoAmount * nSet; //记录此item产生的折扣amount
-                                dPromotionDiscountTotal += dRemainTotal + dItemPrice * (dQtyR - dRemain) * 1 + dItemPrice * dQtyR * (nSet - 1) - dPromoAmount * nSet; //记录此item产生的折扣amount
-                                nPromotionCount += nSet;
-                                dRemain = dQty % dQtyR;
-                                //dRemainTotal = dRemain * dItemPrice;
-                                //dQty = dRemain;
-                                //                                  m_iPromotionItemIndex = j+1;
-                            }
-                            else
-                            {
-                                dRemain = dRemain + dItemQty;
-                                //dRemainTotal = dRemain * dItemPrice;
-                                //dQty = dRemain;
-                            }
-                            dRemainTotal = dRemain * dItemPrice;
-                            dQty = dRemain;
-                        }
-                    }
-                }
-                int nSavingQty = nPromotionCount;// (int)(dQty / dQtyR * dQtyW); //get how many set of thie group promotion is
-                int iQtyInPromotion = nPromotionCount * int.Parse(dQtyR.ToString());
-                if (nSavingQty <= 0) //qty not enough, delete saving item added
-                {
-                    for (int q = 0; q < dsCart.Tables[m_nCurrentCart].Rows.Count; q++) //loop cart for this promotion grup
-                    {
-                        //						string bc = dsCart.Tables[m_nCurrentCart].Rows[j]["barcode"].ToString();
-                        //string bc = cart.Rows[j].Cells["cc_barcode"].Value.ToString();
-                        //cart.Rows[j].Cells["cc_is_promotion"].Value = "0";
-                        //if (bc == promo_id) //this is the promotion saving row added
-                        //{
-                        //    DeleteCartItem(j);
-                        //    break;
-                        //}
-                        string promotion_group_id = cart.Rows[q].Cells["cc_promotion_group_id"].Value.ToString();
-                        if (promotion_group_id == promo_id)
-                        {
-                            cart.Rows[q].Cells["cc_price"].Value = cart.Rows[q].Cells["cc_normalprice"].Value.ToString();
-                            cart.Rows[q].Cells["cc_name"].Value = cart.Rows[q].Cells["cc_name_en"].Value.ToString();
-                            cart.Rows[q].Cells["cc_discount"].Value = "";
-                            cart.Rows[q].Cells["cc_total"].Value = (Program.MyDoubleParse(cart.Rows[q].Cells["cc_normalprice"].Value.ToString())
-                                * Program.MyDoubleParse(cart.Rows[q].Cells["cc_qty"].Value.ToString())).ToString("N2");
+							nSet = (int)(dQty / dQtyR);
+							if (nSet > 0) //数量达到grouppromotion要求 产生了promotion Discount
+							{
+								//                       dPromotionDiscountTotal += dRemainTotal + dItemPrice * (dQtyR - dRemain) * nSet - dPromoAmount * nSet; //记录此item产生的折扣amount
+								dPromotionDiscountTotal += dRemainTotal + dItemPrice * (dQtyR - dRemain) * 1 + dItemPrice * dQtyR * (nSet - 1) - dPromoAmount * nSet; //记录此item产生的折扣amount
+								nPromotionCount += nSet;
+								dRemain = dQty % dQtyR;
+								//dRemainTotal = dRemain * dItemPrice;
+								//dQty = dRemain;
+								//                                  m_iPromotionItemIndex = j+1;
+							}
+							else
+							{
+								dRemain = dRemain + dItemQty;
+								//dRemainTotal = dRemain * dItemPrice;
+								//dQty = dRemain;
+							}
+							dRemainTotal = dRemain * dItemPrice;
+							dQty = dRemain;
+						}
+					}
+				}
+				int nSavingQty = nPromotionCount;// (int)(dQty / dQtyR * dQtyW); //get how many set of thie group promotion is
+				int iQtyInPromotion = nPromotionCount * int.Parse(dQtyR.ToString());
+				if (nSavingQty <= 0) //qty not enough, delete saving item added
+				{
+					for (int q = 0; q < dsCart.Tables[m_nCurrentCart].Rows.Count; q++) //loop cart for this promotion grup
+					{
+						//						string bc = dsCart.Tables[m_nCurrentCart].Rows[j]["barcode"].ToString();
+						//string bc = cart.Rows[j].Cells["cc_barcode"].Value.ToString();
+						//cart.Rows[j].Cells["cc_is_promotion"].Value = "0";
+						//if (bc == promo_id) //this is the promotion saving row added
+						//{
+						//    DeleteCartItem(j);
+						//    break;
+						//}
+						string promotion_group_id = cart.Rows[q].Cells["cc_promotion_group_id"].Value.ToString();
+						if (promotion_group_id == promo_id)
+						{
+							cart.Rows[q].Cells["cc_price"].Value = cart.Rows[q].Cells["cc_normalprice"].Value.ToString();
+							cart.Rows[q].Cells["cc_name"].Value = cart.Rows[q].Cells["cc_name_en"].Value.ToString();
+							cart.Rows[q].Cells["cc_discount"].Value = "";
+							cart.Rows[q].Cells["cc_total"].Value = (Program.MyDoubleParse(cart.Rows[q].Cells["cc_normalprice"].Value.ToString())
+								* Program.MyDoubleParse(cart.Rows[q].Cells["cc_qty"].Value.ToString())).ToString("N2");
 
-                            //CalcCartTotal();
-                            //UpdateDtCart(m_nCurrentCart);
-                        }
-                    }
+							m_fmad.cart.Rows[q].Cells["cc_price"].Value = cart.Rows[q].Cells["cc_price"].Value;
+							m_fmad.cart.Rows[q].Cells["cc_qty"].Value = cart.Rows[q].Cells["cc_qty"].Value;
+							m_fmad.cart.Rows[q].Cells["cc_total"].Value = cart.Rows[q].Cells["cc_total"].Value;
+							m_fmad.cart.Rows[q].Cells["cc_discount"].Value = "";
+							m_fmads.cart.Rows[q].Cells["cc_price"].Value = cart.Rows[q].Cells["cc_price"].Value;
+							m_fmads.cart.Rows[q].Cells["cc_qty"].Value = cart.Rows[q].Cells["cc_qty"].Value;
+							m_fmads.cart.Rows[q].Cells["cc_total"].Value = cart.Rows[q].Cells["cc_total"].Value;
+							m_fmads.cart.Rows[q].Cells["cc_discount"].Value = "";
+
+							//CalcCartTotal();
+							//UpdateDtCart(m_nCurrentCart);
+						}
+					}
 
 					CalcCartTotal();
 					UpdateDtCart(m_nCurrentCart);
 				}
 				else //qty enough to get promotion
-                {
-                    double dSub = 0 - dPromotionDiscountTotal;//dPromoAmount * nSavingQty - dGroupAmount;  //calculate discount total
-                    double dDiscountForEachQty = dSub / iQtyInPromotion;  //discount for each item
-                    dDiscountForEachQty = Math.Round(dDiscountForEachQty, 2);
-                    nSavingQty = 1;
-                    double dCartPrice = 0 - Math.Round(dPromotionDiscountTotal, 2); // Math.Round(dSub / nSavingQty, 2);
-                    //					dSub = Math.Round(dCartPrice * nSavingQty, 2);
-                    bool bFound = false;
-                    int loopingstart = 0;
-                    for (int j = 0; j < dsCart.Tables[m_nCurrentCart].Rows.Count; j++) //loop cart for this promotion group
-                    {
-                        string bc = cart.Rows[j].Cells["cc_barcode"].Value.ToString();
-                        string promotion_group_id = cart.Rows[j].Cells["cc_promotion_group_id"].Value.ToString();
-                        string qty = cart.Rows[j].Cells["cc_qty"].Value.ToString();
-                        int iQty = int.Parse(qty);
-                        string code = cart.Rows[j].Cells["cc_code"].Value.ToString();
-                        string barcode = cart.Rows[j].Cells["cc_barcode"].Value.ToString();
-                        string name = cart.Rows[j].Cells["cc_name_en"].Value.ToString();
-                        string name_cn = cart.Rows[j].Cells["cc_name_cn"].Value.ToString();
-                        double dOldPrice = Program.MyDoubleParse(cart.Rows[j].Cells["cc_normalprice"].Value.ToString());
+				{
+					double dSub = 0 - dPromotionDiscountTotal;//dPromoAmount * nSavingQty - dGroupAmount;  //calculate discount total
+					double dDiscountForEachQty = dSub / iQtyInPromotion;  //discount for each item
+					dDiscountForEachQty = Math.Round(dDiscountForEachQty, 2);
+					nSavingQty = 1;
+					double dCartPrice = 0 - Math.Round(dPromotionDiscountTotal, 2); // Math.Round(dSub / nSavingQty, 2);
+																					//					dSub = Math.Round(dCartPrice * nSavingQty, 2);
+					bool bFound = false;
+					int loopingstart = 0;
+					for (int j = 0; j < dsCart.Tables[m_nCurrentCart].Rows.Count; j++) //loop cart for this promotion group
+					{
+						string bc = cart.Rows[j].Cells["cc_barcode"].Value.ToString();
+						string promotion_group_id = cart.Rows[j].Cells["cc_promotion_group_id"].Value.ToString();
+						string qty = cart.Rows[j].Cells["cc_qty"].Value.ToString();
+						double ddQty = Program.MyDoubleParse(qty);
 
-                        if (promotion_group_id == promo_id) // this item belongs to this group promotion
-                        {                               //reset to normal price
-                            cart.Rows[j].Cells["cc_price"].Value = cart.Rows[j].Cells["cc_normalprice"].Value.ToString();
-                            cart.Rows[j].Cells["cc_name"].Value = cart.Rows[j].Cells["cc_name_en"].Value.ToString();
-                            cart.Rows[j].Cells["cc_discount"].Value = "";
-                            cart.Rows[j].Cells["cc_total"].Value = (Program.MyDoubleParse(cart.Rows[j].Cells["cc_normalprice"].Value.ToString())
-                                * Program.MyDoubleParse(cart.Rows[j].Cells["cc_qty"].Value.ToString())).ToString("N2");
+						int iQty = int.Parse(Math.Floor(ddQty).ToString());// int.Parse(qty);
 
-                            if (iQty <= iQtyInPromotion && iQtyInPromotion > 0)
-                            {
-  //                            double dOldPrice = Program.MyDoubleParse(cart.Rows[j].Cells["cc_normalprice"].Value.ToString());
-                                double dNewPrice = Program.MyDoubleParse(cart.Rows[j].Cells["cc_normalprice"].Value.ToString()) + dDiscountForEachQty;
-                                string sNewPrice = dNewPrice.ToString("N2");
-                                double dNewSub = Math.Round(dNewPrice * iQty, 2);
+						string code = cart.Rows[j].Cells["cc_code"].Value.ToString();
+						string barcode = cart.Rows[j].Cells["cc_barcode"].Value.ToString();
+						string name = cart.Rows[j].Cells["cc_name_en"].Value.ToString();
+						string name_cn = cart.Rows[j].Cells["cc_name_cn"].Value.ToString();
+						double dOldPrice = Program.MyDoubleParse(cart.Rows[j].Cells["cc_normalprice"].Value.ToString());
 
-                                cart.Rows[j].Cells["cc_name"].Value = cart.Rows[j].Cells["cc_name"].Value.ToString() + " (" + "Promotion:" + sPromoDesc + ")";
-                                cart.Rows[j].Cells["cc_price"].Value = sNewPrice; // (Program.MyDoubleParse(cart.Rows[j].Cells["cc_price"].Value.ToString()) + dDiscountForEachQty).ToString("N2");//dCartPrice.ToString();
-                                cart.Rows[j].Cells["cc_discount"].Value = (0 - dDiscountForEachQty).ToString("N2");
-                                cart.Rows[j].Cells["cc_total"].Value = dNewSub;// Math.Round(dSub, 2).ToString("N2");
-                                cart.Rows[j].Cells["cc_is_promotion"].Value = "6"; //set flag so no further discount can apply
-                                cart.Rows[j].Cells["cc_promotion_group_id"].Value = promo_id;// bc;
+						if (promotion_group_id == promo_id) // this item belongs to this group promotion
+						{                               //reset to normal price
+							cart.Rows[j].Cells["cc_price"].Value = cart.Rows[j].Cells["cc_normalprice"].Value.ToString();
+							cart.Rows[j].Cells["cc_name"].Value = cart.Rows[j].Cells["cc_name_en"].Value.ToString();
+							cart.Rows[j].Cells["cc_discount"].Value = "";
+							cart.Rows[j].Cells["cc_total"].Value = (Program.MyDoubleParse(cart.Rows[j].Cells["cc_normalprice"].Value.ToString())
+								* Program.MyDoubleParse(cart.Rows[j].Cells["cc_qty"].Value.ToString())).ToString("N2");
 
-                                m_fmad.cart.Rows[j].Cells["cc_price"].Value = sNewPrice;// dCartPrice.ToString();
-                                m_fmads.cart.Rows[j].Cells["cc_price"].Value = sNewPrice; // dCartPrice.ToString();
+							if (iQty <= iQtyInPromotion && iQtyInPromotion > 0)
+							{
+								//                            double dOldPrice = Program.MyDoubleParse(cart.Rows[j].Cells["cc_normalprice"].Value.ToString());
+								double dNewPrice = Program.MyDoubleParse(cart.Rows[j].Cells["cc_normalprice"].Value.ToString()) + dDiscountForEachQty;
+								string sNewPrice = dNewPrice.ToString("N2");
+								double dNewSub = Math.Round(dNewPrice * iQty, 2);
+								string sNewSub = dNewSub.ToString("N2");
 
-                                iQtyInPromotion = iQtyInPromotion - iQty;
-                            }
-                            else if (iQty > 1 && iQtyInPromotion < iQty && iQtyInPromotion > 0 )
-                            {
- 
 
- //                             DeleteCartItem(j);
-                                int iQtyRemain = iQty - iQtyInPromotion;
 
-                                double dNewPrice = Program.MyDoubleParse(cart.Rows[j].Cells["cc_normalprice"].Value.ToString()) + dDiscountForEachQty;
-                                string sNewPrice = dNewPrice.ToString("N2");
-                                double dNewSub = Math.Round(dNewPrice * iQtyInPromotion, 2);
+								cart.Rows[j].Cells["cc_name"].Value = cart.Rows[j].Cells["cc_name"].Value.ToString() + " (" + "Promotion:" + sPromoDesc + ")";
+								cart.Rows[j].Cells["cc_price"].Value = sNewPrice; // (Program.MyDoubleParse(cart.Rows[j].Cells["cc_price"].Value.ToString()) + dDiscountForEachQty).ToString("N2");//dCartPrice.ToString();
+								cart.Rows[j].Cells["cc_discount"].Value = (0 - dDiscountForEachQty).ToString("N2");
+								string sDiscount = cart.Rows[j].Cells["cc_discount"].Value.ToString();
+								cart.Rows[j].Cells["cc_total"].Value = dNewSub;// Math.Round(dSub, 2).ToString("N2");
+								cart.Rows[j].Cells["cc_is_promotion"].Value = "6"; //set flag so no further discount can apply
+								cart.Rows[j].Cells["cc_promotion_group_id"].Value = promo_id;// bc;
 
-                                cart.Rows[j].Cells["cc_name"].Value = cart.Rows[j].Cells["cc_name"].Value.ToString() + " (" + "Promotion:" + sPromoDesc + ")";
-                                cart.Rows[j].Cells["cc_price"].Value = sNewPrice; // (Program.MyDoubleParse(cart.Rows[j].Cells["cc_price"].Value.ToString()) + dDiscountForEachQty).ToString("N2");//dCartPrice.ToString();
-                                cart.Rows[j].Cells["cc_discount"].Value = (0 - dDiscountForEachQty).ToString("N2");
-                                cart.Rows[j].Cells["cc_total"].Value = dNewSub;// Math.Round(dSub, 2).ToString("N2");
-                                cart.Rows[j].Cells["cc_is_promotion"].Value = "6"; //set flag so no further discount can apply
-                                cart.Rows[j].Cells["cc_promotion_group_id"].Value = promo_id;// bc;
-                                cart.Rows[j].Cells["cc_qty"].Value = iQtyInPromotion.ToString();
-                                m_fmad.cart.Rows[j].Cells["cc_price"].Value = sNewPrice;// dCartPrice.ToString();
-                                m_fmads.cart.Rows[j].Cells["cc_price"].Value = sNewPrice; // dCartPrice.ToString();
+								m_fmad.cart.Rows[j].Cells["cc_price"].Value = sNewPrice;// dCartPrice.ToString();
+								m_fmad.cart.Rows[j].Cells["cc_qty"].Value = cart.Rows[j].Cells["cc_qty"].Value;
+								m_fmad.cart.Rows[j].Cells["cc_total"].Value = sNewSub;
+								m_fmad.cart.Rows[j].Cells["cc_discount"].Value = sDiscount;
+								m_fmads.cart.Rows[j].Cells["cc_price"].Value = sNewPrice; // dCartPrice.ToString();
+								m_fmad.cart.Rows[j].Cells["cc_qty"].Value = cart.Rows[j].Cells["cc_qty"].Value;
+								m_fmads.cart.Rows[j].Cells["cc_total"].Value = sNewSub;
+								m_fmads.cart.Rows[j].Cells["cc_discount"].Value = sDiscount;
 
-                                m_iPromotionItemIndex = j + 1;
-                                loopingstart = m_iPromotionItemIndex;
+								iQtyInPromotion = iQtyInPromotion - iQty;
+							}
+							else if (iQty > 1 && iQtyInPromotion < iQty && iQtyInPromotion > 0)
+							{
 
-                                //for (int m = 0; m < iQty; m++)
-                                //{
-                                //    AddToCart(barcode, code, name, name_cn, dOldPrice, 1, "6", false, code, 0, false, false); //if this item in group promotion, split into sigle qty
-                                //}
-                                AddToCart(barcode, code, name, name_cn, dOldPrice, iQtyRemain, "6", false, code, 0, false, false);
-                                iQtyInPromotion = 0;
-                            }
-                            //if (iQtyInPromotion == 0)
-                            //{
-                            //    for (; loopingstart < dsCart.Tables[m_nCurrentCart].Rows.Count; loopingstart++)
-                            //    {
-                            //        if (promotion_group_id == promo_id)
-                            //        {
-                            //            cart.Rows[j].Cells["cc_price"].Value = cart.Rows[j].Cells["cc_normalprice"].Value.ToString();
-                            //            cart.Rows[j].Cells["cc_name"].Value = cart.Rows[j].Cells["cc_name_en"].Value.ToString();
-                            //            cart.Rows[j].Cells["cc_discount"].Value = "";
-                            //            cart.Rows[j].Cells["cc_total"].Value = (Program.MyDoubleParse(cart.Rows[j].Cells["cc_normalprice"].Value.ToString())
-                            //                * Program.MyDoubleParse(cart.Rows[j].Cells["cc_qty"].Value.ToString())).ToString("N2");
-                            //        }
-                            //    }
-                            //}
 
-                            //CalcCartTotal();
-                            //UpdateDtCart(m_nCurrentCart);
-                        }
-/*
-                            if (bc == promo_id) //this is the promotion saving row added
-                            {
-                                bFound = true;
-                                cart.Rows[j].Cells["cc_price"].Value = dCartPrice.ToString();
-                                cart.Rows[j].Cells["cc_qty"].Value = nSavingQty.ToString();
-                                cart.Rows[j].Cells["cc_total"].Value = Math.Round(dSub,2).ToString("N2");
-                                cart.Rows[j].Cells["cc_is_promotion"].Value = "6"; //set flag so no further discount can apply
-                                cart.Rows[j].Cells["cc_promotion_group_id"].Value = bc;
+								//                             DeleteCartItem(j);
+								int iQtyRemain = iQty - iQtyInPromotion;
 
-                                m_fmad.cart.Rows[j].Cells["cc_price"].Value = dCartPrice.ToString();
-                                m_fmads.cart.Rows[j].Cells["cc_price"].Value = dCartPrice.ToString();		
-		
-                                CalcCartTotal();
-                                UpdateDtCart(m_nCurrentCart);
-                                break;
-                            }
- */
-                    }
-                    /*
+								double dNewPrice = Program.MyDoubleParse(cart.Rows[j].Cells["cc_normalprice"].Value.ToString()) + dDiscountForEachQty;
+								string sNewPrice = dNewPrice.ToString("N2");
+								double dNewSub = Math.Round(dNewPrice * iQtyInPromotion, 2);
+								string sNewSub = dNewSub.ToString("N2");
+
+
+								cart.Rows[j].Cells["cc_name"].Value = cart.Rows[j].Cells["cc_name"].Value.ToString() + " (" + "Promotion:" + sPromoDesc + ")";
+								cart.Rows[j].Cells["cc_price"].Value = sNewPrice; // (Program.MyDoubleParse(cart.Rows[j].Cells["cc_price"].Value.ToString()) + dDiscountForEachQty).ToString("N2");//dCartPrice.ToString();
+								cart.Rows[j].Cells["cc_discount"].Value = (0 - dDiscountForEachQty).ToString("N2");
+								string sDiscount = cart.Rows[j].Cells["cc_discount"].Value.ToString();
+								cart.Rows[j].Cells["cc_total"].Value = dNewSub;// Math.Round(dSub, 2).ToString("N2");
+								cart.Rows[j].Cells["cc_is_promotion"].Value = "6"; //set flag so no further discount can apply
+								cart.Rows[j].Cells["cc_promotion_group_id"].Value = promo_id;// bc;
+								cart.Rows[j].Cells["cc_qty"].Value = iQtyInPromotion.ToString();
+								m_fmad.cart.Rows[j].Cells["cc_price"].Value = sNewPrice;// dCartPrice.ToString();
+								m_fmad.cart.Rows[j].Cells["cc_qty"].Value = cart.Rows[j].Cells["cc_qty"].Value;
+								m_fmad.cart.Rows[j].Cells["cc_total"].Value = sNewSub;
+								m_fmad.cart.Rows[j].Cells["cc_discount"].Value = sDiscount;
+								m_fmads.cart.Rows[j].Cells["cc_price"].Value = sNewPrice; // dCartPrice.ToString();
+								m_fmads.cart.Rows[j].Cells["cc_qty"].Value = cart.Rows[j].Cells["cc_qty"].Value;
+								m_fmads.cart.Rows[j].Cells["cc_total"].Value = sNewSub;
+								m_fmads.cart.Rows[j].Cells["cc_discount"].Value = sDiscount;
+
+								m_iPromotionItemIndex = j + 1;
+								loopingstart = m_iPromotionItemIndex;
+
+								//for (int m = 0; m < iQty; m++)
+								//{
+								//    AddToCart(barcode, code, name, name_cn, dOldPrice, 1, "6", false, code, 0, false, false); //if this item in group promotion, split into sigle qty
+								//}
+								AddToCart(barcode, code, name, name_cn, dOldPrice, iQtyRemain, "6", false, code, 0, false, false);
+								iQtyInPromotion = 0;
+							}
+							//if (iQtyInPromotion == 0)
+							//{
+							//    for (; loopingstart < dsCart.Tables[m_nCurrentCart].Rows.Count; loopingstart++)
+							//    {
+							//        if (promotion_group_id == promo_id)
+							//        {
+							//            cart.Rows[j].Cells["cc_price"].Value = cart.Rows[j].Cells["cc_normalprice"].Value.ToString();
+							//            cart.Rows[j].Cells["cc_name"].Value = cart.Rows[j].Cells["cc_name_en"].Value.ToString();
+							//            cart.Rows[j].Cells["cc_discount"].Value = "";
+							//            cart.Rows[j].Cells["cc_total"].Value = (Program.MyDoubleParse(cart.Rows[j].Cells["cc_normalprice"].Value.ToString())
+							//                * Program.MyDoubleParse(cart.Rows[j].Cells["cc_qty"].Value.ToString())).ToString("N2");
+							//        }
+							//    }
+							//}
+
+							//CalcCartTotal();
+							//UpdateDtCart(m_nCurrentCart);
+						}
+						/*
+													if (bc == promo_id) //this is the promotion saving row added
+													{
+														bFound = true;
+														cart.Rows[j].Cells["cc_price"].Value = dCartPrice.ToString();
+														cart.Rows[j].Cells["cc_qty"].Value = nSavingQty.ToString();
+														cart.Rows[j].Cells["cc_total"].Value = Math.Round(dSub,2).ToString("N2");
+														cart.Rows[j].Cells["cc_is_promotion"].Value = "6"; //set flag so no further discount can apply
+														cart.Rows[j].Cells["cc_promotion_group_id"].Value = bc;
+
+														m_fmad.cart.Rows[j].Cells["cc_price"].Value = dCartPrice.ToString();
+														m_fmads.cart.Rows[j].Cells["cc_price"].Value = dCartPrice.ToString();		
+
+														CalcCartTotal();
+														UpdateDtCart(m_nCurrentCart);
+														break;
+													}
+						 */
+					}
+					/*
                     for (int j = 0; j < dsCart.Tables[m_nCurrentCart].Rows.Count; j++)  //loop to do discount
                     {
                         string promotion_group_id = cart.Rows[j].Cells["cc_promotion_group_id"].Value.ToString();
@@ -8853,23 +8934,23 @@ namespace QPOS2008
                         UpdateDtCart(m_nCurrentCart);
                     }
                     */
-                    //if (!bFound)
-                    //{
-                    //    string ascode = m_sPromotionServiceItemCode; //promotion service item
-                    //    string asname = "Promotion:" + sPromoDesc;
-                    //    double dasPrice = dCartPrice;
-                    //    AddToCart(promo_id, ascode, asname, "", dasPrice, nSavingQty, "6", false, ascode, 0, false, false);
-                    //}
-                }
-                //}
-            }
+					//if (!bFound)
+					//{
+					//    string ascode = m_sPromotionServiceItemCode; //promotion service item
+					//    string asname = "Promotion:" + sPromoDesc;
+					//    double dasPrice = dCartPrice;
+					//    AddToCart(promo_id, ascode, asname, "", dasPrice, nSavingQty, "6", false, ascode, 0, false, false);
+					//}
+				}
+				//}
+			}
 
 			CalcCartTotal();
 			UpdateDtCart(m_nCurrentCart);
 		}
 		private void CheckComboPromotion()
 		{
- //         return;
+			//         return;
 			string barcodes = "";
 
 			for (int i = 0; i < dsCart.Tables[m_nCurrentCart].Rows.Count; i++)
@@ -8961,7 +9042,7 @@ namespace QPOS2008
 						}
 					}
 				}
-				int nSavingQty = miniComboqty; 
+				int nSavingQty = miniComboqty;
 
 				if (GetComboPromoItemByPromoID(promo_id, comboBarcodeInCart))
 				{
@@ -9016,7 +9097,7 @@ namespace QPOS2008
 						}
 					}
 				}
- 
+
 			}
 		}
 		private double GetComboTotalAmount(string promo_id)
@@ -9026,15 +9107,15 @@ namespace QPOS2008
 			double dTotalAmount = 0;
 			string sc = "";
 			int irows = 0;
-            //sc = "SELECT pg.*, pl.* , c.price1 from promotion_group pg";
-            //sc += " JOIN promotion_list pl on pl.promo_id = pg.promo_id ";
-            //sc += " join barcode b on b.barcode = pg.barcode ";
-            //sc += " join code_relations c on c.code =b.item_code ";
-            //sc += " WHERE 1=1 AND pl.promo_type = 7 ";
-            //sc += " AND pl.promo_id = '" + promo_id + "'";
+			//sc = "SELECT pg.*, pl.* , c.price1 from promotion_group pg";
+			//sc += " JOIN promotion_list pl on pl.promo_id = pg.promo_id ";
+			//sc += " join barcode b on b.barcode = pg.barcode ";
+			//sc += " join code_relations c on c.code =b.item_code ";
+			//sc += " WHERE 1=1 AND pl.promo_type = 7 ";
+			//sc += " AND pl.promo_id = '" + promo_id + "'";
 
-            sc  = " select c.price1 from code_relations c join promo p on p.code = c.code ";
-            sc += " where p.promo_id = '" + promo_id + "' ";
+			sc = " select c.price1 from code_relations c join promo p on p.code = c.code ";
+			sc += " where p.promo_id = '" + promo_id + "' ";
 
 			try
 			{
@@ -9066,24 +9147,24 @@ namespace QPOS2008
 			DataRow[] dra = dst.Tables["promo_cache"].Select(sSel);
 			if (dra.Length <= 0)
 				return;
-            var today = DateTime.Now.DayOfWeek.ToString().ToLower();
-            bool bDayActive = false;
-            Dictionary<string, bool> promo_day = new Dictionary<string, bool>();
-            promo_day.Clear();
-            promo_day.Add("monday", bool.Parse(dra[nIndex]["promo_day1"].ToString()));
-            promo_day.Add("tuesday", bool.Parse(dra[nIndex]["promo_day2"].ToString()));
-            promo_day.Add("wednesday", bool.Parse(dra[nIndex]["promo_day3"].ToString()));
-            promo_day.Add("thursday", bool.Parse(dra[nIndex]["promo_day4"].ToString()));
-            promo_day.Add("friday", bool.Parse(dra[nIndex]["promo_day5"].ToString()));
-            promo_day.Add("saturday", bool.Parse(dra[nIndex]["promo_day6"].ToString()));
-            promo_day.Add("sunday", bool.Parse(dra[nIndex]["promo_day7"].ToString()));
-            foreach (var day in promo_day)
-            {
-                if (day.Key == today && day.Value)
-                    bDayActive = true;
-            }
-            if (!bDayActive)
-                return;
+			var today = DateTime.Now.DayOfWeek.ToString().ToLower();
+			bool bDayActive = false;
+			Dictionary<string, bool> promo_day = new Dictionary<string, bool>();
+			promo_day.Clear();
+			promo_day.Add("monday", bool.Parse(dra[nIndex]["promo_day1"].ToString()));
+			promo_day.Add("tuesday", bool.Parse(dra[nIndex]["promo_day2"].ToString()));
+			promo_day.Add("wednesday", bool.Parse(dra[nIndex]["promo_day3"].ToString()));
+			promo_day.Add("thursday", bool.Parse(dra[nIndex]["promo_day4"].ToString()));
+			promo_day.Add("friday", bool.Parse(dra[nIndex]["promo_day5"].ToString()));
+			promo_day.Add("saturday", bool.Parse(dra[nIndex]["promo_day6"].ToString()));
+			promo_day.Add("sunday", bool.Parse(dra[nIndex]["promo_day7"].ToString()));
+			foreach (var day in promo_day)
+			{
+				if (day.Key == today && day.Value)
+					bDayActive = true;
+			}
+			if (!bDayActive)
+				return;
 
 			double dRate = 1 - Program.MyDoubleParse(dra[0]["discount_percentage"].ToString()) / 100;
 			double dPriceOrg = Program.MyMoneyParse(cart.Rows[nIndex].Cells["cc_price"].Value.ToString());
@@ -9122,7 +9203,7 @@ namespace QPOS2008
 			sc += " INSERT INTO code_relations(id, code, supplier_code, name, cat) VALUES('" + code + "', " + code + ", '" + code + "', '" + name + "', '" + cat + "') ";
 			sc += " IF NOT EXISTS(SELECT code FROM product WHERE code = " + code + " AND supplier_code = '" + code + "') ";
 			sc += " INSERT INTO product(code, supplier_code, name, cat, price) VALUES(" + code + ", '" + code + "', '" + name + "', '" + cat + "', 0) ";
-            sc += " UPDATE code_relations SET tax_rate = 0.15 WHERE code = " + code + " ";
+			sc += " UPDATE code_relations SET tax_rate = 0.15 WHERE code = " + code + " ";
 			try
 			{
 				myCommand = new SqlCommand(sc);
@@ -9141,11 +9222,11 @@ namespace QPOS2008
 		}
 		private bool CheckQtyPromotionValue(string bCode, int nWeekDay, string sBarcode)
 		{
-            int a = 0;
+			int a = 0;
 			if (dst.Tables["promo_cache"] == null)
 				CachePromotion();
 			string sc = " ";
-            if (bCode != "" && int.TryParse(bCode, out a))
+			if (bCode != "" && int.TryParse(bCode, out a))
 			{
 				sc += " code = '" + bCode + "'";
 			}
@@ -9218,7 +9299,7 @@ namespace QPOS2008
 			string sc = "SET dateformat dmy ";
 			sc += " SELECT ISNULL( ";
 			//			sc += " c.promo_id, 0 ";
-			sc += " (select top 1 p.promo_id from promo p left outer join promotion_list pl on p.promo_id = pl.promo_id where 1=1 AND pl.promo_start_date <= GETDATE() AND pl.promo_end_date >= GETDATE() and p.code = '"+ sSelectedItemCode + "')";
+			sc += " (select top 1 p.promo_id from promo p left outer join promotion_list pl on p.promo_id = pl.promo_id where 1=1 AND pl.promo_start_date <= GETDATE() AND pl.promo_end_date >= GETDATE() and p.code = '" + sSelectedItemCode + "')";
 			sc += " ,0) AS promo_id, ISNULL(c.is_special, '0') AS is_special, ISNULL(c.no_discount,'0') AS no_discount FROM code_relations c ";
 			//sc += " left outer join promo p on c.code = p.code ";
 			//sc += " left outer join promotion_list pl on p.promo_id = pl.promo_id ";
@@ -9403,16 +9484,16 @@ namespace QPOS2008
 			//string m_sNewPrice = d_sNewPrice.ToString("N2");
 			return s_barcodeonbarcodelabel;
 		}
-        private double GetLabelBarcodeWeight(double unitprice, double totalprice)
-        {
-            double weight = 0;
-            if (unitprice >= 0 && totalprice >= 0)
-                weight = totalprice / unitprice;
-            else
-                weight = 1;
-            weight = Math.Round(weight, 4);
-            return weight;
-        }
+		private double GetLabelBarcodeWeight(double unitprice, double totalprice)
+		{
+			double weight = 0;
+			if (unitprice >= 0 && totalprice >= 0)
+				weight = totalprice / unitprice;
+			else
+				weight = 1;
+			weight = Math.Round(weight, 4);
+			return weight;
+		}
 		private double GetBarcodeWithPrice(string sInputValue, string sDelimiter, ref string sNewBarcode)
 		{
 			/***************************************
@@ -9482,8 +9563,8 @@ namespace QPOS2008
 				double dNQty = Program.MyDoubleParse(dQty.ToString());
 				dNQty = 0 - dNQty;
 				double dPriceCurrent = Program.MyDoubleParse(cart.Rows[i].Cells["cc_price"].Value.ToString());
-                //double dSub = Math.Round(dPriceCurrent * dNQty, 2);
-                double dSub = 0-Program.MyDoubleParse(cart.Rows[i].Cells["cc_total"].Value.ToString());
+				//double dSub = Math.Round(dPriceCurrent * dNQty, 2);
+				double dSub = 0 - Program.MyDoubleParse(cart.Rows[i].Cells["cc_total"].Value.ToString());
 				cart.Rows[i].Cells["cc_qty"].Value = dNQty;
 				cart.Rows[i].Cells["cc_total"].Value = dSub;
 				m_fmad.cart.Rows[i].Cells["cc_qty"].Value = dQty;
@@ -9929,7 +10010,7 @@ namespace QPOS2008
 				}
 			}
 
-			double dTotalQty = dQtyInCart + dQtyKeyIn;	//6
+			double dTotalQty = dQtyInCart + dQtyKeyIn;  //6
 			double dMainQty = 0;
 			double dRewardQty = 0;
 			double dQtyPool = 0;
@@ -10012,13 +10093,13 @@ namespace QPOS2008
 			*/
 			return;
 		}
-        private void DoKeyInPromotionValueOne(string code, string name, string name_cn, double price, double dDisPrice, double dInputQty, double limit, string s_supplier_code, double dRequried_qty, bool bISNO_Point)
-        {
-            double d_overlimit = dInputQty - limit;
-            AddToCart("", code, name, name_cn, dDisPrice, limit, "1", false, s_supplier_code, dDisPrice * limit, bISNO_Point, false);
-            AddToCart("", code, name, name_cn, price, d_overlimit, "1", false, s_supplier_code, price * d_overlimit, bISNO_Point, false);
+		private void DoKeyInPromotionValueOne(string code, string name, string name_cn, double price, double dDisPrice, double dInputQty, double limit, string s_supplier_code, double dRequried_qty, bool bISNO_Point)
+		{
+			double d_overlimit = dInputQty - limit;
+			AddToCart("", code, name, name_cn, dDisPrice, limit, "1", false, s_supplier_code, dDisPrice * limit, bISNO_Point, false);
+			AddToCart("", code, name, name_cn, price, d_overlimit, "1", false, s_supplier_code, price * d_overlimit, bISNO_Point, false);
 
-        }
+		}
 		private void doKeyInPromotionValueFour(string code, string name, string name_cn, double price, double dDisTotalPrice, double dInputQty, string s_supplier_code, double dRequried_qty, bool bISNO_Point)
 		{
 			double dTotalDiscountTimes = dInputQty / dRequried_qty;
@@ -10091,26 +10172,26 @@ namespace QPOS2008
 				}
 				else
 				{
-/*					if (dRest > Program.MyDoubleParse(m_sCashoutcontrol)) // Over cash out limit
-					{
-						MessageBox.Show("Sorry, Over Cash Out Limit " + Program.MyMoneyParse(m_sCashoutcontrol).ToString("N2"), "Cash Out Warning", MessageBoxButtons.OK);
-						if (sPaymentType == "credit")
-						{
-							m_dCredit = 0;
-							this.Credit.Text = this.labelBalance.Text;
-							this.Credit.Focus();
-							this.Credit.Select();
-						}
-						else
-						{
-							m_dEftpos = 0;
-							this.Eftpos.Text = this.labelBalance.Text;
-							this.Eftpos.Focus();
-							this.Eftpos.Select();
-						}
-						return false;
-					}
-*/					
+					/*					if (dRest > Program.MyDoubleParse(m_sCashoutcontrol)) // Over cash out limit
+										{
+											MessageBox.Show("Sorry, Over Cash Out Limit " + Program.MyMoneyParse(m_sCashoutcontrol).ToString("N2"), "Cash Out Warning", MessageBoxButtons.OK);
+											if (sPaymentType == "credit")
+											{
+												m_dCredit = 0;
+												this.Credit.Text = this.labelBalance.Text;
+												this.Credit.Focus();
+												this.Credit.Select();
+											}
+											else
+											{
+												m_dEftpos = 0;
+												this.Eftpos.Text = this.labelBalance.Text;
+												this.Eftpos.Focus();
+												this.Eftpos.Select();
+											}
+											return false;
+										}
+					*/
 					/*
 					else if ((m_dCashTotal != 0 || m_dCash !=0)&& dRest > 0 )
 					{  
@@ -10141,16 +10222,16 @@ namespace QPOS2008
 			{
 				if (OverTransactionTotal())
 					return false;
-/*				if (dAmount > Program.MyDoubleParse(m_sCashoutcontrol)) // Over cash out limit
-				{
-					MessageBox.Show("Sorry, Over Cash Out Limit " + Program.MyMoneyParse(m_sCashoutcontrol).ToString("N2") + " " + Program.MyMoneyParse(m_sCashoutcontrol).ToString("N2"));
-					m_dCashout = 0;
-					this.Cashout.Text = "";
-					this.Cashout.Focus();
-					this.Cashout.Select();
-					return false;
-				}
-*/ 
+				/*				if (dAmount > Program.MyDoubleParse(m_sCashoutcontrol)) // Over cash out limit
+								{
+									MessageBox.Show("Sorry, Over Cash Out Limit " + Program.MyMoneyParse(m_sCashoutcontrol).ToString("N2") + " " + Program.MyMoneyParse(m_sCashoutcontrol).ToString("N2"));
+									m_dCashout = 0;
+									this.Cashout.Text = "";
+									this.Cashout.Focus();
+									this.Cashout.Select();
+									return false;
+								}
+				*/
 			}
 			else if (sPaymentType == "cheque")
 			{
@@ -10189,11 +10270,11 @@ namespace QPOS2008
 				CheckGroupPromotion();
 				m_bCheckGroupPromotion = false;
 			}
-            if (m_bCheckComboPromotion)
-            {
-                CheckComboPromotion();
-                m_bCheckComboPromotion = false;
-            }
+			if (m_bCheckComboPromotion)
+			{
+				CheckComboPromotion();
+				m_bCheckComboPromotion = false;
+			}
 
 			this.Text = "GPOS SYSTEM " + " " + DateTime.Now.ToShortDateString() + "  " + DateTime.Now.ToLongTimeString();
 			if (m_bTrial)
@@ -10347,7 +10428,7 @@ namespace QPOS2008
 			{
 				DeleteCartItem(iRows);
 				CheckGroupPromotion();
-                CheckComboPromotion();
+				CheckComboPromotion();
 				return;
 			}
 			if (dNewQty < 0)
@@ -10420,8 +10501,8 @@ namespace QPOS2008
 			string sc1 = "SELECT p.volumn_discount_price_total, p.volumn_discount_qty, p.promo_type ";
 			sc1 += " FROM promotion_list p JOIN code_relations c ON p.promo_id = c.promo_id WHERE 1=1"; ;
 			sc1 += " AND p.promo_start_date <= GETDATE() AND p.promo_end_date >= GETDATE() "; //started, but not yet expired
-//			if (CheckQtyPromotionValue(s_ChangeQtyCode, nWeekDay, ""))
-				sc1 += " AND p.promo_day" + nWeekDay.ToString() + " = 1 "; //today is in the DayOfWeek list 
+																							  //			if (CheckQtyPromotionValue(s_ChangeQtyCode, nWeekDay, ""))
+			sc1 += " AND p.promo_day" + nWeekDay.ToString() + " = 1 "; //today is in the DayOfWeek list 
 			sc1 += " AND c.code =" + s_ChangeQtyCode;
 
 			if (dst.Tables["changeQty"] != null)
@@ -10459,7 +10540,7 @@ namespace QPOS2008
 				CalcCartTotal();
 				UpdateDtCart(m_nCurrentCart);
 				CheckGroupPromotion();
-                CheckComboPromotion();
+				CheckComboPromotion();
 				UpdateTotalPriceDiscplay();
 				m_fmads.cart.Rows[iRows].Selected = true;
 
@@ -10486,18 +10567,18 @@ namespace QPOS2008
 			string s_ChangeQtyIsPromotion = "";
 			double d_ChangeQtyDisTotal = 0;
 			double d_ChangeQtyRequiredQty = 0;
-            double d_Limit = 0;
-            double d_OverLimit = 0;
-            double d_price1 = 0;
-            double d_special_price = 0;
+			double d_Limit = 0;
+			double d_OverLimit = 0;
+			double d_price1 = 0;
+			double d_special_price = 0;
 
 			double dQtyOld = Program.MyDoubleParse(cart.Rows[iRows].Cells["cc_qty"].Value.ToString());
 			double dNewQty = dQtyChange;// + dQtyOld;
 			if (dNewQty == 0)
 			{
 				DeleteCartItem(iRows);
-                CheckGroupPromotion();
-                CheckComboPromotion();
+				CheckGroupPromotion();
+				CheckComboPromotion();
 				return;
 			}
 			if (dNewQty < 0)
@@ -10523,7 +10604,7 @@ namespace QPOS2008
 			int nWeekDay = (int)DateTime.Now.DayOfWeek;
 			if (nWeekDay == 0)
 				nWeekDay = 7; //tee's design, Sunday is 7
-            string sc1 = "SELECT p.volumn_discount_price_total, p.volumn_discount_qty, p.promo_type, isnull(p.limit,0) as limit, c.price1, p.special_price ";
+			string sc1 = "SELECT p.volumn_discount_price_total, p.volumn_discount_qty, p.promo_type, isnull(p.limit,0) as limit, c.price1, p.special_price ";
 			sc1 += " FROM promotion_list p JOIN code_relations c ON p.promo_id = c.promo_id WHERE 1=1"; ;
 			sc1 += " AND p.promo_start_date <= GETDATE() AND p.promo_end_date >= GETDATE() "; //started, but not yet expired
 			if (CheckQtyPromotionValue(s_ChangeQtyCode, nWeekDay, ""))
@@ -10547,22 +10628,22 @@ namespace QPOS2008
 				d_ChangeQtyDisTotal = Program.MyDoubleParse(dr["volumn_discount_price_total"].ToString());
 				d_ChangeQtyRequiredQty = Program.MyDoubleParse(dr["volumn_discount_qty"].ToString());
 				s_ChangeQtyPromotionType = dr["promo_type"].ToString();
-                d_Limit = Program.MyDoubleParse(dr["limit"].ToString());
-                d_price1 = Program.MyDoubleParse(dr["price1"].ToString());
-                d_special_price = Program.MyDoubleParse(dr["special_price"].ToString());
+				d_Limit = Program.MyDoubleParse(dr["limit"].ToString());
+				d_price1 = Program.MyDoubleParse(dr["price1"].ToString());
+				d_special_price = Program.MyDoubleParse(dr["special_price"].ToString());
 			}
 			if (s_ChangeQtyIsPromotion != "" && s_ChangeQtyPromotionType == "4")
 			{
 				DeleteCartItem(iRows);
 				doKeyInPromotionValueFour(s_ChangeQtyCode, s_ChangeQtyName, s_ChangeQtyNameCN, Program.MyDoubleParse(s_ChangeQtyPrice), d_ChangeQtyDisTotal, dNewQty, s_ChangeQtySupplier_code, d_ChangeQtyRequiredQty, true);
 			}
-            else if (s_ChangeQtyIsPromotion != "" && s_ChangeQtyPromotionType == "1" && d_Limit > 0 && dNewQty > d_Limit)
-            {
-                DeleteCartItem(iRows);
-                //d_OverLimit =  dNewQty -  d_Limit;
-                DoKeyInPromotionValueOne(s_ChangeQtyCode, s_ChangeQtyName, s_ChangeQtyNameCN, d_price1, d_special_price, dNewQty, d_Limit, s_ChangeQtySupplier_code, d_ChangeQtyRequiredQty, true);
+			else if (s_ChangeQtyIsPromotion != "" && s_ChangeQtyPromotionType == "1" && d_Limit > 0 && dNewQty > d_Limit)
+			{
+				DeleteCartItem(iRows);
+				//d_OverLimit =  dNewQty -  d_Limit;
+				DoKeyInPromotionValueOne(s_ChangeQtyCode, s_ChangeQtyName, s_ChangeQtyNameCN, d_price1, d_special_price, dNewQty, d_Limit, s_ChangeQtySupplier_code, d_ChangeQtyRequiredQty, true);
 
-            }
+			}
 			else
 			{
 				m_dNewRowTotal = Program.MyDoubleParse(m_sItemUnitPrice) * dNewQty;
@@ -10577,8 +10658,8 @@ namespace QPOS2008
 				UpdateTotalPriceDiscplay();
 				m_bQtyEditing = true;
 				CheckQtyPromotion(s_ChangeQtyCode, dNewQty, iRows, "");
-                CheckGroupPromotion();
-                CheckComboPromotion();
+				CheckGroupPromotion();
+				CheckComboPromotion();
 				m_bQtyEditing = false;
 				this.barcode.Focus();
 			}
@@ -10606,7 +10687,7 @@ namespace QPOS2008
 			{
 				DeleteCartItem(iRows);
 				CheckGroupPromotion();
-                CheckComboPromotion();
+				CheckComboPromotion();
 				return;
 			}
 			if (dNewQty < 0)
@@ -10676,7 +10757,7 @@ namespace QPOS2008
 				this.barcode.Focus();
 			}
 			CheckGroupPromotion();
-            CheckComboPromotion();
+			CheckComboPromotion();
 		}
 		private void doShowPaymentInfo()
 		{
@@ -10704,18 +10785,18 @@ namespace QPOS2008
 		private void sShowItemTotal()
 		{
 			double dQty = 0;
-            double dQtys = 0;
+			double dQtys = 0;
 			for (int i = 0; i < cart.Rows.Count; i++)
 			{
 				string sQty = cart.Rows[i].Cells["cc_qty"].Value.ToString();
-                string sCode = cart.Rows[i].Cells["cc_code"].Value.ToString();
-                if (sCode == "")
-                    continue;
-                dQty = dQty + 1;// Program.MyDoubleParse(sQty);
-                dQtys += Program.MyDoubleParse(sQty);
+				string sCode = cart.Rows[i].Cells["cc_code"].Value.ToString();
+				if (sCode == "")
+					continue;
+				dQty = dQty + 1;// Program.MyDoubleParse(sQty);
+				dQtys += Program.MyDoubleParse(sQty);
 			}
 			this.showItems.Text = dQty.ToString();
-            this.lblQtys.Text = dQtys.ToString();
+			this.lblQtys.Text = dQtys.ToString();
 		}
 		private void RollBackDiscountOneItem()
 		{
@@ -10789,8 +10870,8 @@ namespace QPOS2008
 				string sdName = cart.Rows[i].Cells["cc_name_en"].Value.ToString();
 				if (dst.Tables["total_dis1"] != null)
 					dst.Tables["total_dis1"].Clear();
-	//			string sc = " SELECT ISNULL(promo_id, 0) AS promo_id, is_special FROM code_relations WHERE supplier_code = '" + sSupCode + "'";
-                string sc = " SELECT ISNULL(promo_id, 0) AS promo_id, is_special FROM code_relations WHERE code = '" + sSupCode + "'";
+				//			string sc = " SELECT ISNULL(promo_id, 0) AS promo_id, is_special FROM code_relations WHERE supplier_code = '" + sSupCode + "'";
+				string sc = " SELECT ISNULL(promo_id, 0) AS promo_id, is_special FROM code_relations WHERE code = '" + sSupCode + "'";
 				try
 				{
 					myAdapter = new SqlDataAdapter(sc, myConnection);
@@ -10806,11 +10887,11 @@ namespace QPOS2008
 				string sIsPromItem = itdi["promo_id"].ToString();
 				bool bIsSpe = Program.MyBooleanParse(itdi["is_special"].ToString());
 				if (sIsPromItem != "0")
-                    //return;
-                    continue;
+					//return;
+					continue;
 				if (bIsSpe)
-                    //return;
-                    continue;
+					//return;
+					continue;
 				if (m_bChineseDesc)
 				{
 					if (sNameCN != "")
@@ -11181,7 +11262,7 @@ namespace QPOS2008
 		{
 			if (m_sCardBarcode == "")
 				return true;
-//			m_nMemberPoints = Program.MyIntParse(labelPoints.Text) + (int)m_dOrderTotal;
+			//			m_nMemberPoints = Program.MyIntParse(labelPoints.Text) + (int)m_dOrderTotal;
 			m_nMemberPoints = Program.MyIntParse(labelPoints.Text) + m_nTotalLegalPoint;
 			string sc = " UPDATE card SET points = " + m_nMemberPoints + " WHERE id = " + m_nCardId;
 			try
@@ -11197,15 +11278,15 @@ namespace QPOS2008
 				Program.ShowExp(sc, e);
 				return false;
 			}
-            if (m_nMemberPoints >= m_dVipVoucherStartPoints)
+			if (m_nMemberPoints >= m_dVipVoucherStartPoints)
 			{
-                //if (m_bVoucherEnabled)
-                if (m_bVipVoucherEnabled)
+				//if (m_bVoucherEnabled)
+				if (m_bVipVoucherEnabled)
 				{
 					if (!DoCreateVoucher())
 						return false;
-                    //m_nMemberPoints -= (int)m_dVoucherStart;
-                    m_nMemberPoints -= (int)m_dVipVoucherStartPoints;
+					//m_nMemberPoints -= (int)m_dVoucherStart;
+					m_nMemberPoints -= (int)m_dVipVoucherStartPoints;
 					sc = " UPDATE card SET points = " + m_nMemberPoints + " WHERE id = " + m_nCardId;
 					try
 					{
@@ -11259,8 +11340,8 @@ namespace QPOS2008
 		private void Cash_Click(object sender, EventArgs e)
 		{
 			m_bSurcharge = false;
-            m_fmad.lblSurCharge.Text = "";
-            m_fmads.lblSurCharge.Text = "";
+			m_fmad.lblSurCharge.Text = "";
+			m_fmads.lblSurCharge.Text = "";
 			RefreshPayment("payment_cash");
 			double dGetBanlance = Program.MyDoubleParse(GetBalance());
 			this.labelBalance.Text = Program.RoundCents(dGetBanlance, m_sRoundingNum).ToString("N2");
@@ -11271,10 +11352,10 @@ namespace QPOS2008
 		private void Eftpos_Click(object sender, EventArgs e)
 		{
 			m_bSurcharge = false;
-            m_fmad.lblSurCharge.Text = "";
-            m_fmads.lblSurCharge.Text = "";
+			m_fmad.lblSurCharge.Text = "";
+			m_fmads.lblSurCharge.Text = "";
 			RefreshPayment("payment_eftpos");
-            m_dRoundingTotal = 0;
+			m_dRoundingTotal = 0;
 			double dGetBanlance = Program.MyDoubleParse(GetBalance());
 			this.labelBalance.Text = dGetBanlance.ToString("N2");
 			this.Eftpos.Text = dGetBanlance.ToString("N2");
@@ -11283,8 +11364,8 @@ namespace QPOS2008
 		private void Cashout_Click(object sender, EventArgs e)
 		{
 			m_bSurcharge = false;
-            m_fmad.lblSurCharge.Text = "";
-            m_fmads.lblSurCharge.Text = "";
+			m_fmad.lblSurCharge.Text = "";
+			m_fmads.lblSurCharge.Text = "";
 			if (this.Cash.Text != "")
 			{
 				FormMSG errMsg = new FormMSG();
@@ -11307,10 +11388,10 @@ namespace QPOS2008
 		private void Credit_Click(object sender, EventArgs e)
 		{
 			m_bSurcharge = false;
-            m_fmad.lblSurCharge.Text = "";
-            m_fmads.lblSurCharge.Text = "";
+			m_fmad.lblSurCharge.Text = "";
+			m_fmads.lblSurCharge.Text = "";
 			RefreshPayment("payment_cc");
-            m_dRoundingTotal = 0;
+			m_dRoundingTotal = 0;
 			double dGetBanlance = Program.MyDoubleParse(GetBalance());
 			this.labelBalance.Text = dGetBanlance.ToString("N2");
 			this.Credit.Text = dGetBanlance.ToString();
@@ -11320,8 +11401,8 @@ namespace QPOS2008
 		private void charge_Click(object sender, EventArgs e)
 		{
 			m_bSurcharge = false;
-            m_fmad.lblSurCharge.Text = "";
-            m_fmads.lblSurCharge.Text = "";
+			m_fmad.lblSurCharge.Text = "";
+			m_fmads.lblSurCharge.Text = "";
 			if (m_dVipPayAmount != 0)
 				return;
 			RefreshPayment("payment_charge");
@@ -11335,7 +11416,7 @@ namespace QPOS2008
 				MemberShipID.Focus();
 				return;
 			}
-            m_dRoundingTotal = 0;
+			m_dRoundingTotal = 0;
 			double dGetBanlance = Program.MyDoubleParse(GetBalance());
 			this.labelBalance.Text = dGetBanlance.ToString("N2");
 			this.charge.Text = dGetBanlance.ToString();
@@ -11344,8 +11425,8 @@ namespace QPOS2008
 		private void Cheque_Click(object sender, EventArgs e)
 		{
 			m_bSurcharge = false;
-            m_fmad.lblSurCharge.Text = "";
-            m_fmads.lblSurCharge.Text = "";
+			m_fmad.lblSurCharge.Text = "";
+			m_fmads.lblSurCharge.Text = "";
 			RefreshPayment("payment_cheque");
 			double dGetBanlance = Program.MyDoubleParse(GetBalance());
 			this.labelBalance.Text = dGetBanlance.ToString("N2");
@@ -11412,12 +11493,12 @@ namespace QPOS2008
 					name = name_en;
 				if (name == "")
 					name = id;
-/*				if (i == 0) //disabled first button, used for Phone Card
-				{
-					name_en = "Phone Card";
-					name = name_en;
-				}
-*/ 
+				/*				if (i == 0) //disabled first button, used for Phone Card
+								{
+									name_en = "Phone Card";
+									name = name_en;
+								}
+				*/
 				Button newCatButton = new Button();
 				newCatButton.BackColor = System.Drawing.Color.Transparent;
 				newCatButton.BackgroundImage = QPOS2008.Properties.Resources.btn_brown;
@@ -11462,10 +11543,10 @@ namespace QPOS2008
 					newCatButton.FlatAppearance.BorderSize = 0;
 					newCatButton.Text = name;
 					newCatButton.Font = new Font("Arial", m_nMenuFontSize, FontStyle.Bold);
-                    //if(i == 0)
-                    //    newCatButton.Name = name;
-                    //else
-						newCatButton.Name = "Cat" + id;
+					//if(i == 0)
+					//    newCatButton.Name = name;
+					//else
+					newCatButton.Name = "Cat" + id;
 					newCatButton.UseVisualStyleBackColor = true;
 					newCatButton.Click += new EventHandler(newCatButton_Click);
 					newCatButton.KeyDown += new System.Windows.Forms.KeyEventHandler(OnFormKeyDown);
@@ -11994,7 +12075,7 @@ namespace QPOS2008
 				return;
 			Button CurrentButton = (Button)sender;
 			string btn_name = CurrentButton.Name;
-			if(btn_name.ToLower() == "phone card")
+			if (btn_name.ToLower() == "phone card")
 			{
 				FormPhoneCard fm = new FormPhoneCard();
 				fm.ShowDialog();
@@ -12164,20 +12245,20 @@ namespace QPOS2008
 						Control kc = this.barcode;
 						if (m_lastFocused != null)
 							kc = m_lastFocused;
-                        if (Program.MyDoubleParse(kc.Text) < 0)
-                        {
-                            FormMSG errMsg = new FormMSG();
-                            errMsg.btnNo.Visible = false;
-                            errMsg.btnYes.Visible = false;
-                            errMsg.m_sMsg = " Sorry , the dump sale cannot enter negative numbers! ";
-                            errMsg.ShowDialog();
-                            this.price.Text = "";
-                            this.barcode.Focus();
-                            this.barcode.Text = "";
-                            this.price.Text = "";
-                            this.qty.Text = "";
-                            return;
-                        }  
+						if (Program.MyDoubleParse(kc.Text) < 0)
+						{
+							FormMSG errMsg = new FormMSG();
+							errMsg.btnNo.Visible = false;
+							errMsg.btnYes.Visible = false;
+							errMsg.m_sMsg = " Sorry , the dump sale cannot enter negative numbers! ";
+							errMsg.ShowDialog();
+							this.price.Text = "";
+							this.barcode.Focus();
+							this.barcode.Text = "";
+							this.price.Text = "";
+							this.qty.Text = "";
+							return;
+						}
 						this.barcode.Text += m_sLoadShortKey;
 						DoScanBarcode(false);
 						this.price.Text = "";
@@ -12442,10 +12523,10 @@ namespace QPOS2008
 					panelMenuPopup.Visible = false;
 			}
 		}
-        private string getbarcode(string code)
-        {
-            return "";
-        }
+		private string getbarcode(string code)
+		{
+			return "";
+		}
 
 		private void newItemButton_Click(object sender, EventArgs e)
 		{
@@ -12461,12 +12542,12 @@ namespace QPOS2008
 					return;
 				}
 				string sbarcode = name.Substring(4, name.Length - 4);
-				if (sbarcode != "0" && (text !="关闭" && text.ToLower() != "close"))
+				if (sbarcode != "0" && (text != "关闭" && text.ToLower() != "close"))
 				{
 					this.barcode.Text = sbarcode;
 					DoScanBarcode(true);
 				}
-				else if (text =="关闭" || text.ToLower() == "close")
+				else if (text == "关闭" || text.ToLower() == "close")
 				{
 					panelMenuPopup.Visible = false;
 				}
@@ -12574,7 +12655,7 @@ namespace QPOS2008
 			Button CurrentButton = (Button)sender;
 			string name = CurrentButton.Name;
 			string value = CurrentButton.Text;
-//Program.g_log.Log("btnPinpad_Click, name=" + name + ", value=" + value);						
+			//Program.g_log.Log("btnPinpad_Click, name=" + name + ", value=" + value);						
 			if (name == "btnPay")
 			{
 				if (cart.Rows.Count <= 0)
@@ -12609,7 +12690,7 @@ namespace QPOS2008
 				{
 					adminLogin fms = new adminLogin();
 					fms.m_bChangeSales = true;
-                    fms.m_sText = "Enter Passcode";
+					fms.m_sText = "Enter Passcode";
 					fms.ShowDialog();
 					if (!fms.m_bPass)
 						return;
@@ -12642,17 +12723,17 @@ namespace QPOS2008
 					Cash.Focus();
 				panelHold.Enabled = false;
 
-                m_fmad.lblSurCharge.Text = "";
-                m_fmads.lblSurCharge.Text = "";
+				m_fmad.lblSurCharge.Text = "";
+				m_fmads.lblSurCharge.Text = "";
 				//	Cash.Text = Program.RoundCents(Program.MyMoneyParse(this.labelBalance.Text), m_sRoundingNum).ToString();
 			}
 			else if (name == "btnQty")
 			{
-                if (Program.m_bEnableQtyPassword)
-                {
-                    if (!AdminOK("discount"))
-                        return;
-                }
+				if (Program.m_bEnableQtyPassword)
+				{
+					if (!AdminOK("discount"))
+						return;
+				}
 				if (cart.Rows.Count <= 0)
 					return;
 				txtChangeQty.Text = "";
@@ -12973,8 +13054,8 @@ namespace QPOS2008
 			txtpaymentinfo.Text = "";
 			ResetPayment();
 			btnClose.Enabled = false;
-            m_fmad.lblSurCharge.Text = "";
-            m_fmads.lblSurCharge.Text = "";
+			m_fmad.lblSurCharge.Text = "";
+			m_fmads.lblSurCharge.Text = "";
 		}
 		private void txtChangeQty_KeyDown(object sender, KeyEventArgs e)
 		{
@@ -12986,7 +13067,7 @@ namespace QPOS2008
 		private bool AdminOK(string cmd)
 		{
 			adminLogin fm = new adminLogin();
-            fm.m_sText = "Enter Passcode";
+			fm.m_sText = "Enter Passcode";
 			fm.cmd = cmd;
 			fm.ShowDialog();
 			if (fm.m_bPass)
@@ -13091,7 +13172,7 @@ namespace QPOS2008
 				{
 					return;
 				}
-                Program.ResetTillDataAfterZTotal(Program.m_sStationID);
+				Program.ResetTillDataAfterZTotal(Program.m_sStationID);
 				this.BringToFront();
 
 				timer1.Enabled = true;
@@ -13156,8 +13237,8 @@ namespace QPOS2008
 		private void btn_cash_Click(object sender, EventArgs e)
 		{
 			m_bSurcharge = false;
-            m_fmad.lblSurCharge.Text = "";
-            m_fmads.lblSurCharge.Text = "";
+			m_fmad.lblSurCharge.Text = "";
+			m_fmads.lblSurCharge.Text = "";
 			RefreshPayment("payment_cash");
 			double dGetBanlance = Program.MyDoubleParse(GetBalance());
 			this.labelBalance.Text = Program.RoundCents(dGetBanlance, m_sRoundingNum).ToString("N2");
@@ -13169,10 +13250,10 @@ namespace QPOS2008
 		private void btn_eftpos_Click(object sender, EventArgs e)
 		{
 			m_bSurcharge = false;
-            m_fmad.lblSurCharge.Text = "";
-            m_fmads.lblSurCharge.Text = "";
+			m_fmad.lblSurCharge.Text = "";
+			m_fmads.lblSurCharge.Text = "";
 			RefreshPayment("payment_eftpos");
-            m_dRoundingTotal = 0;
+			m_dRoundingTotal = 0;
 			double dGetBanlance = Program.MyDoubleParse(GetBalance());
 			this.labelBalance.Text = dGetBanlance.ToString("N2");
 			this.Eftpos.Text = dGetBanlance.ToString("N2");
@@ -13182,8 +13263,8 @@ namespace QPOS2008
 		private void btn_cashout_Click(object sender, EventArgs e)
 		{
 			m_bSurcharge = false;
-            m_fmad.lblSurCharge.Text = "";
-            m_fmads.lblSurCharge.Text = "";
+			m_fmad.lblSurCharge.Text = "";
+			m_fmads.lblSurCharge.Text = "";
 			//			if (this.Cash.Text != "" || m_dCashTotal != 0)
 			if (this.Cash.Text != "" || m_dCash != 0)
 			{
@@ -13199,11 +13280,11 @@ namespace QPOS2008
 		private void btn_cc_Click(object sender, EventArgs e)
 		{
 			m_bSurcharge = false;
-            m_fmad.lblSurCharge.Text = "";
-            m_fmads.lblSurCharge.Text = "";
+			m_fmad.lblSurCharge.Text = "";
+			m_fmads.lblSurCharge.Text = "";
 
 			RefreshPayment("payment_cc");
-            m_dRoundingTotal = 0;
+			m_dRoundingTotal = 0;
 			double dGetBanlance = Program.MyDoubleParse(GetBalance());
 			this.labelBalance.Text = dGetBanlance.ToString("N2");
 			this.Credit.Text = dGetBanlance.ToString("N2");
@@ -13277,63 +13358,63 @@ namespace QPOS2008
 			//}
 			//Cheque.Text = "";
 			//Cheque.Focus();
-		
-/*			if(Program.m_bEnableWechatPayment)
-			{
-				m_fmad.lblSurCharge.Text = "";
-				m_fmads.lblSurCharge.Text = "";
-				RefreshPayment("payment_cheque");
-				double dGetBanlance = Program.MyDoubleParse(GetBalance());
-				this.labelBalance.Text = dGetBanlance.ToString("N2");
-				this.Cheque.Text = dGetBanlance.ToString("N2");
-				this.Cheque.SelectAll();
-				this.Cashout.Text = "";
-				this.Cheque.Focus();
 
-				FormWeChat fmw = new FormWeChat();
-				if (Program.m_sDMoniter == true)
-				{
-					m_fmad.m_hParent = this.Handle;
-				}
-				string inv = GetNextInvNumber();
-				fmw.m_sInvoiceNumber = Program.m_sBranchID + Program.m_sStationID + inv;
-				fmw.m_dAmount = dGetBanlance;
-				fmw.ShowDialog(); 
-				if(fmw.m_bSuccess)
-				{
-					m_dCheque = dGetBanlance;
-					if (TotalPaymentOK())
-					{
-						doShowPaymentInfo();
-						DoCheckout();
-						Cash.Text = "";
-						labelBalance.Text = "";
-						return;
-					}
-				}
-				Cheque.Text = "";
-				Cheque.Focus();
-			}
-			else
-			{
-				m_bSurcharge = false;
-                m_fmad.lblSurCharge.Text = "";
-                m_fmads.lblSurCharge.Text = "";
-				RefreshPayment("payment_cheque");
-				double dGetBanlance = Program.MyDoubleParse(GetBalance());
-				this.labelBalance.Text = dGetBanlance.ToString("N2");
-				this.Cheque.Text = dGetBanlance.ToString("N2");
-				this.Cheque.SelectAll();
-				this.Cashout.Text = "";
-				this.Cheque.Focus();
-			}
-*/ 
+			/*			if(Program.m_bEnableWechatPayment)
+						{
+							m_fmad.lblSurCharge.Text = "";
+							m_fmads.lblSurCharge.Text = "";
+							RefreshPayment("payment_cheque");
+							double dGetBanlance = Program.MyDoubleParse(GetBalance());
+							this.labelBalance.Text = dGetBanlance.ToString("N2");
+							this.Cheque.Text = dGetBanlance.ToString("N2");
+							this.Cheque.SelectAll();
+							this.Cashout.Text = "";
+							this.Cheque.Focus();
+
+							FormWeChat fmw = new FormWeChat();
+							if (Program.m_sDMoniter == true)
+							{
+								m_fmad.m_hParent = this.Handle;
+							}
+							string inv = GetNextInvNumber();
+							fmw.m_sInvoiceNumber = Program.m_sBranchID + Program.m_sStationID + inv;
+							fmw.m_dAmount = dGetBanlance;
+							fmw.ShowDialog(); 
+							if(fmw.m_bSuccess)
+							{
+								m_dCheque = dGetBanlance;
+								if (TotalPaymentOK())
+								{
+									doShowPaymentInfo();
+									DoCheckout();
+									Cash.Text = "";
+									labelBalance.Text = "";
+									return;
+								}
+							}
+							Cheque.Text = "";
+							Cheque.Focus();
+						}
+						else
+						{
+							m_bSurcharge = false;
+							m_fmad.lblSurCharge.Text = "";
+							m_fmads.lblSurCharge.Text = "";
+							RefreshPayment("payment_cheque");
+							double dGetBanlance = Program.MyDoubleParse(GetBalance());
+							this.labelBalance.Text = dGetBanlance.ToString("N2");
+							this.Cheque.Text = dGetBanlance.ToString("N2");
+							this.Cheque.SelectAll();
+							this.Cashout.Text = "";
+							this.Cheque.Focus();
+						}
+			*/
 		}
 		private void btn_charge_Click(object sender, EventArgs e)
 		{
 			m_bSurcharge = false;
-            m_fmad.lblSurCharge.Text = "";
-            m_fmads.lblSurCharge.Text = "";
+			m_fmad.lblSurCharge.Text = "";
+			m_fmads.lblSurCharge.Text = "";
 			if (m_dVipPayAmount != 0)
 				return;
 			if ((!m_bScanMember && MemberShipID.Text == "") || m_nCardId == 0)
@@ -13347,7 +13428,7 @@ namespace QPOS2008
 				return;
 			}
 			RefreshPayment("payment_charge");
-            m_dRoundingTotal = 0;
+			m_dRoundingTotal = 0;
 			double dGetBanlance = Program.MyDoubleParse(GetBalance());
 			this.labelBalance.Text = dGetBanlance.ToString("N2");
 			this.charge.Text = dGetBanlance.ToString("N2");
@@ -13356,7 +13437,7 @@ namespace QPOS2008
 		}
 		private void button12_Click(object sender, EventArgs e)
 		{
-            CachePromotion(); //refresh promo_cache_table
+			CachePromotion(); //refresh promo_cache_table
 			if (Program.m_bEnableSelfService)
 				timer5.Stop();
 			Cash.Text = "";
@@ -13408,7 +13489,7 @@ namespace QPOS2008
 				fm.btnNo.Visible = false;
 				fm.btnYes.Visible = false;
 				fm.m_sMsg = "Please clear payment first!\r\n";
-                fm.m_sMsg += "OrderTotal = " + m_dTotal.ToString() + "\r\n";
+				fm.m_sMsg += "OrderTotal = " + m_dTotal.ToString() + "\r\n";
 				fm.m_sMsg += "TotalPaid = " + m_dTotalPaid.ToString();
 				fm.m_sMsg += "TotalRounding = " + m_dRoundingTotal.ToString();
 				fm.ShowDialog();
@@ -13425,8 +13506,8 @@ namespace QPOS2008
 				m_sDiscount[m_nCurrentCart + 1] = "";
 			}
 			panelHold.Enabled = true;
-            m_fmad.lblSurCharge.Text = "";
-            m_fmads.lblSurCharge.Text = "";
+			m_fmad.lblSurCharge.Text = "";
+			m_fmads.lblSurCharge.Text = "";
 		}
 		private void panel3_Paint(object sender, PaintEventArgs e)
 		{
@@ -13479,36 +13560,36 @@ namespace QPOS2008
 			}
 			return true;
 		}
-        private bool insertEftposLogError(string inv_number, string till, string elog)
-        {
-            if (!Program.m_bEnableEftposLog)
-                return true;
-            if (dst.Tables["insertEftposLogErro"] != null)
-                dst.Tables["insertEftposLogErro"].Clear();
-            string sc1 = " BEGIN TRANSACTION ";
-            sc1 += " INSERT INTO eftposlog (inv_number, elog, till) ";
-            sc1 += " VALUES ('" + inv_number + "'";
-            sc1 += " ,'" +elog+ "'";
-            sc1 += " ,'" +till+ "'";
-            sc1 += "')";
-            sc1 += "SELECT IDENT_CURRENT('eftposlog') AS id";
-            sc1 += " COMMIT ";
-            try
-            {
-                SqlDataAdapter myCommand = new SqlDataAdapter(sc1, myConnection);
-                if (myCommand.Fill(dst, "insertEftposLogErro") == 1)
-                {
-                    m_iEftposLog = Program.MyIntParse(dst.Tables["insertEftposLogErro"].Rows[0]["id"].ToString());
-                }
-            }
-            catch (Exception e)
-            {
-                myConnection.Close();
-                Program.ShowExp(sc1, e);
-                return false;
-            }
-            return true;
-        }
+		private bool insertEftposLogError(string inv_number, string till, string elog)
+		{
+			if (!Program.m_bEnableEftposLog)
+				return true;
+			if (dst.Tables["insertEftposLogErro"] != null)
+				dst.Tables["insertEftposLogErro"].Clear();
+			string sc1 = " BEGIN TRANSACTION ";
+			sc1 += " INSERT INTO eftposlog (inv_number, elog, till) ";
+			sc1 += " VALUES ('" + inv_number + "'";
+			sc1 += " ,'" + elog + "'";
+			sc1 += " ,'" + till + "'";
+			sc1 += "')";
+			sc1 += "SELECT IDENT_CURRENT('eftposlog') AS id";
+			sc1 += " COMMIT ";
+			try
+			{
+				SqlDataAdapter myCommand = new SqlDataAdapter(sc1, myConnection);
+				if (myCommand.Fill(dst, "insertEftposLogErro") == 1)
+				{
+					m_iEftposLog = Program.MyIntParse(dst.Tables["insertEftposLogErro"].Rows[0]["id"].ToString());
+				}
+			}
+			catch (Exception e)
+			{
+				myConnection.Close();
+				Program.ShowExp(sc1, e);
+				return false;
+			}
+			return true;
+		}
 
 		private bool DoUpdateEftposLog(string inv_num, string id, string till)
 		{
@@ -13558,17 +13639,17 @@ namespace QPOS2008
 		{
 			string nextcode = GetItemCode();
 			string expire_date = DateTime.Now.AddDays(int.Parse(m_sVoucherValidDay)).ToString("dd-MM-yyyy");
-			string expire_dates = DateTime.Now.AddDays(int.Parse(m_sVoucherValidDay)-1).ToString("dd-MM-yyyy");
+			string expire_dates = DateTime.Now.AddDays(int.Parse(m_sVoucherValidDay) - 1).ToString("dd-MM-yyyy");
 			string voucher_barcode = expire_date.Replace("-", "");
 			voucher_barcode += m_invoiceNumber;
 			voucher_barcode += Program.m_sStationID;
 			m_sVoucherBarcode = voucher_barcode;
 			int r = Program.MyIntParse((m_dTotal / m_dVoucherStart).ToString());
-            double voucher_amount = 0;
-            if (m_bVipVoucherEnabled && m_dVipVoucherValue > 0 )
-                voucher_amount = m_dVipVoucherValue;
-            else
-                voucher_amount = Program.MyDoubleParse(r.ToString()) * m_dVoucherRate;
+			double voucher_amount = 0;
+			if (m_bVipVoucherEnabled && m_dVipVoucherValue > 0)
+				voucher_amount = m_dVipVoucherValue;
+			else
+				voucher_amount = Program.MyDoubleParse(r.ToString()) * m_dVoucherRate;
 			m_sVoucherAmount = voucher_amount.ToString("c");
 
 			//Check voucher Item
@@ -13659,7 +13740,7 @@ namespace QPOS2008
 
 			if (dst.Tables["usevoucher"] != null)
 				dst.Tables["usevoucher"].Clear();
-			
+
 			string sc = " SELECT * FROM barcode WHERE item_code='" + m_sVoucherItem + "' AND barcode ='" + barcode + "'";
 			try
 			{
@@ -14082,7 +14163,7 @@ namespace QPOS2008
 			if (this.CreateNewNameTB.Text.Trim() == "" || this.CreateNewNameTB.Text.Trim() == null || this.CreateNewBarcodeTB.Text.Trim() == "" || this.CreateNewBarcodeTB.Text.Trim() == null)
 				return false;
 			string barcodeNew = this.CreateNewBarcodeTB.Text.Trim();
-            string supplierCode = this.CreateNewSupplierCodeTB.Text.Trim();
+			string supplierCode = this.CreateNewSupplierCodeTB.Text.Trim();
 			string name = this.CreateNewNameTB.Text.Trim();
 			string otherName = this.CreateNewOtherNameTB.Text.Trim();
 			string brand = "";
@@ -14127,7 +14208,7 @@ namespace QPOS2008
 			sc += " ('" + DateTime.Now.ToString("yyyyMMddHHmmss") + "'";
 			sc += ", ";
 			sc += codeNew;
-            sc += ", '" + supplierCode + "'";
+			sc += ", '" + supplierCode + "'";
 			sc += ", N'" + name + "'";
 			sc += ", N'" + otherName + "'";
 			sc += ", N'" + brand + "'";
@@ -14144,9 +14225,9 @@ namespace QPOS2008
 			sc += ", '" + sTaxrate + "'";
 			sc += ")";
 			sc += " UPDATE code_relations SET barcode = '" + Program.EncodeQuote(barcodeNew) + "' ";
-            if(supplierCode == "" || supplierCode == null)
-			    sc += ", supplier_code = code ";
-            sc += ", average_cost = supplier_price WHERE code =" + codeNew;
+			if (supplierCode == "" || supplierCode == null)
+				sc += ", supplier_code = code ";
+			sc += ", average_cost = supplier_price WHERE code =" + codeNew;
 			sc += " INSERT INTO product (code, name, name_cn, brand, cat, s_cat, ss_cat, hot, price, stock, eta, supplier, supplier_code, supplier_price, price_dropped, price_age, allocated_stock, popular, real_stock) SELECT ";
 			sc += " c.code, c.name, c.name_cn,c.brand,  c.cat, c.s_cat, c.ss_cat, '0', c.price1, 0,'', c.supplier, c.supplier_code, c.supplier_price, '0', getdate(), 0, '1', '0' FROM";
 			sc += " code_relations c WHERE c.code =" + codeNew;
@@ -14178,33 +14259,33 @@ namespace QPOS2008
 				Program.ShowExp(sc, e);
 				return false;
 			}
-            
-            sc = "IF NOT EXISTS(SELECT * FROM barcode WHERE barcode ='" + barcodeNew + "') ";
-            sc += " BEGIN ";
-            sc += " INSERT INTO barcode (item_code, barcode, item_qty, carton_barcode, box_qty, package_price, supplier_code)";
-            sc += " SELECT c.code, '" + barcodeNew + "', 1, 0, 0, 0, c.supplier_code FROM code_relations c WHERE c.code='" + codeNew + "'";
-            sc += " END ";
-            try
-            {
-                myCommand = new SqlCommand(sc);
-                myCommand.Connection = myConnection;
-                myCommand.Connection.Open();
-                myCommand.ExecuteNonQuery();
-                myCommand.Connection.Close();
-            }
-            catch (Exception e)
-            {
-                myConnection.Close();
-                Program.ShowExp(sc, e);
-                return false;
-            }
+
+			sc = "IF NOT EXISTS(SELECT * FROM barcode WHERE barcode ='" + barcodeNew + "') ";
+			sc += " BEGIN ";
+			sc += " INSERT INTO barcode (item_code, barcode, item_qty, carton_barcode, box_qty, package_price, supplier_code)";
+			sc += " SELECT c.code, '" + barcodeNew + "', 1, 0, 0, 0, c.supplier_code FROM code_relations c WHERE c.code='" + codeNew + "'";
+			sc += " END ";
+			try
+			{
+				myCommand = new SqlCommand(sc);
+				myCommand.Connection = myConnection;
+				myCommand.Connection.Open();
+				myCommand.ExecuteNonQuery();
+				myCommand.Connection.Close();
+			}
+			catch (Exception e)
+			{
+				myConnection.Close();
+				Program.ShowExp(sc, e);
+				return false;
+			}
 			return true;
 		}
 		private void doClearCreateForm()
 		{
 			this.CreateNewNameTB.Text = "";
 			this.CreateNewBrandTB.Text = "";
-            this.CreateNewSupplierCodeTB.Text = "";
+			this.CreateNewSupplierCodeTB.Text = "";
 			this.CreateNewOtherNameTB.Text = "";
 			this.CreateNewCatTB.Text = "";
 			this.CreateNewMcostTB.Text = "";
@@ -14287,7 +14368,7 @@ namespace QPOS2008
 			m_sVipPaymentTypes = "";
 			m_dVipPayAmount = 0;
 			btncompanyok AP = new btncompanyok();
-		//	AP.m_sStaff = this.m_nSalesId;
+			//	AP.m_sStaff = this.m_nSalesId;
 			AP.Owner = this;
 			AP.BringToFront();
 			AP.ShowDialog();
@@ -14300,8 +14381,8 @@ namespace QPOS2008
 				m_dVipPayAmount = AP.m_dPayAmount;
 				m_sCardId = AP.m_sVipCardId;
 				MemberShipID.Text = AP.lblVABarcode.Text;// AP.m_sVipCardId;
-//				m_sCardName = AP.lblVAName.Text;
-//				m_sCardBarcode = AP.lblVABarcode.Text;
+														 //				m_sCardName = AP.lblVAName.Text;
+														 //				m_sCardBarcode = AP.lblVABarcode.Text;
 				DoVipPayment();
 				return;
 			}
@@ -14337,7 +14418,7 @@ namespace QPOS2008
 		}
 		private void btnSync_Click(object sender, EventArgs e)
 		{
-return;		
+			return;
 			this.flAdminBtns.Visible = false;
 			FormSync fSync = new FormSync();
 			fSync.ShowDialog();
@@ -14463,9 +14544,9 @@ return;
 		{
 			m_lastFocused = (Control)sender;
 		}
-/** 
- * Handle Latipay Gift Card Start
- * */
+		/** 
+		 * Handle Latipay Gift Card Start
+		 * */
 		private void btnLatipayGiftCard_Click(object sender, EventArgs e)
 		{
 			FormLatipayGiftCard flgc = new FormLatipayGiftCard();
@@ -14477,7 +14558,7 @@ return;
 		private void CheckLatipayGiftCard(string[] verifiedCardCode, string[] verifiedCardFaceValue)
 		{
 			int i = 0;
-			for (i = 0; i < dsCart.Tables[m_nCurrentCart].Rows.Count; )
+			for (i = 0; i < dsCart.Tables[m_nCurrentCart].Rows.Count;)
 			{
 				string sItemCode = cart.Rows[i].Cells["cc_code"].Value.ToString();
 				string sItemName = cart.Rows[i].Cells["cc_name"].Value.ToString();
@@ -14567,9 +14648,9 @@ return;
 			}
 			return;
 		}
-/** 
- * Handle Latipay Gift Card End
- * */
+		/** 
+		 * Handle Latipay Gift Card End
+		 * */
 		private void btnAA_Click(object sender, EventArgs e)
 		{
 			DoAAService(m_dOrderTotal, m_invoiceNumber, false);
@@ -14679,21 +14760,21 @@ return;
 		{
 			m_sNote = txtNote.Text;
 			panelNote.Visible = false;
-            txtNote.Text = "";
+			txtNote.Text = "";
 		}
 		private void btnNoteClose_Click(object sender, EventArgs e)
 		{
 			m_sNote = txtNote.Text;
 			panelNote.Visible = false;
-            txtNote.Text = "";
-            foreach (Form frm in Application.OpenForms)
-            {
-                if (frm.Name == "FormKeyboard")
-                {
-                    frm.Close();
-                    return;
-                }
-            }
+			txtNote.Text = "";
+			foreach (Form frm in Application.OpenForms)
+			{
+				if (frm.Name == "FormKeyboard")
+				{
+					frm.Close();
+					return;
+				}
+			}
 		}
 		private void b_Click(object sender, EventArgs e)
 		{
@@ -14727,10 +14808,10 @@ return;
 			this.Credit.SelectAll();
 			this.Credit.Focus();
 			this.panelSurcharge.Visible = false;
-            m_fmad.lblSurCharge.Text = m_dSurchargeRate*100 + "% Surcharge Applied!";
-            m_fmad.TotalPrice.Text = dGetBanlance.ToString("c");
-            m_fmads.lblSurCharge.Text = m_dSurchargeRate * 100 + "% Surcharge Applied!";
-            m_fmads.lblSurCharge.Text = dGetBanlance.ToString("c");
+			m_fmad.lblSurCharge.Text = m_dSurchargeRate * 100 + "% Surcharge Applied!";
+			m_fmad.TotalPrice.Text = dGetBanlance.ToString("c");
+			m_fmads.lblSurCharge.Text = m_dSurchargeRate * 100 + "% Surcharge Applied!";
+			m_fmads.lblSurCharge.Text = dGetBanlance.ToString("c");
 		}
 		private void button12_Click_1(object sender, EventArgs e)
 		{
@@ -14819,7 +14900,7 @@ return;
 
 				sc += " IF NOT EXISTS(SELECT code FROM product WHERE code = '" + code + "')";
 			}
-			
+
 			sc += " INSERT INTO product (code, supplier, supplier_code, name, price, cat, s_cat, ss_cat) ";
 			sc += " VALUES (" + code + ", '', '" + Program.EncodeQuote(supplier_code) + "', N'" + Program.EncodeQuote(name) + "', " + price1;
 			sc += ", N'" + Program.EncodeQuote(cat) + "', N'" + Program.EncodeQuote(s_cat) + "', N'" + Program.EncodeQuote(ss_cat) + "') ";
@@ -14829,7 +14910,7 @@ return;
 
 				sc += " UPDATE product SET supplier_code = '" + supplier_code + "', ";
 				sc += " name = N'" + Program.EncodeQuote(name) + "', price = '" + price1 + "'";
-				sc += " WHERE 1=1 and code = '"+code+"'";
+				sc += " WHERE 1=1 and code = '" + code + "'";
 			}
 			sc += " INSERT INTO barcode(item_code, barcode)";
 			sc += " VALUES('" + code + "','" + barcode + "')";
@@ -14879,7 +14960,7 @@ return;
 		private string GetNextInvNumber()
 		{
 			int nRows = 0;
-			if(dst.Tables["ni"] != null)
+			if (dst.Tables["ni"] != null)
 				dst.Tables["ni"].Clear();
 			string sc = " SELECT TOP 1 id FROM invoice ORDER BY id DESC ";
 			try
@@ -14893,7 +14974,7 @@ return;
 				myConnection.Close();
 			}
 			string s = "";
-			if(nRows > 0)
+			if (nRows > 0)
 			{
 				string id = dst.Tables["ni"].Rows[0]["id"].ToString();
 				int nId = Program.MyIntParse(id) + 1;
@@ -14933,39 +15014,39 @@ return;
 				Program.g_log.Err("send text:" + message + " to nvr failed, socket error\r\n e=" + e.ToString());
 			}
 		}
-        public void ReceiveKeyboardKey(string s)
-        {
-            Control c = m_lastFocused;
-            if (c == null)
-                c = Program.FindFocusedControl(this);
-            if (c == null)
-                return;
+		public void ReceiveKeyboardKey(string s)
+		{
+			Control c = m_lastFocused;
+			if (c == null)
+				c = Program.FindFocusedControl(this);
+			if (c == null)
+				return;
 
-            int p = 0;
-            if (c is TextBox)
-                p = ((TextBox)c).SelectionStart;
-            else if (c is RichTextBox)
-                p = ((RichTextBox)c).SelectionStart;
-            string sf = c.Text.Substring(0, p);
-            string sb = c.Text.Substring(p, c.Text.Length - p);
-            string sr = "";
-            int pNew = p;
-            if (s == "del")
-            {
-                sr = sf.Substring(0, sf.Length - 1) + sb;
-                pNew = p - 1;
-            }
-            else
-            {
-                sr = sf + s + sb;
-                pNew = p + s.Length;
-            }
-            c.Text = sr;
-            if (c is TextBox)
-                ((TextBox)c).SelectionStart = pNew;
-            else if (c is RichTextBox)
-                ((RichTextBox)c).SelectionStart = pNew;
-        }
+			int p = 0;
+			if (c is TextBox)
+				p = ((TextBox)c).SelectionStart;
+			else if (c is RichTextBox)
+				p = ((RichTextBox)c).SelectionStart;
+			string sf = c.Text.Substring(0, p);
+			string sb = c.Text.Substring(p, c.Text.Length - p);
+			string sr = "";
+			int pNew = p;
+			if (s == "del")
+			{
+				sr = sf.Substring(0, sf.Length - 1) + sb;
+				pNew = p - 1;
+			}
+			else
+			{
+				sr = sf + s + sb;
+				pNew = p + s.Length;
+			}
+			c.Text = sr;
+			if (c is TextBox)
+				((TextBox)c).SelectionStart = pNew;
+			else if (c is RichTextBox)
+				((RichTextBox)c).SelectionStart = pNew;
+		}
 		private void btnAppServer_Click(object sender, EventArgs e)
 		{
 			string sPath = AppDomain.CurrentDomain.BaseDirectory;
@@ -14976,7 +15057,7 @@ return;
 				{
 					Process app = new Process();
 					app.StartInfo.FileName = fn;
-//					backup.StartInfo.Arguments = "-auto";
+					//					backup.StartInfo.Arguments = "-auto";
 					app.Start();
 				}
 				catch (Exception e1)
@@ -14989,18 +15070,18 @@ return;
 				Program.MsgBox("App Server not installed");
 			}
 		}
-        private void btnKeyboard_Click(object sender, EventArgs e)
-        {
-            FormKeyboard fm = new FormKeyboard();
-            fm.m_hForm1 = this;
-            fm.m_x = this.Bounds.X + 20;
-            fm.m_y = this.Bounds.Y + 405;
-            fm.Show();
-        }
-        private void txtNote_Leave(object sender, EventArgs e)
-        {
-            m_lastFocused = (Control)sender;
-        }
+		private void btnKeyboard_Click(object sender, EventArgs e)
+		{
+			FormKeyboard fm = new FormKeyboard();
+			fm.m_hForm1 = this;
+			fm.m_x = this.Bounds.X + 20;
+			fm.m_y = this.Bounds.Y + 405;
+			fm.Show();
+		}
+		private void txtNote_Leave(object sender, EventArgs e)
+		{
+			m_lastFocused = (Control)sender;
+		}
 		private bool DoCreateVoucherService(string vip_barcode)
 		{
 			if (Program.m_sVoucherServiceURL == "")
@@ -15130,7 +15211,7 @@ Expired Date:@@expire_date
 			this.barcode.Focus();
 			return true;
 		}
-		
+
 		private void timer5_Tick(object sender, EventArgs e)
 		{
 			timer5.Stop();
@@ -15151,6 +15232,43 @@ Expired Date:@@expire_date
 				Cash.Select();
 				Cash.Focus();
 				return;
+			}
+		}
+
+		private void txtAgent_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyValue == 17)
+			{
+				if (this.txtAgent.Text == "")
+					return;
+				else
+				{
+					if (GetAgent())
+					{
+						this.txtAgent.Focus();
+					}
+				}
+				return;
+			}
+
+			switch (e.KeyCode)
+			{
+				case Keys.Return:
+					if (txtAgent.Text == "")
+					{
+						txtAgent.Focus();
+					}
+					else
+					{
+						if (GetAgent())
+						{
+							this.txtAgent.Focus();
+						}
+					}
+					break;
+				default:
+					OnFormKeyDown(sender, e);
+					break;
 			}
 		}
 	}
